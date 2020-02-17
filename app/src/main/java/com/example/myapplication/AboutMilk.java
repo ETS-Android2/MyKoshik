@@ -1,0 +1,421 @@
+package com.example.myapplication;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class AboutMilk extends AppCompatActivity {
+
+    private TextView result;
+    private Button button_of_novus, button_of_megamarket, button_of_fozzy, button_of_continue;
+    private LinearLayout linearLayout;
+
+    private int x, y;
+
+    private int count_novus, count_megamarket, count_fozzy;
+
+    private String[] products_novus = new String[1000];
+    private String[] products_megamarket = new String[1000];
+    private String[] products_fozzy = new String[1000];
+
+    private int[] products_novus_price = new int[1000];
+    private int[] products_megamarket_price = new int[1000];
+    private int[] products_fozzy_price = new int[1000];
+
+    private boolean f1, f2, f3;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_about_milk);
+
+        button_of_novus = findViewById(R.id.button_of_novus);
+        button_of_megamarket = findViewById(R.id.button_of_megamarket);
+        button_of_fozzy = findViewById(R.id.button_of_fozzy);
+        button_of_continue = findViewById(R.id.button_of_continue);
+
+        button_of_novus.setBackgroundColor(getColor(R.color.colorBlue));
+        button_of_megamarket.setBackgroundColor(getColor(R.color.colorBlue));
+        button_of_fozzy.setBackgroundColor(getColor(R.color.colorBlue));
+        button_of_continue.setBackgroundColor(getColor(R.color.colorGreen));
+
+        result = findViewById(R.id.list_of_products_of_shop);
+
+        linearLayout = findViewById(R.id.linearlayout1);
+
+        x = 1;
+        y = 1;
+
+        count_novus = 0;
+        count_megamarket = 0;
+        count_fozzy = 0;
+
+        f1 = false;
+        f2 = false;
+        f3 = false;
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+
+        /*getInfoAboutNovus();
+        getInfoAboutMegaMarket();
+        getInfoAboutFozzy();*/
+
+    }
+
+    /*@Override
+    protected void onResume() {
+        getInfoAboutNovus();
+        getInfoAboutMegaMarket();
+        getInfoAboutFozzy();
+        super.onResume();
+    }*/
+
+    public void onClickButtonShop(View view) {
+
+        if (view.getId() == button_of_novus.getId()) {
+            if (f1 == false) {
+                f1 = true;
+                button_of_novus.setBackgroundColor(getColor(R.color.colorPurple));
+            }
+            else
+            {
+                f1 = false;
+                button_of_novus.setBackgroundColor(getColor(R.color.colorBlue));
+            }
+        }
+        if (view.getId() == button_of_megamarket.getId()) {
+            if (f2 == false) {
+                f2 = true;
+                button_of_megamarket.setBackgroundColor(getColor(R.color.colorPurple));
+            }
+            else
+            {
+                f2 = false;
+                button_of_megamarket.setBackgroundColor(getColor(R.color.colorBlue));
+            }
+        }
+        if (view.getId() == button_of_fozzy.getId()) {
+            if (f3 == false) {
+                f3 = true;
+                button_of_fozzy.setBackgroundColor(getColor(R.color.colorPurple));
+            }
+            else
+            {
+                f3 = false;
+                button_of_fozzy.setBackgroundColor(getColor(R.color.colorBlue));
+            }
+        }
+
+        if (view.getId() == button_of_continue.getId())
+        {
+            if ((f1 == true) && (f2 == false) && (f3 == false))
+            {
+                if (count_novus == 0)
+                {
+                    getInfoAboutNovus();
+                }
+                getInfo("Novus");
+            }
+            else
+            if ((f2 == true) && (f1 == false) && (f3 == false))
+            {
+                if (count_megamarket == 0)
+                {
+                    getInfoAboutMegaMarket();
+                }
+                getInfo("MegaMarket");
+            }
+            else
+            if ((f3 == true) && (f1 == false) && (f2 == false))
+            {
+                if (count_fozzy == 0)
+                {
+                    getInfoAboutFozzy();
+                }
+                getInfo("Fozzy");
+            }
+            else {
+                deleteListOfProducts();
+                result.setText("Выберите одну кнопку чтобы продолжить");
+            }
+            // else result.setText("Выберите супермаркет");
+            f1 = false;
+            f2 = false;
+            f3 = false;
+            button_of_novus.setBackgroundColor(getColor(R.color.colorBlue));
+            button_of_megamarket.setBackgroundColor(getColor(R.color.colorBlue));
+            button_of_fozzy.setBackgroundColor(getColor(R.color.colorBlue));
+        }
+
+    }
+
+    public void getInfo(String shop) {
+        deleteListOfProducts();
+
+        switch (shop) {
+            case "Novus":
+                viv(products_novus, count_novus);
+                break;
+            case "MegaMarket":
+                viv(products_megamarket, count_megamarket);
+                break;
+            case "Fozzy":
+                viv(products_fozzy, count_fozzy);
+                break;
+        }
+    }
+
+    public void viv(String[] products, int count) {
+        for (int i = 0; i<count; i++)
+            addButtonAndTextView(products[i], i+1);
+
+    }
+
+    // метод для извлечения и вывода информации о продуктах из Novus
+    public void getInfoAboutNovus () {
+        String html1, html2, html3, html4;
+
+        // html для названия продукта
+        html1 = "div.one-product-name";
+        // html для цены в гривнах
+        html2 = "span.grivna.price";
+        // html для цены в копейках
+        html3 = "span.kopeiki";
+        // html для количества продуктов
+        html4 = "span.search-number-of-items";
+        try {
+            Document doc1 = Jsoup.connect("https://old.novus.zakaz.ua/ru/milk/?&sort=up").get();
+            Elements formElements4 = doc1.select(html4);
+
+            // количество продуктов
+            int n = 1;
+            //int n = Integer.parseInt(formElements4.text().substring(formElements4.text().indexOf("(")+1,formElements4.text().indexOf(" ")));
+            // количество страниц с продуктами
+            int m;
+            // высчитывание количества страниц
+            if (n % 50 != 0)
+                m = n / 50 + 1;
+            else
+                m = n / 50;
+
+            // формулирование url с продуктами
+            String url[] = new String [m];
+            url[0] = "https://old.novus.zakaz.ua/ru/milk/?&sort=up";
+            for (int i = 1; i < m; i++)
+            {
+                url[i] = "https://old.novus.zakaz.ua/ru/milk/?&sort=up&page=" + (i+1);
+            }
+
+            Document doc[] = new Document[m];
+            Elements formElements1[] = new Elements[m];
+            Elements formElements2[] = new Elements[m];
+            Elements formElements3[] = new Elements[m];
+
+            // получение информации о продуктах
+            for (int i = 0; i < m; i++)
+            {
+                doc[i] = Jsoup.connect(url[i]).get();
+                formElements1[i] = doc[i].select(html1);
+                formElements2[i] = doc[i].select(html2);
+                formElements3[i] = doc[i].select(html3);
+                for (int j = 0; j < formElements1[i].size(); j++) {
+                    // название и цена каждого продукта
+                    products_novus[count_novus] = Integer.toString(i * 50 + j + 1) + ") " + formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + "," + formElements3[i].get(j).text() + " грн (Novus)";
+                    products_novus_price[count_novus] = Integer.parseInt(formElements2[i].get(j).text() + formElements3[i].get(j).text());
+                    count_novus++;
+                }
+            }
+
+            result.setText("Продукты : ");
+        }
+        catch (IOException e) {
+            result.setText("Проверьте соединение с интернетом");
+        }
+    }
+
+    // метод для извлечения и вывода информации о продуктах из MegaMarket
+    public void getInfoAboutMegaMarket () {
+        String html1, html2;
+
+        html1 = "li.product > div.product_info > h3";
+        html2 = "div.price";
+
+        try {
+            // количество страниц с продуктами
+            int m = 2;
+
+            // формулирование url с продуктами
+            String url[] = new String[m];
+            url[0] = "https://megamarket.ua/catalog/moloko?sort=price";
+            for (int i = 1; i < m; i++) {
+                url[i] = "https://megamarket.ua/catalog/moloko?sort=price&page=" + (i + 1);
+            }
+
+            Document doc[] = new Document[m];
+            Elements formElements1[] = new Elements[m];
+            Elements formElements2[] = new Elements[m];
+            for (int i = 0; i < m; i++) {
+
+                doc[i] = Jsoup.connect(url[i]).get();
+                formElements1[i] = doc[i].select(html1);
+                formElements2[i] = doc[i].select(html2);
+
+                int z;
+                if (i != m-1)
+                    // продукты всегда в наличии
+                    z = 40;
+                else {
+                    // продукты, которые можно рассмотреть (есть в наличии)
+                    z = formElements2[i].size();
+                }
+                for (int j = 0; j < z; j++) {
+                    // название и цена каждого продукта
+                    products_megamarket[count_megamarket] = Integer.toString(i * 40 + j + 1) + ") " + formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (MegaMarket)";
+                    count_megamarket++;
+                }
+            }
+            result.setText("Продукты : ");
+        }
+        catch (IOException e) {
+            result.setText("Проверьте соединение с интернетом");
+        }
+    }
+
+    // метод для извлечения и вывода информации о продуктах из Fozzy
+    public void getInfoAboutFozzy () {
+        // html названия продукта и цены
+        String html1 = "h3.h3.product-title > a";
+        String html2 = "span.product-price";
+
+        try {
+            // количество страниц с продуктами
+            int m = 2;
+
+            // формулирование url с продуктами
+            String url[] = new String[m];
+            url[0] = "https://fozzyshop.com.ua/300200-moloko/s-15/kategoriya-moloko?order=product.price.asc";
+            for (int i = 1; i < m; i++) {
+                url[i] = "https://fozzyshop.com.ua/300200-moloko/s-15/kategoriya-moloko?page=" + (i+1) + "&order=product.price.asc";
+            }
+
+            Document doc[] = new Document[m];
+            Elements formElements1[] = new Elements[m];
+            Elements formElements2[] = new Elements[m];
+
+            //String products_fozzy[] = new String[100];
+
+            for (int i = 0; i < m; i++) {
+
+                doc[i] = Jsoup.connect(url[i]).get();
+                formElements1[i] = doc[i].select(html1);
+                formElements2[i] = doc[i].select(html2);
+
+                // продукты, которые можно рассмотреть (есть в наличии)
+                int z = formElements2[i].size();
+
+                // получение массива продуктов с помощью парсинга сайта
+                for (int j = 0; j < z; j++) {
+                    products_fozzy[count_fozzy] = Integer.toString(i * 24 + j + 1) + ") " + formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (Fozzy)";
+                    count_fozzy++;
+                }
+            }
+            result.setText("Продукты : ");
+        }
+        catch (IOException e) {
+            result.setText("Проверьте соединение с интернетом");
+        }
+
+    }
+
+    // метод для удаления Buttons и TextViews, чтобы не было повтора ID при создание новых Butons и TextViews
+    public void deleteListOfProducts() {
+        for (int i = x; i < y; i++)
+        {
+            View b = findViewById(i);
+            b.setVisibility(View.GONE);
+        }
+
+        // делаем типо "обнуление" количества Butons и TextViews
+        x = y;
+    }
+
+    // метод для создание Button и TextView для каждого продукта
+    public void addButtonAndTextView(final String product, int number) {
+        TextView t = new TextView(getApplicationContext());
+        t.setText('\n' + product + '\n');
+        t.setId(y);
+        y++;
+        linearLayout.addView(t);
+
+        Button b = new Button(getApplicationContext());
+        b.setText("Купить продукт №" + Integer.toString(number));
+        b.setId(y);
+        y++;
+        linearLayout.addView(b);
+        b.setBackgroundColor(getColor(R.color.colorOrange));
+
+        b.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                write(product.substring(3,product.length()));
+            }
+        });
+
+    }
+    public void write(String shop) {
+
+        try {
+            // -> часть из метода read для write
+            StringBuffer strBuffer = new StringBuffer();
+            String stroka;
+            try {
+                FileInputStream fileInput = openFileInput("example.txt");
+                InputStreamReader reader = new InputStreamReader(fileInput);
+                BufferedReader buffer = new BufferedReader(reader);
+                String lines;
+
+                while ((lines = buffer.readLine()) != null) {
+                    strBuffer.append(lines + '\n');
+                }
+
+                stroka = strBuffer.toString() + shop;
+            }
+            catch (IOException e)
+            {
+                stroka = shop;
+            }
+            // класс, который помогает помещать данные в файл
+            FileOutputStream fileOutput = openFileOutput("example.txt", MODE_PRIVATE);
+            fileOutput.write(stroka.getBytes());
+            fileOutput.close();
+
+            Toast.makeText(AboutMilk.this, "Продукт был добавлен в список покупок", Toast.LENGTH_LONG).show();
+        }
+        catch (FileNotFoundException e )
+        {
+        }
+        catch (IOException e )
+        {
+        }
+
+    }
+}

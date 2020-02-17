@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">МояКорзина</string>
+    <string name="action_welcome">Добро пожаловать!</string>
+    <string name="action_milk">Молоко</string>
+    <string name="action_eggs">Яйца</string>
+    <string name="action_bread">Хлеб</string>
+</resources>
