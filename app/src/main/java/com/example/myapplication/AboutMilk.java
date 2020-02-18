@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 
 public class AboutMilk extends AppCompatActivity {
 
@@ -50,6 +51,7 @@ public class AboutMilk extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_about_milk);
 
         button_of_novus = findViewById(R.id.button_of_novus);
@@ -83,23 +85,21 @@ public class AboutMilk extends AppCompatActivity {
         f2 = false;
         f3 = false;
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        Bundle arguments = getIntent().getExtras();
+        products_novus = arguments.getStringArray("Name1");
+        products_megamarket = arguments.getStringArray("Name2");
+        products_fozzy = arguments.getStringArray("Name3");
 
-        StrictMode.setThreadPolicy(policy);
+        products_novus_price = arguments.getIntArray("Price1");
+        products_megamarket_price = arguments.getIntArray("Price2");
+        products_fozzy_price = arguments.getIntArray("Price3");
 
-        /*getInfoAboutNovus();
-        getInfoAboutMegaMarket();
-        getInfoAboutFozzy();*/
+        String z = arguments.getString("Stroka");
+
+        result.setText(z);
+
 
     }
-
-    /*@Override
-    protected void onResume() {
-        getInfoAboutNovus();
-        getInfoAboutMegaMarket();
-        getInfoAboutFozzy();
-        super.onResume();
-    }*/
 
     public void onClickButtonShop(View view) {
 
@@ -222,6 +222,7 @@ public class AboutMilk extends AppCompatActivity {
             f1 = false;
             f2 = false;
             f3 = false;
+
             button_of_novus.setBackgroundColor(getColor(R.color.colorBlue));
             button_of_megamarket.setBackgroundColor(getColor(R.color.colorBlue));
             button_of_fozzy.setBackgroundColor(getColor(R.color.colorBlue));

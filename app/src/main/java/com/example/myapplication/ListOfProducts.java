@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -17,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 public class ListOfProducts extends AppCompatActivity {
 
@@ -49,6 +51,7 @@ public class ListOfProducts extends AppCompatActivity {
                     fileOutput = openFileOutput("example.txt", MODE_PRIVATE);
                     fileOutput.write("".getBytes());
                     fileOutput.close();
+                    Toast.makeText(ListOfProducts.this, "Список продуктов был очищен", Toast.LENGTH_LONG).show();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -150,6 +153,7 @@ public class ListOfProducts extends AppCompatActivity {
             public void onClick(View v) {
                 // допили пропуск
                 deleteListOfProducts(b.getId(), product);
+                Toast.makeText(ListOfProducts.this, "Продукт был удален из списка", Toast.LENGTH_LONG).show();
             }
         });
 

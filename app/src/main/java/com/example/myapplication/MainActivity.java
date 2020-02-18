@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_milk:
-                Intent intent = new Intent(MainActivity.this,AboutMilk.class);
-                startActivity(intent);
+                Intent mainIntent = new Intent(MainActivity.this, SplashScreenActivity.class);
+                startActivity(mainIntent);
                 return true;
             // переход к Activity AboutMilk
             case R.id.action_eggs:
