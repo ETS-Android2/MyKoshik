@@ -55,7 +55,10 @@ public class SplashScreenActivity extends Activity {
                 mainIntent.putExtra("Price1", products_novus_price);
                 mainIntent.putExtra("Price2", products_megamarket_price);
                 mainIntent.putExtra("Price3", products_fozzy_price);
-                mainIntent.putExtra("Stoka", z);
+                mainIntent.putExtra("Numbers1", count_novus);
+                mainIntent.putExtra("Numbers2", count_megamarket);
+                mainIntent.putExtra("Numbers3", count_fozzy);
+                mainIntent.putExtra("Stroka", z);
                 SplashScreenActivity.this.startActivity(mainIntent);
                 SplashScreenActivity.this.finish();
             }
@@ -109,7 +112,7 @@ public class SplashScreenActivity extends Activity {
                 formElements3[i] = doc[i].select(html3);
                 for (int j = 0; j < formElements1[i].size(); j++) {
                     // название и цена каждого продукта
-                    products_novus[count_novus] = Integer.toString(i * 50 + j + 1) + ") " + formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + "," + formElements3[i].get(j).text() + " грн (Novus)";
+                    products_novus[count_novus] = formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + "," + formElements3[i].get(j).text() + " грн (Novus)";
                     products_novus_price[count_novus] = Integer.parseInt(formElements2[i].get(j).text() + formElements3[i].get(j).text());
                     count_novus++;
                 }
@@ -156,7 +159,7 @@ public class SplashScreenActivity extends Activity {
                 }
                 for (int j = 0; j < z; j++) {
                     // название и цена каждого продукта
-                    products_megamarket[count_megamarket] = Integer.toString(i * 40 + j + 1) + ") " + formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (MegaMarket)";
+                    products_megamarket[count_megamarket] = formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (MegaMarket)";
                     String stroka = formElements2[i].get(j).text();
                     products_megamarket_price[count_megamarket] = Integer.parseInt(stroka.substring(0,stroka.lastIndexOf(",")) + stroka.substring(stroka.lastIndexOf(",") + 1,stroka.length() - 4));
                     count_megamarket++;
@@ -200,7 +203,7 @@ public class SplashScreenActivity extends Activity {
 
                 // получение массива продуктов с помощью парсинга сайта
                 for (int j = 0; j < z; j++) {
-                    products_fozzy[count_fozzy] = Integer.toString(i * 24 + j + 1) + ") " + formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (Fozzy)";
+                    products_fozzy[count_fozzy] = formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (Fozzy)";
                     String stroka = formElements2[i].get(j).text();
                     products_fozzy_price[count_fozzy] = Integer.parseInt(stroka.substring(0,stroka.lastIndexOf(",")) + stroka.substring(stroka.lastIndexOf(",") + 1,stroka.length() - 4));
                     count_fozzy++;

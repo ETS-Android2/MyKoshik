@@ -94,8 +94,14 @@ public class AboutMilk extends AppCompatActivity {
         products_megamarket_price = arguments.getIntArray("Price2");
         products_fozzy_price = arguments.getIntArray("Price3");
 
+        count_novus = arguments.getInt("Numbers1");
+        count_megamarket = arguments.getInt("Numbers2");
+        count_fozzy = arguments.getInt("Numbers3");
+
+
         String z = arguments.getString("Stroka");
 
+        Log.d("###",products_novus[0]);
         result.setText(z);
 
 
@@ -140,36 +146,21 @@ public class AboutMilk extends AppCompatActivity {
 
             if ((f1 == true) && (f2 == false) && (f3 == false))
             {
-                if (count_novus == 0)
-                    getInfoAboutNovus();
-
                 viv(products_novus, count_novus);
             }
             else
             if ((f2 == true) && (f1 == false) && (f3 == false))
             {
-                if (count_megamarket == 0)
-                    getInfoAboutMegaMarket();
-
                 viv(products_megamarket, count_megamarket);
             }
             else
             if ((f3 == true) && (f1 == false) && (f2 == false))
             {
-                if (count_fozzy == 0)
-                    getInfoAboutFozzy();
-
                 viv(products_fozzy, count_fozzy);
             }
             else
             if ((f1 == true) && (f2 == true) && (f3 == false))
             {
-                if (count_novus == 0)
-                    getInfoAboutNovus();
-                if (count_novus_megamarket == 0)
-                    getInfoAboutMegaMarket();
-
-
                 if (count_novus_megamarket == 0)
                     getInfoAboutTwoShops(products_novus, products_megamarket, count_novus, count_megamarket, products_novus_price, products_megamarket_price, "Novus_MegaMarket");
 
@@ -178,11 +169,6 @@ public class AboutMilk extends AppCompatActivity {
             else
             if ((f1 == true) && (f3 == true) && (f2 == false))
             {
-                if (count_novus == 0)
-                    getInfoAboutNovus();
-                if (count_fozzy == 0)
-                    getInfoAboutFozzy();
-
                 if (count_novus_fozzy == 0)
                     getInfoAboutTwoShops(products_novus, products_fozzy, count_novus, count_fozzy, products_novus_price, products_fozzy_price, "Novus_Fozzy");
 
@@ -191,11 +177,6 @@ public class AboutMilk extends AppCompatActivity {
             else
             if ((f2 == true) && (f3 == true) && (f1 == false))
             {
-                if (count_megamarket == 0)
-                    getInfoAboutMegaMarket();
-                if (count_fozzy == 0)
-                    getInfoAboutFozzy();
-
                 if (count_novus_fozzy == 0)
                     getInfoAboutTwoShops(products_megamarket, products_fozzy, count_megamarket, count_fozzy, products_megamarket_price, products_fozzy_price, "MegaMarket_Fozzy");
 
@@ -204,13 +185,6 @@ public class AboutMilk extends AppCompatActivity {
             else
             if ((f1 == true) && (f2 == true) && (f3 == true))
             {
-                if (count_novus == 0)
-                    getInfoAboutNovus();
-                if (count_megamarket == 0)
-                    getInfoAboutMegaMarket();
-                if (count_fozzy == 0)
-                    getInfoAboutFozzy();
-
                 if (count_novus_megamarket_fozzy == 0)
                     getInfoAboutTwoShops(products_novus, products_megamarket, count_novus, count_megamarket, products_novus_price, products_megamarket_price, "Novus_MegaMarket_Fozzy1");
 
@@ -473,7 +447,7 @@ public class AboutMilk extends AppCompatActivity {
     // метод для создание Button и TextView для каждого продукта
     public void addButtonAndTextView(final String product, int number) {
         TextView t = new TextView(getApplicationContext());
-        t.setText('\n' + product + '\n');
+        t.setText('\n' + Integer.toString(number) + ") " + product + '\n');
         t.setId(y);
         y++;
         linearLayout.addView(t);
