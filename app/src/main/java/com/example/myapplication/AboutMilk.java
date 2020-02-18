@@ -30,11 +30,16 @@ public class AboutMilk extends AppCompatActivity {
 
     private int x, y;
 
-    private int count_novus, count_megamarket, count_fozzy;
+    private int count_novus, count_megamarket, count_fozzy, count_novus_megamarket, count_megamarket_fozzy, count_novus_fozzy, count_novus_megamarket_fozzy;
 
     private String[] products_novus = new String[1000];
     private String[] products_megamarket = new String[1000];
     private String[] products_fozzy = new String[1000];
+    private String[] products_novus_megamarket = new String[1000];
+    private String[] products_megamarket_fozzy = new String[1000];
+    private String[] products_novus_fozzy =  new String[1000];
+    private String[] products_novus_megamarket_fozzy =  new String[1000];
+
 
     private int[] products_novus_price = new int[1000];
     private int[] products_megamarket_price = new int[1000];
@@ -68,6 +73,12 @@ public class AboutMilk extends AppCompatActivity {
         count_megamarket = 0;
         count_fozzy = 0;
 
+        count_novus_megamarket = 0;
+        count_megamarket_fozzy = 0;
+        count_novus_fozzy = 0;
+
+        count_novus_megamarket_fozzy = 0;
+
         f1 = false;
         f2 = false;
         f3 = false;
@@ -94,71 +105,120 @@ public class AboutMilk extends AppCompatActivity {
 
         if (view.getId() == button_of_novus.getId()) {
             if (f1 == false) {
-                f1 = true;
                 button_of_novus.setBackgroundColor(getColor(R.color.colorPurple));
             }
             else
             {
-                f1 = false;
                 button_of_novus.setBackgroundColor(getColor(R.color.colorBlue));
             }
+            f1 = !f1;
         }
         if (view.getId() == button_of_megamarket.getId()) {
             if (f2 == false) {
-                f2 = true;
                 button_of_megamarket.setBackgroundColor(getColor(R.color.colorPurple));
             }
             else
             {
-                f2 = false;
                 button_of_megamarket.setBackgroundColor(getColor(R.color.colorBlue));
             }
+            f2 = !f2;
         }
         if (view.getId() == button_of_fozzy.getId()) {
             if (f3 == false) {
-                f3 = true;
                 button_of_fozzy.setBackgroundColor(getColor(R.color.colorPurple));
             }
             else
             {
-                f3 = false;
                 button_of_fozzy.setBackgroundColor(getColor(R.color.colorBlue));
             }
+            f3 = !f3;
         }
 
         if (view.getId() == button_of_continue.getId())
         {
+            deleteListOfProducts();
+
             if ((f1 == true) && (f2 == false) && (f3 == false))
             {
                 if (count_novus == 0)
-                {
                     getInfoAboutNovus();
-                }
-                getInfo("Novus");
+
+                viv(products_novus, count_novus);
             }
             else
             if ((f2 == true) && (f1 == false) && (f3 == false))
             {
                 if (count_megamarket == 0)
-                {
                     getInfoAboutMegaMarket();
-                }
-                getInfo("MegaMarket");
+
+                viv(products_megamarket, count_megamarket);
             }
             else
             if ((f3 == true) && (f1 == false) && (f2 == false))
             {
                 if (count_fozzy == 0)
-                {
                     getInfoAboutFozzy();
-                }
-                getInfo("Fozzy");
+
+                viv(products_fozzy, count_fozzy);
             }
-            else {
-                deleteListOfProducts();
+            else
+            if ((f1 == true) && (f2 == true) && (f3 == false))
+            {
+                if (count_novus == 0)
+                    getInfoAboutNovus();
+                if (count_novus_megamarket == 0)
+                    getInfoAboutMegaMarket();
+
+
+                if (count_novus_megamarket == 0)
+                    getInfoAboutTwoShops(products_novus, products_megamarket, count_novus, count_megamarket, products_novus_price, products_megamarket_price, "Novus_MegaMarket");
+
+                viv(products_novus_megamarket, count_novus_megamarket);
+            }
+            else
+            if ((f1 == true) && (f3 == true) && (f2 == false))
+            {
+                if (count_novus == 0)
+                    getInfoAboutNovus();
+                if (count_fozzy == 0)
+                    getInfoAboutFozzy();
+
+                if (count_novus_fozzy == 0)
+                    getInfoAboutTwoShops(products_novus, products_fozzy, count_novus, count_fozzy, products_novus_price, products_fozzy_price, "Novus_Fozzy");
+
+                viv(products_novus_fozzy, count_novus_fozzy);
+            }
+            else
+            if ((f2 == true) && (f3 == true) && (f1 == false))
+            {
+                if (count_megamarket == 0)
+                    getInfoAboutMegaMarket();
+                if (count_fozzy == 0)
+                    getInfoAboutFozzy();
+
+                if (count_novus_fozzy == 0)
+                    getInfoAboutTwoShops(products_megamarket, products_fozzy, count_megamarket, count_fozzy, products_megamarket_price, products_fozzy_price, "MegaMarket_Fozzy");
+
+                viv(products_megamarket_fozzy, count_megamarket_fozzy);
+            }
+            else
+            if ((f1 == true) && (f2 == true) && (f3 == true))
+            {
+                if (count_novus == 0)
+                    getInfoAboutNovus();
+                if (count_megamarket == 0)
+                    getInfoAboutMegaMarket();
+                if (count_fozzy == 0)
+                    getInfoAboutFozzy();
+
+                if (count_novus_megamarket_fozzy == 0)
+                    getInfoAboutTwoShops(products_novus, products_megamarket, count_novus, count_megamarket, products_novus_price, products_megamarket_price, "Novus_MegaMarket_Fozzy1");
+
+                viv(products_novus_megamarket_fozzy, count_novus_megamarket_fozzy);
+            }
+            else
                 result.setText("Выберите одну кнопку чтобы продолжить");
-            }
-            // else result.setText("Выберите супермаркет");
+
             f1 = false;
             f2 = false;
             f3 = false;
@@ -169,18 +229,64 @@ public class AboutMilk extends AppCompatActivity {
 
     }
 
-    public void getInfo(String shop) {
-        deleteListOfProducts();
-
-        switch (shop) {
-            case "Novus":
-                viv(products_novus, count_novus);
+    public void getInfoAboutTwoShops(String[] s1, String[] s2, int k1, int k2, int[] a, int[] b, String z) {
+        int i = 0;
+        int j = 0;
+        int l = 0;
+        String[] s3 = new String[1000];
+        int[] price = new int[1000];
+        while ((i < k1) && (j < k2)) {
+            if (a[i] < b[j]) {
+                s3[l] = s1[i];
+                price[l] = a[i];
+                i++;
+                l++;
+            }
+            else
+            {
+                s3[l] = s2[j];
+                price[l] = b[j];
+                j++;
+                l++;
+            }
+        }
+        while (i < k1) {
+            s3[l] = s1[i];
+            price[l] = a[i];
+            i++;
+            l++;
+        }
+        while (j < k2) {
+            s3[l] = s2[j];
+            price[l] = b[j];
+            j++;
+            l++;
+        }
+        switch(z) {
+            case "Novus_MegaMarket" :
+                for (int k = 0; k<l; k++)
+                    products_novus_megamarket[k] = s3[k];
+                count_novus_megamarket = l;
                 break;
-            case "MegaMarket":
-                viv(products_megamarket, count_megamarket);
+            case "MegaMarket_Fozzy" :
+                for (int k = 0; k<l; k++)
+                    products_megamarket_fozzy[k] = s3[k];
+                count_megamarket_fozzy = l;
                 break;
-            case "Fozzy":
-                viv(products_fozzy, count_fozzy);
+            case "Novus_Fozzy" :
+                for (int k = 0; k<l; k++)
+                    products_novus_fozzy[k] = s3[k];
+                count_novus_fozzy = l;
+                break;
+            case "Novus_MegaMarket_Fozzy1" :
+                getInfoAboutTwoShops(s3, products_fozzy, l, count_fozzy, price, products_fozzy_price, "Novus_MegaMarket_Fozzy2");
+                Log.d("#####",Integer.toString(count_novus_megamarket_fozzy));
+                break;
+            case "Novus_MegaMarket_Fozzy2" :
+                for (int k = 0; k<l; k++)
+                    products_novus_megamarket_fozzy[k] = s3[k];
+                count_novus_megamarket_fozzy = l;
+                Log.d("#####",Integer.toString(count_novus_megamarket_fozzy));
                 break;
         }
     }
@@ -291,6 +397,8 @@ public class AboutMilk extends AppCompatActivity {
                 for (int j = 0; j < z; j++) {
                     // название и цена каждого продукта
                     products_megamarket[count_megamarket] = Integer.toString(i * 40 + j + 1) + ") " + formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (MegaMarket)";
+                    String stroka = formElements2[i].get(j).text();
+                    products_megamarket_price[count_megamarket] = Integer.parseInt(stroka.substring(0,stroka.lastIndexOf(",")) + stroka.substring(stroka.lastIndexOf(",") + 1,stroka.length() - 4));
                     count_megamarket++;
                 }
             }
@@ -336,6 +444,8 @@ public class AboutMilk extends AppCompatActivity {
                 // получение массива продуктов с помощью парсинга сайта
                 for (int j = 0; j < z; j++) {
                     products_fozzy[count_fozzy] = Integer.toString(i * 24 + j + 1) + ") " + formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (Fozzy)";
+                    String stroka = formElements2[i].get(j).text();
+                    products_fozzy_price[count_fozzy] = Integer.parseInt(stroka.substring(0,stroka.lastIndexOf(",")) + stroka.substring(stroka.lastIndexOf(",") + 1,stroka.length() - 4));
                     count_fozzy++;
                 }
             }
