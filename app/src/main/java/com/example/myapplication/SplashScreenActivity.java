@@ -27,7 +27,7 @@ public class SplashScreenActivity extends Activity {
     private String[] products_fozzy = new String[1000];
 
     // Время в милесекундах, в течение которого будет отображаться Splash Screen
-    private final int SPLASH_DISPLAY_LENGTH = 1000;
+    private final int SPLASH_DISPLAY_LENGTH = 500;
 
     String z, typeOfProduct;
 
@@ -58,7 +58,7 @@ public class SplashScreenActivity extends Activity {
                 getInfoAboutMegaMarket();
                 getInfoAboutFozzy();
 
-                // По истечении времени, запускаем главный активити, а Splash Screen закрываем
+                // По истечении времени, запускаем активити, а Splash Screen закрываем
                 Intent mainIntent = new Intent(SplashScreenActivity.this, AboutMilk.class);
                 mainIntent.putExtra("Name1", products_novus);
                 mainIntent.putExtra("Name2", products_megamarket);
