@@ -26,7 +26,7 @@ public class SplashScreenActivity extends Activity {
     private String[] products_fozzy = new String[1000];
 
     // Время в милесекундах, в течение которого будет отображаться Splash Screen
-    private final int SPLASH_DISPLAY_LENGTH = 1000;
+    private final int SPLASH_DISPLAY_LENGTH = 800;
 
     String z;
 
