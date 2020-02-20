@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.jsoup.Jsoup;
@@ -26,13 +27,14 @@ public class SplashScreenActivity extends Activity {
     private String[] products_fozzy = new String[1000];
 
     // Время в милесекундах, в течение которого будет отображаться Splash Screen
-    private final int SPLASH_DISPLAY_LENGTH = 800;
+    private final int SPLASH_DISPLAY_LENGTH = 500;
 
-    String z;
+    String z, typeOfProduct;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        typeOfProduct = getTypeOfProduct();
         setContentView(R.layout.splash_screen);
         Toast.makeText(SplashScreenActivity.this, "Загрузка продуктов. Ожидайте пожалуйста", Toast.LENGTH_LONG).show();
 
@@ -40,6 +42,15 @@ public class SplashScreenActivity extends Activity {
 
         StrictMode.setThreadPolicy(policy);
 
+        formProducts();
+    }
+    public String getTypeOfProduct() {
+        Bundle arguments1 = getIntent().getExtras();
+        return arguments1.getString("TypeOfProduct");
+
+    }
+
+    public void formProducts() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -47,7 +58,7 @@ public class SplashScreenActivity extends Activity {
                 getInfoAboutMegaMarket();
                 getInfoAboutFozzy();
 
-                // По истечении времени, запускаем главный активити, а Splash Screen закрываем
+                // По истечении времени, запускаем активити, а Splash Screen закрываем
                 Intent mainIntent = new Intent(SplashScreenActivity.this, AboutMilk.class);
                 mainIntent.putExtra("Name1", products_novus);
                 mainIntent.putExtra("Name2", products_megamarket);
@@ -59,12 +70,29 @@ public class SplashScreenActivity extends Activity {
                 mainIntent.putExtra("Numbers2", count_megamarket);
                 mainIntent.putExtra("Numbers3", count_fozzy);
                 mainIntent.putExtra("Stroka", z);
+                mainIntent.putExtra("TypeOfProduct", typeOfProduct);
                 SplashScreenActivity.this.startActivity(mainIntent);
                 SplashScreenActivity.this.finish();
             }
         }, SPLASH_DISPLAY_LENGTH);
     }
     public void getInfoAboutNovus () {
+        String a;
+        switch (typeOfProduct) {
+            case "Milk" :
+                a = "milk";
+                break;
+            case "Bread" :
+                a = "bread";
+                Log.d("###","Hleb");
+                break;
+            case "Eggs" :
+                a = "eggs";
+                break;
+            default:
+                a = "";
+                break;
+        }
         String html1, html2, html3, html4;
 
         // html для названия продукта
@@ -75,13 +103,13 @@ public class SplashScreenActivity extends Activity {
         html3 = "span.kopeiki";
         // html для количества продуктов
         html4 = "span.search-number-of-items";
+
         try {
-            Document doc1 = Jsoup.connect("https://old.novus.zakaz.ua/ru/milk/?&sort=up").get();
+            Document doc1 = Jsoup.connect("https://old.novus.zakaz.ua/ru/" + a + "/?&sort=up").get();
             Elements formElements4 = doc1.select(html4);
 
             // количество продуктов
             int n = 1;
-            //int n = Integer.parseInt(formElements4.text().substring(formElements4.text().indexOf("(")+1,formElements4.text().indexOf(" ")));
             // количество страниц с продуктами
             int m;
             // высчитывание количества страниц
@@ -92,10 +120,10 @@ public class SplashScreenActivity extends Activity {
 
             // формулирование url с продуктами
             String url[] = new String [m];
-            url[0] = "https://old.novus.zakaz.ua/ru/milk/?&sort=up";
+            url[0] = "https://old.novus.zakaz.ua/ru/" + a + "/?&sort=up";
             for (int i = 1; i < m; i++)
             {
-                url[i] = "https://old.novus.zakaz.ua/ru/milk/?&sort=up&page=" + (i+1);
+                url[i] = "https://old.novus.zakaz.ua/ru/" + a + "/?&sort=up&page=" + (i+1);
             }
 
             Document doc[] = new Document[m];
@@ -124,6 +152,19 @@ public class SplashScreenActivity extends Activity {
 
     // метод для извлечения и вывода информации о продуктах из MegaMarket
     public void getInfoAboutMegaMarket () {
+        String a;
+        switch (typeOfProduct) {
+            case "Milk" :
+                a = "moloko";
+                break;
+            case "Eggs" :
+                a = "yajtsya";
+                break;
+            default:
+                a = "";
+                break;
+        }
+
         String html1, html2;
 
         html1 = "li.product > div.product_info > h3";
@@ -131,13 +172,19 @@ public class SplashScreenActivity extends Activity {
 
         try {
             // количество страниц с продуктами
-            int m = 2;
-
+            int m;
+            if (typeOfProduct.equals("Eggs"))
+                m = 1;
+            else
+                m = 2;
             // формулирование url с продуктами
             String url[] = new String[m];
-            url[0] = "https://megamarket.ua/catalog/moloko?sort=price";
+            if (typeOfProduct.equals("Bread"))
+                url[0] = "https://megamarket.ua/products?keyword=%D1%85%D0%BB%D1%96%D0%B1&sort=price_desc";
+            else
+                url[0] = "https://megamarket.ua/catalog/" + a + "?sort=price_desc";
             for (int i = 1; i < m; i++) {
-                url[i] = "https://megamarket.ua/catalog/moloko?sort=price&page=" + (i + 1);
+                url[i] = url[0] + "&page=" + (i + 1);
             }
 
             Document doc[] = new Document[m];
@@ -181,9 +228,24 @@ public class SplashScreenActivity extends Activity {
 
             // формулирование url с продуктами
             String url[] = new String[m];
-            url[0] = "https://fozzyshop.com.ua/300200-moloko/s-15/kategoriya-moloko?order=product.price.asc";
-            for (int i = 1; i < m; i++) {
-                url[i] = "https://fozzyshop.com.ua/300200-moloko/s-15/kategoriya-moloko?page=" + (i+1) + "&order=product.price.asc";
+            if (typeOfProduct.equals("Milk")) {
+                url[0] = "https://fozzyshop.com.ua/300200-moloko/s-15/kategoriya-moloko?order=product.price.asc";
+                m = 1;
+                for (int i = 1; i < m; i++) {
+                    url[i] = "https://fozzyshop.com.ua/300200-moloko/s-15/kategoriya-moloko?page=" + (i + 1) + "&order=product.price.asc";
+                }
+            }
+            if (typeOfProduct.equals("Bread")) {
+                url[0] = "https://fozzyshop.com.ua/300505-khleb?order=product.price.asc";
+                for (int i = 1; i < m; i++) {
+                    url[i] = "https://fozzyshop.com.ua/300505-khleb?order=product.price.asc&page=" + (i + 1);
+                }
+            }
+            if (typeOfProduct.equals("Eggs")) {
+                url[0] = "https://fozzyshop.com.ua/300212-yajca-kurinye/s-15/kategoriya-yajca_kurinye?order=product.price.asc";
+                for (int i = 1; i < m; i++) {
+                    url[i] = "https://fozzyshop.com.ua/300212-yajca-kurinye/s-15/kategoriya-yajca_kurinye?page=" + (i + 1) + "&order=product.price.asc";
+                }
             }
 
             Document doc[] = new Document[m];
@@ -204,8 +266,8 @@ public class SplashScreenActivity extends Activity {
                 // получение массива продуктов с помощью парсинга сайта
                 for (int j = 0; j < z; j++) {
                     products_fozzy[count_fozzy] = formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (Fozzy)";
-                    String stroka = formElements2[i].get(j).text();
-                    products_fozzy_price[count_fozzy] = Integer.parseInt(stroka.substring(0,stroka.lastIndexOf(",")) + stroka.substring(stroka.lastIndexOf(",") + 1,stroka.length() - 4));
+                    String stroka1 = formElements2[i].get(j).text();
+                    products_fozzy_price[count_fozzy] = Integer.parseInt(stroka1.substring(0,stroka1.lastIndexOf(",")) + stroka1.substring(stroka1.lastIndexOf(",") + 1,stroka1.length() - 4));
                     count_fozzy++;
                 }
             }

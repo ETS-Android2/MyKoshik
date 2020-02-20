@@ -45,15 +45,23 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         // получим идентификатор выбранного пункта меню
         int id = item.getItemId();
+        Intent mainIntent;
         switch (id) {
             case R.id.action_milk:
-                Intent mainIntent = new Intent(MainActivity.this, SplashScreenActivity.class);
+                mainIntent = new Intent(MainActivity.this, SplashScreenActivity.class);
+                mainIntent.putExtra("TypeOfProduct", "Milk");
                 startActivity(mainIntent);
                 return true;
             // переход к Activity AboutMilk
             case R.id.action_eggs:
+                mainIntent = new Intent(MainActivity.this, SplashScreenActivity.class);
+                mainIntent.putExtra("TypeOfProduct", "Eggs");
+                startActivity(mainIntent);
                 return true;
             case R.id.action_bread:
+                mainIntent = new Intent(MainActivity.this, SplashScreenActivity.class);
+                mainIntent.putExtra("TypeOfProduct", "Bread");
+                startActivity(mainIntent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
