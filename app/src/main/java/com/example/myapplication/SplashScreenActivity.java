@@ -34,9 +34,20 @@ public class SplashScreenActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // тип продукта, который мы получаем с MainActivity
         typeOfProduct = getTypeOfProduct();
-        setContentView(R.layout.splash_screen);
-        Toast.makeText(SplashScreenActivity.this, "Загрузка продуктов. Ожидайте пожалуйста", Toast.LENGTH_LONG).show();
+        switch (typeOfProduct) {
+            case "Milk" :
+                setContentView(R.layout.splash_screen_milk);
+                break;
+            case "Bread" :
+                setContentView(R.layout.splash_screen_bread);
+                break;
+            case "Eggs" :
+                setContentView(R.layout.splash_screen_eggs);
+                break;
+        }
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
@@ -44,13 +55,17 @@ public class SplashScreenActivity extends Activity {
 
         formProducts();
     }
+
+    // метод лдля получения типа продукта
     public String getTypeOfProduct() {
         Bundle arguments1 = getIntent().getExtras();
         return arguments1.getString("TypeOfProduct");
 
     }
 
+    // метод для парсинга 3 супермаркетов и отправки названий с ценами продуктов в AboutProduct
     public void formProducts() {
+        // по истечении времени, запускаем активити, а SplashScreenActivity закрываем
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -58,8 +73,7 @@ public class SplashScreenActivity extends Activity {
                 getInfoAboutMegaMarket();
                 getInfoAboutFozzy();
 
-                // По истечении времени, запускаем активити, а Splash Screen закрываем
-                Intent mainIntent = new Intent(SplashScreenActivity.this, AboutMilk.class);
+                Intent mainIntent = new Intent(SplashScreenActivity.this, AboutProduct.class);
                 mainIntent.putExtra("Name1", products_novus);
                 mainIntent.putExtra("Name2", products_megamarket);
                 mainIntent.putExtra("Name3", products_fozzy);
@@ -76,6 +90,8 @@ public class SplashScreenActivity extends Activity {
             }
         }, SPLASH_DISPLAY_LENGTH);
     }
+
+    // метод для парсинга Novus
     public void getInfoAboutNovus () {
         String a;
         switch (typeOfProduct) {
@@ -150,7 +166,7 @@ public class SplashScreenActivity extends Activity {
         }
     }
 
-    // метод для извлечения и вывода информации о продуктах из MegaMarket
+    // метод для парсинга MegaMarket
     public void getInfoAboutMegaMarket () {
         String a;
         switch (typeOfProduct) {
@@ -179,44 +195,44 @@ public class SplashScreenActivity extends Activity {
                 m = 2;
             // формулирование url с продуктами
             String url[] = new String[m];
-            if (typeOfProduct.equals("Bread"))
-                url[0] = "https://megamarket.ua/products?keyword=%D1%85%D0%BB%D1%96%D0%B1&sort=price_desc";
-            else
+            if (a != "") {
                 url[0] = "https://megamarket.ua/catalog/" + a + "?sort=price_desc";
-            for (int i = 1; i < m; i++) {
-                url[i] = url[0] + "&page=" + (i + 1);
-            }
-
-            Document doc[] = new Document[m];
-            Elements formElements1[] = new Elements[m];
-            Elements formElements2[] = new Elements[m];
-            for (int i = 0; i < m; i++) {
-
-                doc[i] = Jsoup.connect(url[i]).get();
-                formElements1[i] = doc[i].select(html1);
-                formElements2[i] = doc[i].select(html2);
-
-                int z;
-                if (i != m-1)
-                    // продукты всегда в наличии
-                    z = 40;
-                else {
-                    // продукты, которые можно рассмотреть (есть в наличии)
-                    z = formElements2[i].size();
+                for (int i = 1; i < m; i++) {
+                    url[i] = url[0] + "&page=" + (i + 1);
                 }
-                for (int j = 0; j < z; j++) {
-                    // название и цена каждого продукта
-                    products_megamarket[count_megamarket] = formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (MegaMarket)";
-                    String stroka = formElements2[i].get(j).text();
-                    products_megamarket_price[count_megamarket] = Integer.parseInt(stroka.substring(0,stroka.lastIndexOf(",")) + stroka.substring(stroka.lastIndexOf(",") + 1,stroka.length() - 4));
-                    count_megamarket++;
+
+                Document doc[] = new Document[m];
+                Elements formElements1[] = new Elements[m];
+                Elements formElements2[] = new Elements[m];
+                for (int i = 0; i < m; i++) {
+
+                    doc[i] = Jsoup.connect(url[i]).get();
+                    formElements1[i] = doc[i].select(html1);
+                    formElements2[i] = doc[i].select(html2);
+
+                    int z;
+                    if (i != m - 1)
+                        // продукты всегда в наличии
+                        z = 40;
+                    else {
+                        // продукты, которые можно рассмотреть (есть в наличии)
+                        z = formElements2[i].size();
+                    }
+                    for (int j = 0; j < z; j++) {
+                        // название и цена каждого продукта
+                        products_megamarket[count_megamarket] = formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (MegaMarket)";
+                        String stroka = formElements2[i].get(j).text();
+                        products_megamarket_price[count_megamarket] = Integer.parseInt(stroka.substring(0, stroka.lastIndexOf(",")) + stroka.substring(stroka.lastIndexOf(",") + 1, stroka.length() - 4));
+                        count_megamarket++;
+                    }
                 }
             }
         }
         catch (IOException e) {
         }
     }
-    // метод для извлечения и вывода информации о продуктах из Fozzy
+
+    // метод для парсинга Fozzy
     public void getInfoAboutFozzy () {
         // html названия продукта и цены
         String html1 = "h3.h3.product-title > a";

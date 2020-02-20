@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ListOfProducts"></activity>
-        <activity android:name=".AboutMilk" />
+        <activity android:name=".AboutProduct" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >

@@ -52,6 +52,7 @@ public class ListOfProducts extends AppCompatActivity {
                     fileOutput.write("".getBytes());
                     fileOutput.close();
                     Toast.makeText(ListOfProducts.this, "Список продуктов был очищен", Toast.LENGTH_LONG).show();
+                    result.setText("Список продуктов пуст");
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {

@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
 
-public class AboutMilk extends AppCompatActivity {
+public class AboutProduct extends AppCompatActivity {
 
     private TextView result, typeOfProduct;
     private Button button_of_novus, button_of_megamarket, button_of_fozzy, button_of_continue;
@@ -49,7 +49,7 @@ public class AboutMilk extends AppCompatActivity {
     private int[] products_megamarket_price = new int[1000];
     private int[] products_fozzy_price = new int[1000];
 
-    String z;
+    String z, type;
 
     private boolean f1, f2, f3;
 
@@ -93,9 +93,9 @@ public class AboutMilk extends AppCompatActivity {
         f2 = false;
         f3 = false;
         Bundle arguments = getIntent().getExtras();
-        String z = arguments.getString("Stroka");
+        z = arguments.getString("Stroka");
 
-        String type = arguments.getString("TypeOfProduct");
+        type = arguments.getString("TypeOfProduct");
         switch (type) {
             case "Milk" :
                 typeOfProduct.setText("Молоко");
@@ -170,7 +170,10 @@ public class AboutMilk extends AppCompatActivity {
             else
             if ((f2 == true) && (f1 == false) && (f3 == false))
             {
-                viv(products_megamarket, count_megamarket);
+                if (type.equals("Bread"))
+                    result.setText("К сожалению данный продукт недоступен");
+                else
+                    viv(products_megamarket, count_megamarket);
             }
             else
             if ((f3 == true) && (f1 == false) && (f2 == false))
@@ -320,7 +323,7 @@ public class AboutMilk extends AppCompatActivity {
 
         b.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                write(product.substring(3,product.length()));
+                write(product);
             }
         });
 
@@ -352,7 +355,7 @@ public class AboutMilk extends AppCompatActivity {
             fileOutput.write(stroka.getBytes());
             fileOutput.close();
 
-            Toast.makeText(AboutMilk.this, "Продукт был добавлен в список покупок", Toast.LENGTH_LONG).show();
+            Toast.makeText(AboutProduct.this, "Продукт был добавлен в список покупок", Toast.LENGTH_LONG).show();
         }
         catch (FileNotFoundException e )
         {
