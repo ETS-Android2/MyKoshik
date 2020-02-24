@@ -77,7 +77,7 @@ public class ListOfProducts extends AppCompatActivity {
                 } catch (IOException e) {
                 }
 
-                deleteListOfProducts();
+                deleteListOfProducts(true);
             }
         });
 
@@ -89,26 +89,22 @@ public class ListOfProducts extends AppCompatActivity {
 
         button_of_sort.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                deleteListOfProducts(false);
                 switch (button_znak) {
-                    case 1:
-                        button_of_sort.setText("Сортировка по убыванию");
-                        deleteListOfProducts();
-                        getInfoAboutProductsWithZnak("SortUp");
-                        button_znak = 2;
-                        break;
-                    case 2 :
-                        button_of_sort.setText("Сортировка по возрастанию");
-                        deleteListOfProducts();
-                        getInfoAboutProductsWithZnak("SortDown");
-                        button_znak = 3;
-                        break;
-                    case 3 :
+                    case 0 :
                         button_of_sort.setText("Сортировка по очереди");
-                        deleteListOfProducts();
                         getInfoAboutProductsWithZnak("List");
-                        button_znak = 1;
+                        break;
+                    case 1 :
+                        button_of_sort.setText("Сортировка по возрастанию");
+                        getInfoAboutProductsWithZnak("SortUp");
+                        break;
+                    case 2:
+                        button_of_sort.setText("Сортировка по убыванию");
+                        getInfoAboutProductsWithZnak("SortDown");
                         break;
                 }
+                button_znak = (button_znak + 1) % 3;
             }
         });
 
@@ -166,7 +162,7 @@ public class ListOfProducts extends AppCompatActivity {
                 sort("SortUp");
                 break;
             case "SortDown" :
-                sort("SortUp");
+                sort("SortDown");
                 break;
         }
     }
@@ -176,28 +172,19 @@ public class ListOfProducts extends AppCompatActivity {
         StringBuffer product_s[] = new StringBuffer[1000];
         int price_of_product_s[] = new int[1000];
 
-        System.arraycopy(product, 0, product_s, 0, n);
-        System.arraycopy(price_of_product, 0, price_of_product_s, 0, n);
+        for (int i = 0; i < n; i++)
+        {
+            product_s[i] = new StringBuffer(product[i]);
+            price_of_product_s[i] = price_of_product[i];
+        }
 
-        //for (int i = 0 ; i < n; i++) {
-         //  Log.d("#####", product_s[i].toString());
-          //  Log.d("####z", product_s[i].toString());
-           // Log.d("#####", Integer.toString(price_of_product_s[i]));
-       // }
-     //   Log.d("####","Kdadad");
         int z;
         StringBuffer s = new StringBuffer("");
 
-        Log.d("#####","K");
-        if (typeOfSort.equals("SortUp")) {
-            for (int i = 0 ; i < n; i++)
-                  Log.d("#####", product_s[i].toString());
-            for (int i = n - 1; i > 0; i--)
-                for (int j = 0; j < i; j++) {
-                    if (price_of_product_s[j] > price_of_product_s[j + 1]) {
-                        Log.d("###", Integer.toString(price_of_product_s[j]) + " " + Integer.toString(price_of_product_s[j + 1]));
-                        //  Log.d("####", product_s[j].toString());
-                        //  Log.d("####", product_s[j+1].toString());
+        if (typeOfSort.equals("SortUp") == true) {
+            for (int i = n - 1; i >= 1; i--)
+                for (int j = 0; j < n - i; j++) {
+                    if (price_of_product_s[j] < price_of_product_s[j + 1]) {
 
                         z = price_of_product_s[j];
                         price_of_product_s[j] = price_of_product_s[j + 1];
@@ -210,20 +197,13 @@ public class ListOfProducts extends AppCompatActivity {
                         product_s[j + 1].setLength(0);
                         product_s[j + 1].append(s.toString());
 
-                        //    Log.d("######", product_s[j].toString());
-                        //    Log.d("######", product_s[j+1].toString());
                     }
                 }
         }
         else {
-            for (int i = 0; i < n; i++)
-                Log.d("#####",product_s[i].toString());
-            for (int i = 0; i < n - 1; i++)
-                for (int j = 0; j < n - i; j++) {
-                    if (price_of_product_s[j] < price_of_product_s[j + 1]) {
-                            Log.d("###", Integer.toString(price_of_product_s[j]) + " " + Integer.toString(price_of_product_s[j + 1]));
-                            //  Log.d("####", product_s[j].toString());
-                            //  Log.d("####", product_s[j+1].toString());
+            for (int i = n - 1; i >= 1; i--)
+                for (int j = 0; j < i; j++)
+                    if (price_of_product_s[j] > price_of_product_s[j + 1]) {
 
                             z = price_of_product_s[j];
                             price_of_product_s[j] = price_of_product_s[j + 1];
@@ -236,9 +216,6 @@ public class ListOfProducts extends AppCompatActivity {
                             product_s[j + 1].setLength(0);
                             product_s[j + 1].append(s.toString());
 
-                            //    Log.d("######", product_s[j].toString());
-                            //    Log.d("######", product_s[j+1].toString());
-                        }
                     }
             }
 
@@ -249,8 +226,11 @@ public class ListOfProducts extends AppCompatActivity {
 
     // Метод для создания Button и TextView для каждого продукта
     public void writeProductsToList(StringBuffer s[]) {
-        Log.d("###","yes");
-        for (int i = n-1; i >= 0; i--)
+        Log.d("###z","Mas = ");
+        for (int i = 0; i < n; i++)
+            Log.d("###z", Integer.toString(price_of_product[i]));
+
+        for (int i = 0; i < n; i++)
             addButtonAndTextView(s[i].toString());
     }
 
@@ -276,7 +256,6 @@ public class ListOfProducts extends AppCompatActivity {
                 if (product.lastIndexOf(lines) == -1) {
                     strBuffer1.append(lines + '\n');
                 }
-                strBuffer2.append(lines + '\n');
             }
 
             if (n == 0)
@@ -294,14 +273,17 @@ public class ListOfProducts extends AppCompatActivity {
     }
 
     // Метод для удаления всех Buttons и TextViews при обнулении списка
-    public void deleteListOfProducts() {
+    public void deleteListOfProducts(boolean f) {
         for (int i = x; i < y; i++)
         {
             View b = findViewById(i);
             b.setVisibility(View.GONE);
         }
 
-        result.setText("Список продуктов пуст");
+        if (f == true) {
+            n = 0;
+            result.setText("Список продуктов пуст");
+        }
 
         // Делаем типо "обнуление" количества Butons и TextViews
         x = y;
