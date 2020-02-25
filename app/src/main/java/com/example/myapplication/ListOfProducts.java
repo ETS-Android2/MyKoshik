@@ -108,23 +108,25 @@ public class ListOfProducts extends AppCompatActivity {
             }
         });
 
-        result.setText("Продукты :");
     }
 
     // Метод для чтения продуктов
     public void readInfoFromFile() {
         try {
+            Log.d("###2","YES");
             FileInputStream fileInput = openFileInput("example.txt");
             InputStreamReader reader = new InputStreamReader(fileInput);
             BufferedReader buffer = new BufferedReader(reader);
             StringBuffer strBuffer = new StringBuffer();
             String lines;
-
+            Log.d("###2","YES");
             n = 0;
 
             while ((lines = buffer.readLine()) != null) {
+                Log.d("###2","Line = "+lines);
                 product[n] = new StringBuffer(lines);
                 price_of_product[n] = formPriceOfProduct(product[n].toString());
+                Log.d("###2",product[n].toString());
                 n++;
             }
 
@@ -178,60 +180,62 @@ public class ListOfProducts extends AppCompatActivity {
             price_of_product_s[i] = price_of_product[i];
         }
 
-        int z;
         StringBuffer s = new StringBuffer("");
 
         if (typeOfSort.equals("SortUp") == true) {
-            for (int i = n - 1; i >= 1; i--)
-                for (int j = 0; j < n - i; j++) {
-                    if (price_of_product_s[j] < price_of_product_s[j + 1]) {
-
-                        z = price_of_product_s[j];
-                        price_of_product_s[j] = price_of_product_s[j + 1];
-                        price_of_product_s[j + 1] = z;
+            boolean changes;
+            do {
+                changes = false;
+                for (int i = 0; i < n - 1; i++) {
+                    if (price_of_product_s[i] > price_of_product_s[i + 1]) {
+                        int _current = price_of_product_s[i];
+                        price_of_product_s[i] = price_of_product_s[i + 1];
+                        price_of_product_s[i + 1] = _current;
+                        changes = true;
 
                         s.setLength(0);
-                        s.append(product_s[j].toString());
-                        product_s[j].setLength(0);
-                        product_s[j].append(product_s[j + 1].toString());
-                        product_s[j + 1].setLength(0);
-                        product_s[j + 1].append(s.toString());
-
+                        s.append(product_s[i].toString());
+                        product_s[i].setLength(0);
+                        product_s[i].append(product_s[i + 1].toString());
+                        product_s[i + 1].setLength(0);
+                        product_s[i + 1].append(s.toString());
                     }
                 }
+
+            }
+            while (changes);
         }
         else {
-            for (int i = n - 1; i >= 1; i--)
-                for (int j = 0; j < i; j++)
-                    if (price_of_product_s[j] > price_of_product_s[j + 1]) {
+            boolean changes;
+            do {
+                changes = false;
+                for (int i = 0; i < n - 1; i++) {
+                    if (price_of_product_s[i] < price_of_product_s[i + 1]) {
+                        int _current = price_of_product_s[i];
+                        price_of_product_s[i] = price_of_product_s[i + 1];
+                        price_of_product_s[i + 1] = _current;
+                        changes = true;
 
-                            z = price_of_product_s[j];
-                            price_of_product_s[j] = price_of_product_s[j + 1];
-                            price_of_product_s[j + 1] = z;
-
-                            s.setLength(0);
-                            s.append(product_s[j].toString());
-                            product_s[j].setLength(0);
-                            product_s[j].append(product_s[j + 1].toString());
-                            product_s[j + 1].setLength(0);
-                            product_s[j + 1].append(s.toString());
-
+                        s.setLength(0);
+                        s.append(product_s[i].toString());
+                        product_s[i].setLength(0);
+                        product_s[i].append(product_s[i + 1].toString());
+                        product_s[i + 1].setLength(0);
+                        product_s[i + 1].append(s.toString());
                     }
-            }
+                }
 
-            for (int i = 0; i < n; i++)
-                Log.d("####", product_s[i].toString());
-            writeProductsToList(product_s);
+            }
+            while (changes);
+        }
+        writeProductsToList(product_s);
     }
 
     // Метод для создания Button и TextView для каждого продукта
     public void writeProductsToList(StringBuffer s[]) {
-        Log.d("###z","Mas = ");
+        result.setText("Продукты (Кол. = " + Integer.toString(n) + ") :");
         for (int i = 0; i < n; i++)
-            Log.d("###z", Integer.toString(price_of_product[i]));
-
-        for (int i = 0; i < n; i++)
-            addButtonAndTextView(s[i].toString());
+            addButtonAndTextView(s[i].toString(), i+1);
     }
 
     // Метод для удаления Buttons и TextViews, чтобы не было повтора ID при создание новых
@@ -251,16 +255,25 @@ public class ListOfProducts extends AppCompatActivity {
             BufferedReader buffer = new BufferedReader(reader);
             String lines;
             n--;
+            boolean f = false;
             while ((lines = buffer.readLine()) != null) {
                 // Проверка на равенство продукта который надо удалить и продукта из файла
-                if (product.lastIndexOf(lines) == -1) {
+                Log.d("###dg",lines);
+                Log.d("###dg",product);
+                Log.d("###dg",Boolean.toString(lines.equals(product)));
+                if ((lines.equals(product) == false) || ((f == true) && (lines.equals(product) == true))) {
+                    Log.d("gggg",lines);
                     strBuffer1.append(lines + '\n');
                 }
+                else
+                    f = true;
             }
+
+            result.setText("Продукты (Кол. = " + Integer.toString(n) + ") :");
 
             if (n == 0)
                 result.setText("Список продуктов пуст");
-
+            Log.d("######",strBuffer1.toString());
             // Запись нового файла без удаленного продукта
             fileOutput = openFileOutput("example.txt", MODE_PRIVATE);
             fileOutput.write(strBuffer1.toString().getBytes());
@@ -290,15 +303,15 @@ public class ListOfProducts extends AppCompatActivity {
     }
 
     // Метод для создание Button и TextView каждого продукта
-    public void addButtonAndTextView(final String product) {
+    public void addButtonAndTextView(final String product, int number) {
         TextView t = new TextView(getApplicationContext());
-        t.setText('\n' + product + '\n');
+        t.setText('\n' + Integer.toString(number) + ") " + product + '\n');
         t.setId(y);
         y++;
         linearLayout.addView(t);
 
         final Button b = new Button(getApplicationContext());
-        b.setText("Удалить продукт");
+        b.setText("Удалить продукт" + " №" + Integer.toString(number));
         b.setId(y);
         y++;
         linearLayout.addView(b);
@@ -307,6 +320,7 @@ public class ListOfProducts extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 deleteListOfProducts(b.getId(), product);
+                readInfoFromFile();
                 Toast.makeText(ListOfProducts.this, "Продукт был удален из списка", Toast.LENGTH_LONG).show();
             }
         });

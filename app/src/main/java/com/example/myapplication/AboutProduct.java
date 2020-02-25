@@ -344,11 +344,11 @@ public class AboutProduct extends AppCompatActivity {
                     strBuffer.append(lines + '\n');
                 }
 
-                stroka = strBuffer.toString() + shop;
+                stroka = shop + '\n' + strBuffer.toString();
             }
             catch (IOException e)
             {
-                stroka = shop;
+                stroka = shop + '\n';
             }
             // класс, который помогает помещать данные в файл
             FileOutputStream fileOutput = openFileOutput("example.txt", MODE_PRIVATE);
