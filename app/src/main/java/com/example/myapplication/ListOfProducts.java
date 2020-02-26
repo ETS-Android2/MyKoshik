@@ -18,7 +18,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class ListOfProducts extends AppCompatActivity {
     // TextView ("Продукты" / "Список продуктов пуст")
@@ -88,26 +90,35 @@ public class ListOfProducts extends AppCompatActivity {
         getInfoAboutProductsWithZnak("List");
 
         button_of_sort.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                deleteListOfProducts(false);
-                switch (button_znak) {
-                    case 0 :
-                        button_of_sort.setText("Сортировка по очереди");
-                        getInfoAboutProductsWithZnak("List");
-                        break;
-                    case 1 :
-                        button_of_sort.setText("Сортировка по возрастанию");
-                        getInfoAboutProductsWithZnak("SortUp");
-                        break;
-                    case 2:
-                        button_of_sort.setText("Сортировка по убыванию");
-                        getInfoAboutProductsWithZnak("SortDown");
-                        break;
+                public void onClick (View v){
+                    pr1();
                 }
-                button_znak = (button_znak + 1) % 3;
-            }
         });
 
+    }
+
+    // Вспомогательтный метод, который вызывается при нажатии кнопки очистки и удалении одного продукта
+    public void pr1() {
+        deleteListOfProducts(false);
+        switch (button_znak) {
+            case 0:
+                button_of_sort.setText("Сортировка продуктов по очереди");
+                getInfoAboutProductsWithZnak("List");
+                break;
+            case 1:
+                button_of_sort.setText("Сортировка продуктов по возрастанию цены");
+                getInfoAboutProductsWithZnak("SortUp");
+                break;
+            case 2:
+                button_of_sort.setText("Сортировка продуктов по убыванию цены");
+                getInfoAboutProductsWithZnak("SortDown");
+                break;
+            case 3:
+                button_of_sort.setText("Сортировка продуктов по магазинам");
+                getInfoAboutProductsWithZnak("Supermarkets");
+                break;
+        }
+        button_znak = (button_znak + 1) % 4;
     }
 
     // Метод для чтения продуктов
@@ -166,13 +177,16 @@ public class ListOfProducts extends AppCompatActivity {
             case "SortDown" :
                 sort("SortDown");
                 break;
+            case "Supermarkets" :
+                sort("Supermarkets");
+                break;
         }
     }
 
-    // Метод для сортировки массива продуктов по ценам
+    // Метод для сортировки массива продуктов
     public void sort(String typeOfSort) {
-        StringBuffer product_s[] = new StringBuffer[1000];
-        int price_of_product_s[] = new int[1000];
+        StringBuffer product_s[] = new StringBuffer[n];
+        int price_of_product_s[] = new int[n];
 
         for (int i = 0; i < n; i++)
         {
@@ -182,7 +196,7 @@ public class ListOfProducts extends AppCompatActivity {
 
         StringBuffer s = new StringBuffer("");
 
-        if (typeOfSort.equals("SortUp") == true) {
+        if ((typeOfSort.equals("SortUp") == true) || (typeOfSort.equals("Supermarkets"))) {
             boolean changes;
             do {
                 changes = false;
@@ -204,6 +218,37 @@ public class ListOfProducts extends AppCompatActivity {
 
             }
             while (changes);
+
+            StringBuffer product_d[] = new StringBuffer[n];
+            if (typeOfSort.equals("Supermarkets"))
+            {
+                int k = 0;
+                for (int i = 0; i < n; i++)
+                {
+                    if (product_s[i].toString().indexOf("Novus") != -1) {
+                        product_d[k] = new StringBuffer(product_s[i].toString());
+                        k++;
+                    }
+                }
+                for (int i = 0; i < n; i++)
+                {
+                    if (product_s[i].toString().indexOf("MegaMarket") != -1) {
+                        product_d[k] = new StringBuffer(product_s[i].toString());
+                        k++;
+                    }
+                }
+                for (int i = 0; i < n; i++)
+                {
+                    if (product_s[i].toString().indexOf("Fozzy") != -1) {
+                        product_d[k] = new StringBuffer(product_s[i].toString());
+                        k++;
+                    }
+                }
+                writeProductsToList(product_d);
+            }
+            else
+                writeProductsToList(product_s);
+
         }
         else {
             boolean changes;
@@ -227,28 +272,21 @@ public class ListOfProducts extends AppCompatActivity {
 
             }
             while (changes);
+            writeProductsToList(product_s);
         }
-        writeProductsToList(product_s);
     }
 
     // Метод для создания Button и TextView для каждого продукта
     public void writeProductsToList(StringBuffer s[]) {
-        result.setText("Продукты (Кол. = " + Integer.toString(n) + ") :");
+        result.setText("Продукты (Кол. = " + Integer.toString(n) + ", Цена = " + Integer.toString(Arrays.stream(price_of_product).sum() ) + ") :");
         for (int i = 0; i < n; i++)
             addButtonAndTextView(s[i].toString(), i+1);
     }
 
-    // Метод для удаления Buttons и TextViews, чтобы не было повтора ID при создание новых
-    public void deleteListOfProducts(int id, String product) {
-        View b = findViewById(id);
-        b.setVisibility(View.GONE);
-
-        View t = findViewById(id - 1);
-        t.setVisibility(View.GONE);
-
+    // Метод для удаления продукта из файла
+    public void deleteListOfProducts(String product) {
         try {
-            StringBuffer strBuffer1 = new StringBuffer();
-            StringBuffer strBuffer2 = new StringBuffer();
+            StringBuffer strBuffer = new StringBuffer();
 
             FileInputStream fileInput = openFileInput("example.txt");
             InputStreamReader reader = new InputStreamReader(fileInput);
@@ -258,12 +296,10 @@ public class ListOfProducts extends AppCompatActivity {
             boolean f = false;
             while ((lines = buffer.readLine()) != null) {
                 // Проверка на равенство продукта который надо удалить и продукта из файла
-                Log.d("###dg",lines);
-                Log.d("###dg",product);
                 Log.d("###dg",Boolean.toString(lines.equals(product)));
                 if ((lines.equals(product) == false) || ((f == true) && (lines.equals(product) == true))) {
                     Log.d("gggg",lines);
-                    strBuffer1.append(lines + '\n');
+                    strBuffer.append(lines + '\n');
                 }
                 else
                     f = true;
@@ -273,10 +309,10 @@ public class ListOfProducts extends AppCompatActivity {
 
             if (n == 0)
                 result.setText("Список продуктов пуст");
-            Log.d("######",strBuffer1.toString());
+            Log.d("######",strBuffer.toString());
             // Запись нового файла без удаленного продукта
             fileOutput = openFileOutput("example.txt", MODE_PRIVATE);
-            fileOutput.write(strBuffer1.toString().getBytes());
+            fileOutput.write(strBuffer.toString().getBytes());
             fileOutput.close();
         }
         catch (FileNotFoundException e) {
@@ -315,12 +351,16 @@ public class ListOfProducts extends AppCompatActivity {
         b.setId(y);
         y++;
         linearLayout.addView(b);
-        b.setBackgroundColor(getColor(R.color.colorRed));
+        b.setBackgroundColor(getColor(R.color.colorOrange));
 
+        // При нажатии на кнопку "Удалить продукт" будет удаляться продукт из файла и по-новому распределение номеров продуктов
         b.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                deleteListOfProducts(b.getId(), product);
+                deleteListOfProducts(product);
+                deleteListOfProducts(false);
                 readInfoFromFile();
+                button_znak = (button_znak + 3) % 4;
+                pr1();
                 Toast.makeText(ListOfProducts.this, "Продукт был удален из списка", Toast.LENGTH_LONG).show();
             }
         });

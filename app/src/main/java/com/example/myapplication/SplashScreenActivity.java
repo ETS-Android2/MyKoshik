@@ -196,7 +196,7 @@ public class SplashScreenActivity extends Activity {
             // формулирование url с продуктами
             String url[] = new String[m];
             if (a != "") {
-                url[0] = "https://megamarket.ua/catalog/" + a + "?sort=price_desc";
+                url[0] = "https://megamarket.ua/catalog/" + a + "?sort=price";
                 for (int i = 1; i < m; i++) {
                     url[i] = url[0] + "&page=" + (i + 1);
                 }
