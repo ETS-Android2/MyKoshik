@@ -2,11 +2,13 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,17 +24,19 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class AboutProduct extends AppCompatActivity {
 
-    private TextView result, typeOfProduct;
+    private TextView result, typeOfProduct, count_of_products;
     private Button button_of_novus, button_of_megamarket, button_of_fozzy, button_of_continue;
     private LinearLayout linearLayout;
+    private ImageButton button_of_bag;
 
     private ImageView photo;
 
-    private int x, y;
+    private int x, y, count_of_products_in_list;
 
     private int count_novus, count_megamarket, count_fozzy, count_novus_megamarket, count_megamarket_fozzy, count_novus_fozzy, count_novus_megamarket_fozzy;
 
@@ -60,7 +64,6 @@ public class AboutProduct extends AppCompatActivity {
         setContentView(R.layout.activity_about_milk);
 
         typeOfProduct = findViewById(R.id.textview_name_of_product);
-        photo = findViewById(R.id.imageView2);
 
         button_of_novus = findViewById(R.id.button_of_novus);
         button_of_megamarket = findViewById(R.id.button_of_megamarket);
@@ -71,8 +74,11 @@ public class AboutProduct extends AppCompatActivity {
         button_of_megamarket.setBackgroundColor(getColor(R.color.colorBlue));
         button_of_fozzy.setBackgroundColor(getColor(R.color.colorBlue));
         button_of_continue.setBackgroundColor(getColor(R.color.colorGreen));
+        button_of_bag = findViewById(R.id.imageButton2);
 
         result = findViewById(R.id.list_of_products_of_shop);
+
+        count_of_products = findViewById(R.id.textView2);
 
         linearLayout = findViewById(R.id.linearlayout1);
 
@@ -89,6 +95,12 @@ public class AboutProduct extends AppCompatActivity {
 
         count_novus_megamarket_fozzy = 0;
 
+        count_of_products_in_list = countProduct();
+        if (count_of_products_in_list > 99)
+            count_of_products.setText("99+");
+        else
+            count_of_products.setText(Integer.toString(count_of_products_in_list));
+
         f1 = false;
         f2 = false;
         f3 = false;
@@ -99,15 +111,12 @@ public class AboutProduct extends AppCompatActivity {
         switch (type) {
             case "Milk" :
                 typeOfProduct.setText("Молоко");
-                photo.setImageResource(R.drawable.milk);
                 break;
             case "Bread" :
                 typeOfProduct.setText("Хлеб");
-                photo.setImageResource(R.drawable.bread);
                 break;
             case "Eggs" :
                 typeOfProduct.setText("Яйца");
-                photo.setImageResource(R.drawable.eggs);
                 break;
         }
         if (z != "Проверьте соединение с интернетом") {
@@ -122,6 +131,34 @@ public class AboutProduct extends AppCompatActivity {
             count_novus = arguments.getInt("Numbers1");
             count_megamarket = arguments.getInt("Numbers2");
             count_fozzy = arguments.getInt("Numbers3");
+        }
+
+        button_of_bag.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent mainIntent = new Intent(AboutProduct.this, ListOfProducts .class);
+                startActivity(mainIntent);
+            }
+        });
+    }
+
+    public int countProduct() {
+        int c = 0;
+
+        try {
+            FileInputStream fileInput = openFileInput("example.txt");
+            InputStreamReader reader = new InputStreamReader(fileInput);
+            BufferedReader buffer = new BufferedReader(reader);
+            String lines;
+
+            while ((lines = buffer.readLine()) != null) {
+                c++;
+            }
+
+            return c;
+        }
+        catch (IOException e)
+        {
+            return c;
         }
     }
 
@@ -323,6 +360,12 @@ public class AboutProduct extends AppCompatActivity {
 
         b.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                count_of_products_in_list++;
+                if (count_of_products_in_list > 99)
+                    count_of_products.setText("99+");
+                else
+                    count_of_products.setText(Integer.toString(count_of_products_in_list));
                 write(product);
             }
         });
