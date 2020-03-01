@@ -4,4 +4,11 @@
     <string name="action_milk">Молоко</string>
     <string name="action_eggs">Яйца</string>
     <string name="action_bread">Хлеб</string>
+
+    <string-array name="types_of_sort">
+        <item>По очереди продуктов</item>
+        <item>По цене продуктов ↓</item>
+        <item>По цене продуктов ↑</item>
+        <item>По супермаркетам</item>
+    </string-array>
 </resources>

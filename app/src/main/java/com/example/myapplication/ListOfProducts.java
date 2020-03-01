@@ -7,8 +7,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class ListOfProducts extends AppCompatActivity {
+public class ListOfProducts extends AppCompatActivity implements AdapterView.OnItemSelectedListener  {
     // TextView ("Продукты" / "Список продуктов пуст")
     private TextView result;
 
@@ -31,7 +34,7 @@ public class ListOfProducts extends AppCompatActivity {
     // Файл для чтения продуктов
     private FileOutputStream fileOutput;
 
-    private Button button_of_clear, button_of_sort;
+    private Button button_of_clear;
 
     // Границы ID Buttons и TextViews продуктов
     private int x,y;
@@ -45,7 +48,7 @@ public class ListOfProducts extends AppCompatActivity {
     int price_of_product[];
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_of_products);
 
@@ -65,6 +68,12 @@ public class ListOfProducts extends AppCompatActivity {
         button_of_clear = findViewById(R.id.button_of_clear);
         button_of_clear.setBackgroundColor(getColor(R.color.colorRed));
 
+        Spinner spinner = findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.types_of_sort, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+
         button_of_clear.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Обнуление списка продуктов
@@ -83,17 +92,10 @@ public class ListOfProducts extends AppCompatActivity {
             }
         });
 
-        button_of_sort = findViewById(R.id.button_of_sort);
         button_znak =  1;
 
         readInfoFromFile();
         getInfoAboutProductsWithZnak("List");
-
-        button_of_sort.setOnClickListener(new View.OnClickListener() {
-                public void onClick (View v){
-                    pr1();
-                }
-        });
 
     }
 
@@ -102,19 +104,15 @@ public class ListOfProducts extends AppCompatActivity {
         deleteListOfProducts(false);
         switch (button_znak) {
             case 0:
-                button_of_sort.setText("Сортировка продуктов по очереди");
                 getInfoAboutProductsWithZnak("List");
                 break;
             case 1:
-                button_of_sort.setText("Сортировка продуктов по возрастанию цены");
                 getInfoAboutProductsWithZnak("SortUp");
                 break;
             case 2:
-                button_of_sort.setText("Сортировка продуктов по убыванию цены");
                 getInfoAboutProductsWithZnak("SortDown");
                 break;
             case 3:
-                button_of_sort.setText("Сортировка продуктов по магазинам");
                 getInfoAboutProductsWithZnak("Supermarkets");
                 break;
         }
@@ -278,11 +276,17 @@ public class ListOfProducts extends AppCompatActivity {
 
     // Метод для создания Button и TextView для каждого продукта
     public void writeProductsToList(StringBuffer s[]) {
-        result.setText("Продукты (Кол. = " + Integer.toString(n) + ", Цена = " + Integer.toString(Arrays.stream(price_of_product).sum() ) + ") :");
+        result.setText("Продукты (Кол. = " + Integer.toString(n) + ", Цена = " + Integer.toString(sum() / 100) + "." + Integer.toString(sum() % 100) + ") :");
         for (int i = 0; i < n; i++)
             addButtonAndTextView(s[i].toString(), i+1);
     }
 
+    public int sum() {
+        int s = 0;
+        for (int i = 0; i < n; i++)
+            s = s + price_of_product[i];
+        return s;
+    }
     // Метод для удаления продукта из файла
     public void deleteListOfProducts(String product) {
         try {
@@ -359,11 +363,34 @@ public class ListOfProducts extends AppCompatActivity {
                 deleteListOfProducts(product);
                 deleteListOfProducts(false);
                 readInfoFromFile();
-                button_znak = (button_znak + 3) % 4;
                 pr1();
                 Toast.makeText(ListOfProducts.this, "Продукт был удален из списка", Toast.LENGTH_LONG).show();
             }
         });
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        deleteListOfProducts(false);
+        switch (parent.getItemAtPosition(position).toString()) {
+            case "По очереди продуктов":
+                getInfoAboutProductsWithZnak("List");
+                break;
+            case "По цене продуктов ↓":
+                getInfoAboutProductsWithZnak("SortUp");
+                break;
+            case "По цене продуктов ↑":
+                getInfoAboutProductsWithZnak("SortDown");
+                break;
+            case "По супермаркетам":
+                getInfoAboutProductsWithZnak("Supermarkets");
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 }

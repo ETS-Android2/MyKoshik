@@ -25,9 +25,9 @@
         android:src="@drawable/bread"
         app:layout_constraintBottom_toTopOf="@+id/loading"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/typeOfProduct" />
+        app:layout_constraintTop_toBottomOf="@+id/typeOfProduct"
+        app:layout_constraintVertical_bias="0.512" />
 
     <TextView
         android:id="@+id/loading"
@@ -39,5 +39,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/loading"
+        app:layout_constraintEnd_toStartOf="@+id/splash_screen"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/splash_screen" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
