@@ -121,7 +121,7 @@ public class SplashScreenActivity extends Activity {
         html4 = "span.search-number-of-items";
 
         try {
-            Document doc1 = Jsoup.connect("https://old.novus.zakaz.ua/ru/" + a + "/?&sort=up").get();
+            Document doc1 = Jsoup.connect("https://old.novus.zakaz.ua/uk/" + a + "/?&sort=up").get();
             Elements formElements4 = doc1.select(html4);
 
             // количество продуктов
@@ -136,10 +136,10 @@ public class SplashScreenActivity extends Activity {
 
             // формулирование url с продуктами
             String url[] = new String [m];
-            url[0] = "https://old.novus.zakaz.ua/ru/" + a + "/?&sort=up";
+            url[0] = "https://old.novus.zakaz.ua/uk/" + a + "/?&sort=up";
             for (int i = 1; i < m; i++)
             {
-                url[i] = "https://old.novus.zakaz.ua/ru/" + a + "/?&sort=up&page=" + (i+1);
+                url[i] = "https://old.novus.zakaz.ua/uk/" + a + "/?&sort=up&page=" + (i+1);
             }
 
             Document doc[] = new Document[m];

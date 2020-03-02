@@ -1,14 +1,14 @@
 <resources>
-    <string name="app_name">МояКорзина</string>
-    <string name="action_welcome">Добро пожаловать!</string>
+    <string name="app_name">МійКошик</string>
+    <string name="action_welcome">Ласкаво просимо!</string>
     <string name="action_milk">Молоко</string>
-    <string name="action_eggs">Яйца</string>
-    <string name="action_bread">Хлеб</string>
+    <string name="action_eggs">Яйця</string>
+    <string name="action_bread">Хліб</string>
 
     <string-array name="types_of_sort">
-        <item>По очереди продуктов</item>
-        <item>По цене продуктов ↓</item>
-        <item>По цене продуктов ↑</item>
-        <item>По супермаркетам</item>
+        <item>За чергою продуктів</item>
+        <item>За цінами продуктів ↓</item>
+        <item>За цінами продуктів ↑</item>
+        <item>За супермаркетам</item>
     </string-array>
 </resources>
