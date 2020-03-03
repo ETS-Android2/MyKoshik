@@ -20,7 +20,7 @@ public class SplashScreenActivity extends Activity {
     private int[] products_megamarket_price = new int[1000];
     private int[] products_fozzy_price = new int[1000];
 
-    private int count_novus, count_megamarket, count_fozzy, count_novus_megamarket, count_megamarket_fozzy, count_novus_fozzy, count_novus_megamarket_fozzy;
+    private int count_novus, count_megamarket, count_fozzy;
 
     private String[] products_novus = new String[1000];
     private String[] products_megamarket = new String[1000];
@@ -100,7 +100,6 @@ public class SplashScreenActivity extends Activity {
                 break;
             case "Bread" :
                 a = "bread";
-                Log.d("###","Hleb");
                 break;
             case "Eggs" :
                 a = "eggs";
@@ -287,10 +286,10 @@ public class SplashScreenActivity extends Activity {
                     count_fozzy++;
                 }
             }
-            z = "Продукты :";
+            z = getString(R.string.products);
         }
         catch (IOException e) {
-            z = "Проверьте соединение с интернетом";
+            z = getString(R.string.problem_with_internet_connection);
         }
 
     }

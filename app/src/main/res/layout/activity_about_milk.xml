@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:onClick="onClickButtonShop"
-        android:text="Далее"
+        android:text="@string/continue_work"
         app:layout_constraintTop_toBottomOf="@+id/button_of_fozzy"
         tools:layout_editor_absoluteX="302dp" />
 

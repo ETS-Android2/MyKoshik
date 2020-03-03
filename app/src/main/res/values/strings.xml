@@ -9,6 +9,19 @@
         <item>За чергою продуктів</item>
         <item>За цінами продуктів ↓</item>
         <item>За цінами продуктів ↑</item>
-        <item>За супермаркетам</item>
+        <item>За супермаркетами</item>
     </string-array>
+
+    <string name="products">Продукти :</string>
+    <string name="problem_with_internet_connection">Перевірте з`єднання з інтернетом</string>
+    <string name="buy_product_with_number">Купити продукт №</string>
+    <string name="not_avaible_product">На жаль данний продукт не доступний</string>
+    <string name="list_of_products">Список продуктів</string>
+    <string name="downloading">Завантаження продуктів. Зачекайте трошки</string>
+    <string name="clear">Очистити</string>
+    <string name="empty_list">Список продуктов пуст</string>
+    <string name="cleared_list">Список продуктов был очищен</string>
+    <string name="delete_product">Видалити продукт</string>
+    <string name="deleted_product">Продукт був видаленим зі списка</string>
+    <string name="continue_work">Далі</string>
 </resources>

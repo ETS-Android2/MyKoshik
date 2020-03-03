@@ -78,14 +78,15 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
 
         button_of_clear.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Log.d("###","Yo");
                 // Обнуление списка продуктов
                 try {
 
                     fileOutput = openFileOutput("example.txt", MODE_PRIVATE);
                     fileOutput.write("".getBytes());
                     fileOutput.close();
-                    Toast.makeText(ListOfProducts.this, "Список продуктов был очищен", Toast.LENGTH_LONG).show();
-                    result.setText("Список продуктов пуст");
+                    Toast.makeText(ListOfProducts.this, getString(R.string.cleared_list), Toast.LENGTH_LONG).show();
+                    result.setText(getString(R.string.empty_list));
                 } catch (FileNotFoundException e) {
                 } catch (IOException e) {
                 }
@@ -143,7 +144,7 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
 
             if (n == 0) {
                 // Если продуктоету
-                result.setText("Список продуктов пуст");
+                result.setText(getString(R.string.empty_list));
             }
         }
         catch (FileNotFoundException e) {
@@ -278,9 +279,11 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
 
     // Метод для создания Button и TextView для каждого продукта
     public void writeProductsToList(StringBuffer s[]) {
-        result.setText("Продукты (Кол. = " + Integer.toString(n) + ", Цена = " + Integer.toString(sum() / 100) + "." + Integer.toString(sum() % 100) + ") :");
+        result.setText("Продукти (Кіл. = " + Integer.toString(n) + ", Ціна = " + Integer.toString(sum() / 100) + "." + Integer.toString(sum() % 100) + ") :");
+        Log.d("###","Flex");
         for (int i = 0; i < n; i++)
             addButtonAndTextView(s[i].toString(), i+1);
+
     }
 
     public int sum() {
@@ -311,10 +314,10 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
                     f = true;
             }
 
-            result.setText("Продукты (Кол. = " + Integer.toString(n) + ") :");
+            result.setText("Продукти (Кіл. = " + Integer.toString(n) + ", Ціна = " + Integer.toString(sum() / 100) + "." + Integer.toString(sum() % 100) + ") :");
 
             if (n == 0)
-                result.setText("Список продуктов пуст");
+                result.setText(getString(R.string.empty_list));
             Log.d("######",strBuffer.toString());
             // Запись нового файла без удаленного продукта
             fileOutput = openFileOutput("example.txt", MODE_PRIVATE);
@@ -329,6 +332,7 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
 
     // Метод для удаления всех Buttons и TextViews при обнулении списка
     public void deleteListOfProducts(boolean f) {
+        Log.d("#####","OkiDoki");
         for (int i = x; i < y; i++)
         {
             View b = findViewById(i);
@@ -337,7 +341,7 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
 
         if (f == true) {
             n = 0;
-            result.setText("Список продуктов пуст");
+            result.setText(getString(R.string.empty_list));
         }
 
         // Делаем типо "обнуление" количества Butons и TextViews
@@ -353,7 +357,7 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
         linearLayout.addView(t);
 
         final Button b = new Button(getApplicationContext());
-        b.setText("Удалить продукт" + " №" + Integer.toString(number));
+        b.setText(getString(R.string.delete_product) + " №" + Integer.toString(number));
         b.setId(y);
         y++;
         linearLayout.addView(b);
@@ -366,7 +370,7 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
                 deleteListOfProducts(false);
                 readInfoFromFile();
                 pr1();
-                Toast.makeText(ListOfProducts.this, "Продукт был удален из списка", Toast.LENGTH_LONG).show();
+                Toast.makeText(ListOfProducts.this, getString(R.string.deleted_product), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -374,18 +378,19 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Log.d("####","uh");
         deleteListOfProducts(false);
         switch (parent.getItemAtPosition(position).toString()) {
-            case "По очереди продуктов":
+            case "За чергою продуктів":
                 getInfoAboutProductsWithZnak("List");
                 break;
-            case "По цене продуктов ↓":
+            case "За цінами продуктів ↓":
                 getInfoAboutProductsWithZnak("SortUp");
                 break;
-            case "По цене продуктов ↑":
+            case "За цінами продуктів ↑":
                 getInfoAboutProductsWithZnak("SortDown");
                 break;
-            case "По супермаркетам":
+            case "За супермаркетами":
                 getInfoAboutProductsWithZnak("Supermarkets");
                 break;
         }

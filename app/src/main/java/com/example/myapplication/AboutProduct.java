@@ -110,16 +110,16 @@ public class AboutProduct extends AppCompatActivity {
         type = arguments.getString("TypeOfProduct");
         switch (type) {
             case "Milk" :
-                typeOfProduct.setText("Молоко");
+                typeOfProduct.setText(getString(R.string.action_milk));
                 break;
             case "Bread" :
-                typeOfProduct.setText("Хлеб");
+                typeOfProduct.setText(getString(R.string.action_bread));
                 break;
             case "Eggs" :
-                typeOfProduct.setText("Яйца");
+                typeOfProduct.setText(getString(R.string.action_eggs));
                 break;
         }
-        if (z != "Проверьте соединение с интернетом") {
+        if (!z.equals(getString(R.string.problem_with_internet_connection))) {
             products_novus = arguments.getStringArray("Name1");
             products_megamarket = arguments.getStringArray("Name2");
             products_fozzy = arguments.getStringArray("Name3");
@@ -208,7 +208,7 @@ public class AboutProduct extends AppCompatActivity {
             if ((f2 == true) && (f1 == false) && (f3 == false))
             {
                 if (type.equals("Bread"))
-                    result.setText("К сожалению данный продукт недоступен");
+                    result.setText(getString(R.string.not_avaible_product));
                 else
                     viv(products_megamarket, count_megamarket);
             }
@@ -352,7 +352,7 @@ public class AboutProduct extends AppCompatActivity {
         linearLayout.addView(t);
 
         Button b = new Button(getApplicationContext());
-        b.setText("Купить продукт №" + Integer.toString(number));
+        b.setText(getString(R.string.buy_product_with_number) + Integer.toString(number));
         b.setId(y);
         y++;
         linearLayout.addView(b);
@@ -371,6 +371,7 @@ public class AboutProduct extends AppCompatActivity {
         });
 
     }
+
     public void write(String shop) {
 
         try {
