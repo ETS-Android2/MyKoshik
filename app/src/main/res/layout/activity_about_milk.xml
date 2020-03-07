@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#93B4EC"
     tools:context=".AboutProduct">
 
     <TextView
@@ -99,13 +100,13 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="18dp"
         android:textStyle=""
         app:layout_constraintBottom_toBottomOf="@+id/imageButton2"
         app:layout_constraintEnd_toEndOf="@+id/imageButton2"
-        app:layout_constraintHorizontal_bias="0.481"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="@+id/imageButton2"
         app:layout_constraintTop_toTopOf="@+id/imageButton2"
-        app:layout_constraintVertical_bias="0.87" />
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

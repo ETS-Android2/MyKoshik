@@ -2,11 +2,7 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,20 +19,18 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.IntStream;
 
 public class ListOfProducts extends AppCompatActivity implements AdapterView.OnItemSelectedListener  {
+
     // TextView ("Продукты" / "Список продуктов пуст")
-    private TextView result;
+    private TextView tnumber_of_products, tsum_of_product_prices;
 
     private LinearLayout linearLayout;
 
     // Файл для чтения продуктов
     private FileOutputStream fileOutput;
 
-    private Button button_of_clear;
+    private ImageButton button_of_clear;
 
     // Границы ID Buttons и TextViews продуктов
     private int x,y;
@@ -45,7 +39,7 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
     private int n, button_znak;
 
     // Массив продуктов
-    private StringBuffer[] product;
+    private StringBuffer[] name_of_product;
 
     int price_of_product[];
 
@@ -59,16 +53,16 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
 
         n = 0;
 
-        product = new StringBuffer[1000];
+        name_of_product = new StringBuffer[1000];
 
         price_of_product = new int[1000];
 
-        result = findViewById(R.id.result2);
+        tnumber_of_products = findViewById(R.id.tnumber_of_products);
+        tsum_of_product_prices = findViewById(R.id.tsum_of_product_prices);
 
         linearLayout = findViewById(R.id.linearlayout2);
 
         button_of_clear = findViewById(R.id.button_of_clear);
-        button_of_clear.setBackgroundColor(getColor(R.color.colorRed));
 
         Spinner spinner = findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.types_of_sort, android.R.layout.simple_spinner_item);
@@ -78,7 +72,6 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
 
         button_of_clear.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("###","Yo");
                 // Обнуление списка продуктов
                 try {
 
@@ -86,7 +79,8 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
                     fileOutput.write("".getBytes());
                     fileOutput.close();
                     Toast.makeText(ListOfProducts.this, getString(R.string.cleared_list), Toast.LENGTH_LONG).show();
-                    result.setText(getString(R.string.empty_list));
+                    tnumber_of_products.setText(getString(R.string.empty_list));
+                    tsum_of_product_prices.setText("");
                 } catch (FileNotFoundException e) {
                 } catch (IOException e) {
                 }
@@ -102,21 +96,46 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
 
     }
 
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        deleteListOfProducts(false);
+        switch (parent.getItemAtPosition(position).toString()) {
+            case "За чергою продуктів":
+                getInfoAboutProductsWithZnak("List");
+                break;
+            case "За цінами продуктів ↓":
+                getInfoAboutProductsWithZnak("SortUp");
+                break;
+            case "За цінами продуктів ↑":
+                getInfoAboutProductsWithZnak("SortDown");
+                break;
+            case "За супермаркетами":
+                getInfoAboutProductsWithZnak("Supermarkets");
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
     // Вспомогательтный метод, который вызывается при нажатии кнопки очистки и удалении одного продукта
     public void pr1() {
         deleteListOfProducts(false);
         switch (button_znak) {
             case 0:
-                getInfoAboutProductsWithZnak("List");
+                writeProductsToList(name_of_product);
                 break;
             case 1:
-                getInfoAboutProductsWithZnak("SortUp");
+                sort("SortUp");
                 break;
             case 2:
-                getInfoAboutProductsWithZnak("SortDown");
+                sort("SortDown");
                 break;
             case 3:
-                getInfoAboutProductsWithZnak("Supermarkets");
+                sort("Supermarkets");
                 break;
         }
         button_znak = (button_znak + 1) % 4;
@@ -125,26 +144,23 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
     // Метод для чтения продуктов
     public void readInfoFromFile() {
         try {
-            Log.d("###2","YES");
             FileInputStream fileInput = openFileInput("example.txt");
             InputStreamReader reader = new InputStreamReader(fileInput);
             BufferedReader buffer = new BufferedReader(reader);
             StringBuffer strBuffer = new StringBuffer();
             String lines;
-            Log.d("###2","YES");
             n = 0;
 
             while ((lines = buffer.readLine()) != null) {
-                Log.d("###2","Line = "+lines);
-                product[n] = new StringBuffer(lines);
-                price_of_product[n] = formPriceOfProduct(product[n].toString());
-                Log.d("###2",product[n].toString());
+                name_of_product[n] = new StringBuffer(lines);
+                price_of_product[n] = formPriceOfProduct(name_of_product[n].toString());
                 n++;
             }
 
             if (n == 0) {
                 // Если продуктоету
-                result.setText(getString(R.string.empty_list));
+                tnumber_of_products.setText(getString(R.string.empty_list));
+                tsum_of_product_prices.setText("");
             }
         }
         catch (FileNotFoundException e) {
@@ -170,7 +186,7 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
     public void getInfoAboutProductsWithZnak(String znak) {
         switch (znak) {
             case "List" :
-                writeProductsToList(product);
+                writeProductsToList(name_of_product);
                 break;
             case "SortUp" :
                 sort("SortUp");
@@ -191,7 +207,7 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
 
         for (int i = 0; i < n; i++)
         {
-            product_s[i] = new StringBuffer(product[i]);
+            product_s[i] = new StringBuffer(name_of_product[i]);
             price_of_product_s[i] = price_of_product[i];
         }
 
@@ -279,8 +295,17 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
 
     // Метод для создания Button и TextView для каждого продукта
     public void writeProductsToList(StringBuffer s[]) {
-        result.setText("Продукти (Кіл. = " + Integer.toString(n) + ", Ціна = " + Integer.toString(sum() / 100) + "." + Integer.toString(sum() % 100) + ") :");
-        Log.d("###","Flex");
+        if (n == 0)
+        {
+            tnumber_of_products.setText(getString(R.string.empty_list));
+            tsum_of_product_prices.setText("");
+        }
+        else
+        {
+            tnumber_of_products.setText("Кількість продуктів у кошику = " + Integer.toString(n));
+            tsum_of_product_prices.setText("Ціна кошика = " + Integer.toString(sum() / 100) + "." + Integer.toString(sum() % 100) + " грн.");
+        }
+
         for (int i = 0; i < n; i++)
             addButtonAndTextView(s[i].toString(), i+1);
 
@@ -305,20 +330,21 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
             boolean f = false;
             while ((lines = buffer.readLine()) != null) {
                 // Проверка на равенство продукта который надо удалить и продукта из файла
-                Log.d("###dg",Boolean.toString(lines.equals(product)));
                 if ((lines.equals(product) == false) || ((f == true) && (lines.equals(product) == true))) {
-                    Log.d("gggg",lines);
                     strBuffer.append(lines + '\n');
                 }
                 else
                     f = true;
             }
 
-            result.setText("Продукти (Кіл. = " + Integer.toString(n) + ", Ціна = " + Integer.toString(sum() / 100) + "." + Integer.toString(sum() % 100) + ") :");
+            tnumber_of_products.setText("Кількість продуктів у кошику = " + Integer.toString(n));
+            tsum_of_product_prices.setText("Ціна кошика = " + Integer.toString(sum() / 100) + "." + Integer.toString(sum() % 100) + " грн.");
 
             if (n == 0)
-                result.setText(getString(R.string.empty_list));
-            Log.d("######",strBuffer.toString());
+            {
+                tnumber_of_products.setText(getString(R.string.empty_list));
+                tsum_of_product_prices.setText("");
+            }
             // Запись нового файла без удаленного продукта
             fileOutput = openFileOutput("example.txt", MODE_PRIVATE);
             fileOutput.write(strBuffer.toString().getBytes());
@@ -332,7 +358,6 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
 
     // Метод для удаления всех Buttons и TextViews при обнулении списка
     public void deleteListOfProducts(boolean f) {
-        Log.d("#####","OkiDoki");
         for (int i = x; i < y; i++)
         {
             View b = findViewById(i);
@@ -341,7 +366,8 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
 
         if (f == true) {
             n = 0;
-            result.setText(getString(R.string.empty_list));
+            tnumber_of_products.setText(getString(R.string.empty_list));
+            tsum_of_product_prices.setText("");
         }
 
         // Делаем типо "обнуление" количества Butons и TextViews
@@ -373,31 +399,6 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
                 Toast.makeText(ListOfProducts.this, getString(R.string.deleted_product), Toast.LENGTH_LONG).show();
             }
         });
-
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Log.d("####","uh");
-        deleteListOfProducts(false);
-        switch (parent.getItemAtPosition(position).toString()) {
-            case "За чергою продуктів":
-                getInfoAboutProductsWithZnak("List");
-                break;
-            case "За цінами продуктів ↓":
-                getInfoAboutProductsWithZnak("SortUp");
-                break;
-            case "За цінами продуктів ↑":
-                getInfoAboutProductsWithZnak("SortDown");
-                break;
-            case "За супермаркетами":
-                getInfoAboutProductsWithZnak("Supermarkets");
-                break;
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 }
