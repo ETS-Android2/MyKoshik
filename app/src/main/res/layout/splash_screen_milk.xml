@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="#93B4EC">
+    android:background="#93B4EC"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/typeOfProduct"
@@ -20,13 +20,12 @@
 
     <ImageView
         android:id="@+id/splash_screen"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_width="144dp"
+        android:layout_height="352dp"
         android:src="@drawable/milk"
         app:layout_constraintBottom_toTopOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/typeOfProduct" />
 

@@ -75,7 +75,7 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
                 // Обнуление списка продуктов
                 try {
 
-                    fileOutput = openFileOutput("example.txt", MODE_PRIVATE);
+                    fileOutput = openFileOutput("list_of_products.txt", MODE_PRIVATE);
                     fileOutput.write("".getBytes());
                     fileOutput.close();
                     Toast.makeText(ListOfProducts.this, getString(R.string.cleared_list), Toast.LENGTH_LONG).show();
@@ -144,7 +144,7 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
     // Метод для чтения продуктов
     public void readInfoFromFile() {
         try {
-            FileInputStream fileInput = openFileInput("example.txt");
+            FileInputStream fileInput = openFileInput("list_of_products.txt");
             InputStreamReader reader = new InputStreamReader(fileInput);
             BufferedReader buffer = new BufferedReader(reader);
             StringBuffer strBuffer = new StringBuffer();
@@ -302,7 +302,7 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
         }
         else
         {
-            tnumber_of_products.setText("Кількість продуктів у кошику = " + Integer.toString(n));
+            tnumber_of_products.setText("Кількість продуктів = " + Integer.toString(n));
             tsum_of_product_prices.setText("Ціна кошика = " + Integer.toString(sum() / 100) + "." + Integer.toString(sum() % 100) + " грн.");
         }
 
@@ -322,7 +322,7 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
         try {
             StringBuffer strBuffer = new StringBuffer();
 
-            FileInputStream fileInput = openFileInput("example.txt");
+            FileInputStream fileInput = openFileInput("list_of_products.txt");
             InputStreamReader reader = new InputStreamReader(fileInput);
             BufferedReader buffer = new BufferedReader(reader);
             String lines;
@@ -346,7 +346,7 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
                 tsum_of_product_prices.setText("");
             }
             // Запись нового файла без удаленного продукта
-            fileOutput = openFileOutput("example.txt", MODE_PRIVATE);
+            fileOutput = openFileOutput("list_of_products.txt", MODE_PRIVATE);
             fileOutput.write(strBuffer.toString().getBytes());
             fileOutput.close();
         }
@@ -378,6 +378,7 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
     public void addButtonAndTextView(final String product, int number) {
         TextView t = new TextView(getApplicationContext());
         t.setText('\n' + Integer.toString(number) + ") " + product + '\n');
+        t.setTextSize(20);
         t.setId(y);
         y++;
         linearLayout.addView(t);

@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">МійКошик</string>
     <string name="action_welcome">Ласкаво просимо!</string>
+
+    <string name="products">Продукти :</string>
     <string name="action_milk">Молоко</string>
     <string name="action_eggs">Яйця</string>
     <string name="action_bread">Хліб</string>
@@ -12,16 +14,19 @@
         <item>За супермаркетами</item>
     </string-array>
 
-    <string name="products">Продукти :</string>
-    <string name="problem_with_internet_connection">Перевірте з`єднання з інтернетом</string>
+
     <string name="buy_product_with_number">Купити продукт №</string>
+    <string name="delete_product">Видалити продукт</string>
+
+    <string name="problem_with_internet_connection">Перевірте з`єднання з інтернетом</string>
     <string name="not_avaible_product">На жаль данний продукт не доступний</string>
+
     <string name="list_of_products">Список продуктів</string>
     <string name="downloading">Завантаження продуктів. Зачекайте трошки</string>
+    <string name="continue_work">Далі</string>
+
     <string name="clear">Очистити</string>
     <string name="empty_list">Список продуктів пустий</string>
     <string name="cleared_list">Список продуктів був видален</string>
-    <string name="delete_product">Видалити продукт</string>
     <string name="deleted_product">Продукт був видаленим зі списка</string>
-    <string name="continue_work">Далі</string>
 </resources>

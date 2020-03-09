@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -14,18 +12,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class AboutProduct extends AppCompatActivity {
 
@@ -61,7 +53,7 @@ public class AboutProduct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_about_milk);
+        setContentView(R.layout.activity_about_product);
 
         typeOfProduct = findViewById(R.id.textview_name_of_product);
 
@@ -121,7 +113,8 @@ public class AboutProduct extends AppCompatActivity {
         }
         if (!z.equals(getString(R.string.problem_with_internet_connection))) {
             products_novus = arguments.getStringArray("Name1");
-            products_megamarket = arguments.getStringArray("Name2");
+            if (!type.equals("Bread"))
+                products_megamarket = arguments.getStringArray("Name2");
             products_fozzy = arguments.getStringArray("Name3");
 
             products_novus_price = arguments.getIntArray("Price1");
@@ -145,7 +138,7 @@ public class AboutProduct extends AppCompatActivity {
         int c = 0;
 
         try {
-            FileInputStream fileInput = openFileInput("example.txt");
+            FileInputStream fileInput = openFileInput("list_of_products.txt");
             InputStreamReader reader = new InputStreamReader(fileInput);
             BufferedReader buffer = new BufferedReader(reader);
             String lines;
@@ -314,13 +307,11 @@ public class AboutProduct extends AppCompatActivity {
                 break;
             case "Novus_MegaMarket_Fozzy1" :
                 getInfoAboutTwoShops(s3, products_fozzy, l, count_fozzy, price, products_fozzy_price, "Novus_MegaMarket_Fozzy2");
-                Log.d("#####",Integer.toString(count_novus_megamarket_fozzy));
                 break;
             case "Novus_MegaMarket_Fozzy2" :
                 for (int k = 0; k<l; k++)
                     products_novus_megamarket_fozzy[k] = s3[k];
                 count_novus_megamarket_fozzy = l;
-                Log.d("#####",Integer.toString(count_novus_megamarket_fozzy));
                 break;
         }
     }
@@ -347,6 +338,7 @@ public class AboutProduct extends AppCompatActivity {
     public void addButtonAndTextView(final String product, int number) {
         TextView t = new TextView(getApplicationContext());
         t.setText('\n' + Integer.toString(number) + ") " + product + '\n');
+        t.setTextSize(20);
         t.setId(y);
         y++;
         linearLayout.addView(t);
@@ -379,7 +371,7 @@ public class AboutProduct extends AppCompatActivity {
             StringBuffer strBuffer = new StringBuffer();
             String stroka;
             try {
-                FileInputStream fileInput = openFileInput("example.txt");
+                FileInputStream fileInput = openFileInput("list_of_products.txt");
                 InputStreamReader reader = new InputStreamReader(fileInput);
                 BufferedReader buffer = new BufferedReader(reader);
                 String lines;
@@ -395,7 +387,7 @@ public class AboutProduct extends AppCompatActivity {
                 stroka = shop + '\n';
             }
             // класс, который помогает помещать данные в файл
-            FileOutputStream fileOutput = openFileOutput("example.txt", MODE_PRIVATE);
+            FileOutputStream fileOutput = openFileOutput("list_of_products.txt", MODE_PRIVATE);
             fileOutput.write(stroka.getBytes());
             fileOutput.close();
 

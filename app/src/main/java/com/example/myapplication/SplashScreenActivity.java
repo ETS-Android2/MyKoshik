@@ -65,10 +65,12 @@ public class SplashScreenActivity extends Activity {
 
     // метод для парсинга 3 супермаркетов и отправки названий с ценами продуктов в AboutProduct
     public void formProducts() {
+        Log.d("###", "formProducts()");
         // по истечении времени, запускаем активити, а SplashScreenActivity закрываем
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                Log.d("###", "run()");
                 getInfoAboutNovus();
                 getInfoAboutMegaMarket();
                 getInfoAboutFozzy();
