@@ -378,7 +378,7 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
     public void addButtonAndTextView(final String product, int number) {
         TextView t = new TextView(getApplicationContext());
         t.setText('\n' + Integer.toString(number) + ") " + product + '\n');
-        t.setTextSize(20);
+        t.setTextSize(18);
         t.setId(y);
         y++;
         linearLayout.addView(t);

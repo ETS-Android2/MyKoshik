@@ -191,7 +191,7 @@ public class AboutProduct extends AppCompatActivity {
         if (view.getId() == button_of_continue.getId())
         {
             deleteListOfProducts();
-            result.setText(z);
+            result.setText("");
 
             if ((f1 == true) && (f2 == false) && (f3 == false))
             {
@@ -338,7 +338,7 @@ public class AboutProduct extends AppCompatActivity {
     public void addButtonAndTextView(final String product, int number) {
         TextView t = new TextView(getApplicationContext());
         t.setText('\n' + Integer.toString(number) + ") " + product + '\n');
-        t.setTextSize(20);
+        t.setTextSize(18);
         t.setId(y);
         y++;
         linearLayout.addView(t);

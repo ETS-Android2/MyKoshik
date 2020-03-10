@@ -6,13 +6,15 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class SplashScreenActivity extends Activity {
 
@@ -52,7 +54,9 @@ public class SplashScreenActivity extends Activity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
-
+        count_novus = 0;
+        count_megamarket = 0;
+        count_fozzy = 0;
         formProducts();
     }
 
@@ -71,9 +75,19 @@ public class SplashScreenActivity extends Activity {
             @Override
             public void run() {
                 Log.d("###", "run()");
-                getInfoAboutNovus();
+
+                /*getInfoAboutNovus();
                 getInfoAboutMegaMarket();
-                getInfoAboutFozzy();
+                getInfoAboutFozzy();*/
+                //readFromFile();
+                //readFromFile("file_MegaMarket_" + typeOfProduct + ".txt");
+                //readFromFile("file_Fozzy_" + typeOfProduct + ".txt");
+                readFromFile("filenovus" + typeOfProduct.toLowerCase() + ".txt");
+                readFromFile("filemegamarket" + typeOfProduct.toLowerCase() + ".txt");
+                readFromFile("filefozzy" + typeOfProduct.toLowerCase() + ".txt");
+
+                //readFromFile("file_megamarket_" + typeOfProduct.toLowerCase() + ".txt");
+                //readFromFile("file_fozzy_" + typeOfProduct.toLowerCase() + ".txt");
 
                 Intent mainIntent = new Intent(SplashScreenActivity.this, AboutProduct.class);
                 mainIntent.putExtra("Name1", products_novus);
@@ -95,6 +109,8 @@ public class SplashScreenActivity extends Activity {
 
     // метод для парсинга Novus
     public void getInfoAboutNovus () {
+
+        StringBuffer str = new StringBuffer();
         String a;
         switch (typeOfProduct) {
             case "Milk" :
@@ -224,6 +240,7 @@ public class SplashScreenActivity extends Activity {
                         products_megamarket[count_megamarket] = formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (MegaMarket)";
                         String stroka = formElements2[i].get(j).text();
                         products_megamarket_price[count_megamarket] = Integer.parseInt(stroka.substring(0, stroka.lastIndexOf(",")) + stroka.substring(stroka.lastIndexOf(",") + 1, stroka.length() - 4));
+                        Log.i(typeOfProduct+"MegaMarket",products_megamarket[count_megamarket]);
                         count_megamarket++;
                     }
                 }
@@ -285,6 +302,7 @@ public class SplashScreenActivity extends Activity {
                     products_fozzy[count_fozzy] = formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (Fozzy)";
                     String stroka1 = formElements2[i].get(j).text();
                     products_fozzy_price[count_fozzy] = Integer.parseInt(stroka1.substring(0,stroka1.lastIndexOf(",")) + stroka1.substring(stroka1.lastIndexOf(",") + 1,stroka1.length() - 4));
+                    Log.i(typeOfProduct+"Fozzy",products_fozzy[count_fozzy]);
                     count_fozzy++;
                 }
             }
@@ -293,7 +311,61 @@ public class SplashScreenActivity extends Activity {
         catch (IOException e) {
             z = getString(R.string.problem_with_internet_connection);
         }
+    }
 
+    public void readFromFile(String fileName) {
+        Log.d("#####", fileName);
+        /*BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(
+                    new InputStreamReader(getAssets().open("")));
+            String mLine;
+
+            while ((mLine = reader.readLine()) != null) {
+                /*String stroka1 = mLine.substring(mLine.lastIndexOf(" - ") - 1 + 4, mLine.lastIndexOf(" грн"));
+                String price1 = stroka1.substring(0, stroka1.lastIndexOf(",")) +  stroka1.substring(stroka1.lastIndexOf(",") + 1, stroka1.length() - 1);*/
+                //Log.d("####",mLine);
+                /*if (file_name.lastIndexOf("Fozzy") != -1)
+                {
+                    products_fozzy[count_fozzy] = mLine;
+                    products_fozzy_price[count_fozzy] = Integer.parseInt(price1);
+                    count_fozzy++;
+                }
+
+                if (file_name.lastIndexOf("Novus") != -1)
+                {
+                    products_novus[count_novus] = mLine;
+                    products_novus_price[count_novus] = Integer.parseInt(price1);
+                    count_novus++;
+                }
+
+                if (file_name.lastIndexOf("MegaMarket") != -1)
+                {
+                    products_megamarket[count_megamarket] = mLine;
+                    products_megamarket_price[count_megamarket] = Integer.parseInt(price1);
+                    count_megamarket++;
+                }
+            }
+        }
+        catch (IOException e) {
+        }
+            */
+        try{
+            BufferedReader reader = null;
+            reader = new BufferedReader(
+                    new InputStreamReader(getAssets().open(fileName)));
+
+            String mLine;
+            while ((mLine = reader.readLine()) != null) {
+                Log.d("####", mLine);
+                String stroka1 = mLine.substring(mLine.lastIndexOf(" - ") - 1 + 4, mLine.lastIndexOf(" грн"));
+                String price1 = stroka1.substring(0, stroka1.lastIndexOf(",")) +  stroka1.substring(stroka1.lastIndexOf(",") + 1, stroka1.length());
+
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
