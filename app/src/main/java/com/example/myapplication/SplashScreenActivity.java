@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.content.Intent;
 import android.os.Handler;
@@ -82,12 +84,22 @@ public class SplashScreenActivity extends Activity {
                 //readFromFile();
                 //readFromFile("file_MegaMarket_" + typeOfProduct + ".txt");
                 //readFromFile("file_Fozzy_" + typeOfProduct + ".txt");
-                readFromFile("filenovus" + typeOfProduct.toLowerCase() + ".txt");
-                readFromFile("filemegamarket" + typeOfProduct.toLowerCase() + ".txt");
-                readFromFile("filefozzy" + typeOfProduct.toLowerCase() + ".txt");
 
                 //readFromFile("file_megamarket_" + typeOfProduct.toLowerCase() + ".txt");
                 //readFromFile("file_fozzy_" + typeOfProduct.toLowerCase() + ".txt");
+
+                if (tryInternetConnection() == true)
+                {
+                    getInfoAboutNovus();
+                    getInfoAboutMegaMarket();
+                    getInfoAboutFozzy();
+                }
+                else
+                {
+                    readFromFile("filenovus" + typeOfProduct.toLowerCase() + ".txt");
+                    readFromFile("filemegamarket" + typeOfProduct.toLowerCase() + ".txt");
+                    readFromFile("filefozzy" + typeOfProduct.toLowerCase() + ".txt");
+                }
 
                 Intent mainIntent = new Intent(SplashScreenActivity.this, AboutProduct.class);
                 mainIntent.putExtra("Name1", products_novus);
@@ -361,11 +373,41 @@ public class SplashScreenActivity extends Activity {
                 String stroka1 = mLine.substring(mLine.lastIndexOf(" - ") - 1 + 4, mLine.lastIndexOf(" грн"));
                 String price1 = stroka1.substring(0, stroka1.lastIndexOf(",")) +  stroka1.substring(stroka1.lastIndexOf(",") + 1, stroka1.length());
 
+                if (fileName.lastIndexOf("fozzy") != -1)
+                {
+                    products_fozzy[count_fozzy] = mLine;
+                    products_fozzy_price[count_fozzy] = Integer.parseInt(price1);
+                    count_fozzy++;
+                }
+                if (fileName.lastIndexOf("novus") != -1)
+                {
+                    products_novus[count_novus] = mLine;
+                    products_novus_price[count_novus] = Integer.parseInt(price1);
+                    count_novus++;
+                }
+                if (fileName.lastIndexOf("megamarket") != -1)
+                {
+                    products_megamarket[count_megamarket] = mLine;
+                    products_megamarket_price[count_megamarket] = Integer.parseInt(price1);
+                    count_megamarket++;
+                }
 
+                z = getString(R.string.products);
             }
         } catch (IOException e) {
+            z = getString(R.string.problem_with_internet_connection);
             e.printStackTrace();
         }
+    }
+
+    public boolean tryInternetConnection() {
+        String cs = Context.CONNECTIVITY_SERVICE;
+        ConnectivityManager cm = (ConnectivityManager)
+                getSystemService(cs);
+        if (cm.getActiveNetworkInfo() == null)
+            return false;
+        else
+            return true;
     }
 
 }
