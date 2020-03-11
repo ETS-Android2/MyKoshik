@@ -20,17 +20,19 @@ import java.io.InputStreamReader;
 
 public class SplashScreenActivity extends Activity {
 
+    // Имена продуктов из разных магазинов
     private int[] products_novus_price = new int[1000];
     private int[] products_megamarket_price = new int[1000];
     private int[] products_fozzy_price = new int[1000];
 
+    // Количество продуктов из разных магазинов
     private int count_novus, count_megamarket, count_fozzy;
 
     private String[] products_novus = new String[1000];
     private String[] products_megamarket = new String[1000];
     private String[] products_fozzy = new String[1000];
 
-    // Время в милесекундах, в течение которого будет отображаться Splash Screen
+    // Минимальное время в милесекундах, в течение которого будет отображаться Splash Screen
     private final int SPLASH_DISPLAY_LENGTH = 500;
 
     String z, typeOfProduct;
@@ -78,16 +80,6 @@ public class SplashScreenActivity extends Activity {
             public void run() {
                 Log.d("###", "run()");
 
-                /*getInfoAboutNovus();
-                getInfoAboutMegaMarket();
-                getInfoAboutFozzy();*/
-                //readFromFile();
-                //readFromFile("file_MegaMarket_" + typeOfProduct + ".txt");
-                //readFromFile("file_Fozzy_" + typeOfProduct + ".txt");
-
-                //readFromFile("file_megamarket_" + typeOfProduct.toLowerCase() + ".txt");
-                //readFromFile("file_fozzy_" + typeOfProduct.toLowerCase() + ".txt");
-
                 if (tryInternetConnection() == true)
                 {
                     getInfoAboutNovus();
@@ -119,7 +111,7 @@ public class SplashScreenActivity extends Activity {
         }, SPLASH_DISPLAY_LENGTH);
     }
 
-    // метод для парсинга Novus
+    // Метод для парсинга супермаркета "Novus"
     public void getInfoAboutNovus () {
 
         StringBuffer str = new StringBuffer();
@@ -184,9 +176,11 @@ public class SplashScreenActivity extends Activity {
                 formElements2[i] = doc[i].select(html2);
                 formElements3[i] = doc[i].select(html3);
                 for (int j = 0; j < formElements1[i].size(); j++) {
+                    String p1 = formElements2[i].get(j).text();
+                    String p2 = formElements3[i].get(j).text();
                     // название и цена каждого продукта
-                    products_novus[count_novus] = formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + "," + formElements3[i].get(j).text() + " грн (Novus)";
-                    products_novus_price[count_novus] = Integer.parseInt(formElements2[i].get(j).text() + formElements3[i].get(j).text());
+                    products_novus[count_novus] = formElements1[i].get(j).text() + " - " + p1 + "," + p2 + " грн (Novus)";
+                    products_novus_price[count_novus] = Integer.parseInt(p1 + p2);
                     count_novus++;
                 }
             }
@@ -195,7 +189,7 @@ public class SplashScreenActivity extends Activity {
         }
     }
 
-    // метод для парсинга MegaMarket
+    // Метод для парсинга супермаркета "MegaMarket"
     public void getInfoAboutMegaMarket () {
         String a;
         switch (typeOfProduct) {
@@ -248,9 +242,9 @@ public class SplashScreenActivity extends Activity {
                         z = formElements2[i].size();
                     }
                     for (int j = 0; j < z; j++) {
-                        // название и цена каждого продукта
-                        products_megamarket[count_megamarket] = formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (MegaMarket)";
                         String stroka = formElements2[i].get(j).text();
+                        // название и цена каждого продукта
+                        products_megamarket[count_megamarket] = formElements1[i].get(j).text() + " - " + stroka + " (MegaMarket)";
                         products_megamarket_price[count_megamarket] = Integer.parseInt(stroka.substring(0, stroka.lastIndexOf(",")) + stroka.substring(stroka.lastIndexOf(",") + 1, stroka.length() - 4));
                         Log.i(typeOfProduct+"MegaMarket",products_megamarket[count_megamarket]);
                         count_megamarket++;
@@ -262,7 +256,7 @@ public class SplashScreenActivity extends Activity {
         }
     }
 
-    // метод для парсинга Fozzy
+    // Метод для парсинга супермаркета "Fozzy"
     public void getInfoAboutFozzy () {
         // html названия продукта и цены
         String html1 = "h3.h3.product-title > a";
@@ -311,8 +305,8 @@ public class SplashScreenActivity extends Activity {
 
                 // получение массива продуктов с помощью парсинга сайта
                 for (int j = 0; j < z; j++) {
-                    products_fozzy[count_fozzy] = formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (Fozzy)";
                     String stroka1 = formElements2[i].get(j).text();
+                    products_fozzy[count_fozzy] = formElements1[i].get(j).text() + " - " + stroka1 + " (Fozzy)";
                     products_fozzy_price[count_fozzy] = Integer.parseInt(stroka1.substring(0,stroka1.lastIndexOf(",")) + stroka1.substring(stroka1.lastIndexOf(",") + 1,stroka1.length() - 4));
                     Log.i(typeOfProduct+"Fozzy",products_fozzy[count_fozzy]);
                     count_fozzy++;
@@ -325,43 +319,8 @@ public class SplashScreenActivity extends Activity {
         }
     }
 
+    // Метод для чтения информации о продуктах из встроеного файла в программе
     public void readFromFile(String fileName) {
-        Log.d("#####", fileName);
-        /*BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(
-                    new InputStreamReader(getAssets().open("")));
-            String mLine;
-
-            while ((mLine = reader.readLine()) != null) {
-                /*String stroka1 = mLine.substring(mLine.lastIndexOf(" - ") - 1 + 4, mLine.lastIndexOf(" грн"));
-                String price1 = stroka1.substring(0, stroka1.lastIndexOf(",")) +  stroka1.substring(stroka1.lastIndexOf(",") + 1, stroka1.length() - 1);*/
-                //Log.d("####",mLine);
-                /*if (file_name.lastIndexOf("Fozzy") != -1)
-                {
-                    products_fozzy[count_fozzy] = mLine;
-                    products_fozzy_price[count_fozzy] = Integer.parseInt(price1);
-                    count_fozzy++;
-                }
-
-                if (file_name.lastIndexOf("Novus") != -1)
-                {
-                    products_novus[count_novus] = mLine;
-                    products_novus_price[count_novus] = Integer.parseInt(price1);
-                    count_novus++;
-                }
-
-                if (file_name.lastIndexOf("MegaMarket") != -1)
-                {
-                    products_megamarket[count_megamarket] = mLine;
-                    products_megamarket_price[count_megamarket] = Integer.parseInt(price1);
-                    count_megamarket++;
-                }
-            }
-        }
-        catch (IOException e) {
-        }
-            */
         try{
             BufferedReader reader = null;
             reader = new BufferedReader(
@@ -400,6 +359,7 @@ public class SplashScreenActivity extends Activity {
         }
     }
 
+    // Метод для проверки соединение с интернетом
     public boolean tryInternetConnection() {
         String cs = Context.CONNECTIVITY_SERVICE;
         ConnectivityManager cm = (ConnectivityManager)
