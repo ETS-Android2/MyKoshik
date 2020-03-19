@@ -42,7 +42,6 @@ public class ListOfProducts extends AppCompatActivity implements AdapterView.OnI
     private StringBuffer[] name_of_product;
 
     int price_of_product[];
-
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);

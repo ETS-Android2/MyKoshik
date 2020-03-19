@@ -20,15 +20,11 @@
 
     <ImageView
         android:id="@+id/splash_screen"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_width="250dp"
+        android:layout_height="400dp"
         android:src="@drawable/bread"
-        app:layout_constraintBottom_toTopOf="@+id/loading"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/typeOfProduct"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/typeOfProduct"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/typeOfProduct" />
 

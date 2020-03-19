@@ -2,6 +2,12 @@
     <string name="app_name">МійКошик</string>
     <string name="action_welcome">Ласкаво просимо!</string>
 
+    <string name="welcome_intro">ЛАСКАВО ПРОСИМО В \"МІЙ КОШИК\"!</string>
+    <string name="list_intro">ФОРМУЙ СПИСОК З НАЙВАЖЛИВІШИХ ПРОДУКТІВ!</string>
+    <string name="supermarket1_intro">3 МЕРЕЖІ СУПЕРМАРКЕТІВ НА ВИБІР!</string>
+    <string name="supermarket2_intro">NOVUS, MEGAMARKET ТА FOZZY</string>
+    <string name="spare_intro">ЗАОЩАДЖУЙ ПРАВИЛЬНО З \n НАШИМ ДОДАТКОМ</string>
+
     <string name="products">Продукти :</string>
     <string name="action_milk">Молоко</string>
     <string name="action_eggs">Яйця</string>

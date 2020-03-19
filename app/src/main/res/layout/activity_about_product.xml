@@ -92,7 +92,7 @@
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_margin="16dp"
-        android:background="@drawable/ic_shopping_basket_black_24dp"
+        android:background="@drawable/shopping_basket_sign"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

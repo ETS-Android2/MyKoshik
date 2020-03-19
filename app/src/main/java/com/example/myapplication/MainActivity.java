@@ -7,15 +7,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private Button button_of_purchase;
+
+
+    private ImageButton question;
+
+    private SharedPreferences prefs = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +36,25 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ListOfProducts.class);
                 startActivity(intent);
+            }
+        });
+
+        prefs = getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
+
+        if (prefs.getBoolean("firstrun", true))
+        {
+            Intent intent = new Intent(MainActivity.this, AppIntroActivity.class);
+            startActivity(intent);
+            prefs.edit().putBoolean("firstrun", false).commit();
+        }
+
+        Log.d("#####",prefs.toString());
+
+        question = findViewById(R.id.imageButton);
+
+        question.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
             }
         });
     }

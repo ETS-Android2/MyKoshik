@@ -60,7 +60,7 @@
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_margin="16dp"
-        android:background="@drawable/ic_delete_black_24dp"
+        android:background="@drawable/rubbish_bin_sign"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
