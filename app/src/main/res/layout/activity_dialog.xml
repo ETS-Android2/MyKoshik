@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/picture_of_background"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    android:layout_gravity="center"
+    android:layout_margin="10dp"
+    android:background="@drawable/fon"
+    android:orientation="vertical"
+    android:scaleType="centerCrop">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/button_close"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="end"
+            android:background="@drawable/ic_radio_button_unchecked_black_24dp"
+            android:gravity="center"
+            android:text="X"
+            android:textColor="#FF000000"
+            android:textStyle="bold" />
+        />
+
+        <ImageView
+            android:id="@+id/picture_of_site"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="50"
+            android:src="@drawable/p2" />
+
+        <TextView
+            android:id="@+id/textview_of_description"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="50"
+            android:autoLink="web"
+            android:gravity="center"
+            android:text="Зображення взяті з сайту \n www.freepik.com"
+            android:textSize="24sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class AboutProduct extends AppCompatActivity {
 
@@ -32,18 +33,7 @@ public class AboutProduct extends AppCompatActivity {
 
     private int count_novus, count_megamarket, count_fozzy, count_novus_megamarket, count_megamarket_fozzy, count_novus_fozzy, count_novus_megamarket_fozzy;
 
-    private String[] products_novus = new String[1000];
-    private String[] products_megamarket = new String[1000];
-    private String[] products_fozzy = new String[1000];
-    private String[] products_novus_megamarket = new String[1000];
-    private String[] products_megamarket_fozzy = new String[1000];
-    private String[] products_novus_fozzy =  new String[1000];
-    private String[] products_novus_megamarket_fozzy =  new String[1000];
-
-
-    private int[] products_novus_price = new int[1000];
-    private int[] products_megamarket_price = new int[1000];
-    private int[] products_fozzy_price = new int[1000];
+    public ArrayList<Product> products_novus, products_megamarket, products_fozzy, products_novus_megamarket, products_megamarket_fozzy, products_novus_fozzy, products_novus_megamarket_fozzy = new ArrayList<Product>();
 
     String z, type;
 
@@ -52,7 +42,6 @@ public class AboutProduct extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_about_product);
 
         typeOfProduct = findViewById(R.id.textview_name_of_product);
@@ -87,19 +76,25 @@ public class AboutProduct extends AppCompatActivity {
 
         count_novus_megamarket_fozzy = 0;
 
-        count_of_products_in_list = countProduct();
-        if (count_of_products_in_list > 99)
-            count_of_products.setText("99+");
-        else
-            count_of_products.setText(Integer.toString(count_of_products_in_list));
-
         f1 = false;
         f2 = false;
         f3 = false;
-        Bundle arguments = getIntent().getExtras();
-        z = arguments.getString("Stroka");
 
-        type = arguments.getString("TypeOfProduct");
+        typeOfProduct.setText(getString(R.string.action_milk));
+
+        Intent intent = getIntent();
+        Bundle args = intent.getBundleExtra("BUNDLE");
+
+        products_novus = (ArrayList<Product>) args.getSerializable("Name1");
+        products_megamarket = (ArrayList<Product>) args.getSerializable("Name2");
+        products_fozzy = (ArrayList<Product>) args.getSerializable("Name3");
+
+        count_novus = args.getInt("Numbers1");
+        count_megamarket = args.getInt("Numbers2");
+        count_fozzy = args.getInt("Numbers3");
+
+        type = args.getString("TypeOfProduct");
+
         switch (type) {
             case "Milk" :
                 typeOfProduct.setText(getString(R.string.action_milk));
@@ -111,30 +106,26 @@ public class AboutProduct extends AppCompatActivity {
                 typeOfProduct.setText(getString(R.string.action_eggs));
                 break;
         }
-        if (!z.equals(getString(R.string.problem_with_internet_connection))) {
-            products_novus = arguments.getStringArray("Name1");
-            if (!type.equals("Bread"))
-                products_megamarket = arguments.getStringArray("Name2");
-            products_fozzy = arguments.getStringArray("Name3");
-
-            products_novus_price = arguments.getIntArray("Price1");
-            products_megamarket_price = arguments.getIntArray("Price2");
-            products_fozzy_price = arguments.getIntArray("Price3");
-
-            count_novus = arguments.getInt("Numbers1");
-            count_megamarket = arguments.getInt("Numbers2");
-            count_fozzy = arguments.getInt("Numbers3");
-        }
 
         button_of_bag.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                // Переход в ListOfProducts
                 Intent mainIntent = new Intent(AboutProduct.this, ListOfProducts .class);
                 startActivity(mainIntent);
             }
         });
     }
 
-    public int countProduct() {
+    // Жизненный цикл для того, чтобы при переходе из ListOfProducts обратно в AboutProduct не сбивались значения количества продуктов
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        countProduct();
+    }
+
+    // Метод для подсчитывания количества продуктов в файле
+    public void countProduct() {
         int c = 0;
 
         try {
@@ -146,15 +137,19 @@ public class AboutProduct extends AppCompatActivity {
             while ((lines = buffer.readLine()) != null) {
                 c++;
             }
-
-            return c;
         }
-        catch (IOException e)
+        catch (IOException e) {
+        }
+        finally
         {
-            return c;
+            if (c > 99)
+                count_of_products.setText("99+");
+            else
+                count_of_products.setText(Integer.toString(c));
         }
     }
 
+    // Метод обработки нажатия кнопок с супермаркетами
     public void onClickButtonShop(View view) {
 
         if (view.getId() == button_of_novus.getId()) {
@@ -213,34 +208,48 @@ public class AboutProduct extends AppCompatActivity {
             else
             if ((f1 == true) && (f2 == true) && (f3 == false))
             {
-                if (count_novus_megamarket == 0)
-                    getInfoAboutTwoShops(products_novus, products_megamarket, count_novus, count_megamarket, products_novus_price, products_megamarket_price, "Novus_MegaMarket");
+                if (count_novus_megamarket == 0) {
+                    products_novus_megamarket = getInfoAboutTwoShops(products_novus, products_megamarket, count_novus, count_megamarket);
+                    count_novus_megamarket = count_novus + count_megamarket;
+                }
 
                 viv(products_novus_megamarket, count_novus_megamarket);
             }
             else
             if ((f1 == true) && (f3 == true) && (f2 == false))
             {
-                if (count_novus_fozzy == 0)
-                    getInfoAboutTwoShops(products_novus, products_fozzy, count_novus, count_fozzy, products_novus_price, products_fozzy_price, "Novus_Fozzy");
+                if (count_novus_fozzy == 0) {
+                    products_novus_fozzy = getInfoAboutTwoShops(products_novus, products_fozzy, count_novus, count_fozzy);
+                    count_novus_fozzy = count_novus + count_fozzy;
+                }
 
                 viv(products_novus_fozzy, count_novus_fozzy);
             }
             else
             if ((f2 == true) && (f3 == true) && (f1 == false))
             {
-                if (count_novus_fozzy == 0)
-                    getInfoAboutTwoShops(products_megamarket, products_fozzy, count_megamarket, count_fozzy, products_megamarket_price, products_fozzy_price, "MegaMarket_Fozzy");
+                if (count_megamarket_fozzy == 0) {
+                    products_megamarket_fozzy = getInfoAboutTwoShops(products_megamarket, products_fozzy, count_megamarket, count_fozzy);
+                    count_megamarket_fozzy = count_megamarket + count_fozzy;
+                }
 
                 viv(products_megamarket_fozzy, count_megamarket_fozzy);
             }
             else
             if ((f1 == true) && (f2 == true) && (f3 == true))
             {
-                if (count_novus_megamarket_fozzy == 0)
-                    getInfoAboutTwoShops(products_novus, products_megamarket, count_novus, count_megamarket, products_novus_price, products_megamarket_price, "Novus_MegaMarket_Fozzy1");
+                if (count_novus_megamarket_fozzy == 0) {
+                    if (count_megamarket_fozzy == 0) {
+                        products_megamarket_fozzy = getInfoAboutTwoShops(products_megamarket, products_fozzy, count_megamarket, count_fozzy);
+                        count_megamarket_fozzy = count_megamarket + count_fozzy;
+                    }
+
+                    products_novus_megamarket_fozzy = getInfoAboutTwoShops(products_megamarket_fozzy, products_novus, count_megamarket_fozzy, count_novus);
+                    count_novus_megamarket_fozzy = count_megamarket_fozzy + count_novus;
+                }
 
                 viv(products_novus_megamarket_fozzy, count_novus_megamarket_fozzy);
+
             }
             else
                 result.setText("Выберите одну кнопку чтобы продолжить");
@@ -256,73 +265,43 @@ public class AboutProduct extends AppCompatActivity {
 
     }
 
-    public void getInfoAboutTwoShops(String[] s1, String[] s2, int k1, int k2, int[] a, int[] b, String z) {
-        int i = 0;
-        int j = 0;
-        int l = 0;
-        String[] s3 = new String[1000];
-        int[] price = new int[1000];
-        while ((i < k1) && (j < k2)) {
-            if (a[i] < b[j]) {
-                s3[l] = s1[i];
-                price[l] = a[i];
-                i++;
-                l++;
+    // Метод формулирования массива ArrayList<Product> с информацией о 2 магазинах
+    public ArrayList<Product> getInfoAboutTwoShops(ArrayList<Product> s1, ArrayList<Product> s2, int k1, int k2) {
+        ArrayList<Product> s3 = new ArrayList<Product>();
+
+        for (int i = 0; i < k1; i++)
+            s3.add(s1.get(i));
+
+        for (int i = 0; i < k2; i++)
+            s3.add(s2.get(i));
+
+        for (int i = 1; i < k1 + k2; i++)
+            for (int j = i; j >= 1; j--) {
+                if (s3.get(j).getPrice_of_product() < s3.get(j-1).getPrice_of_product()) {
+                    int price;
+                    String name;
+
+                    price = s3.get(j).getPrice_of_product();
+                    s3.get(j).setPrice_of_product(s3.get(j-1).getPrice_of_product());
+                    s3.get(j-1).setPrice_of_product(price);
+
+                    name = s3.get(j).getName_of_product();
+                    s3.get(j).setName_of_product(s3.get(j-1).getName_of_product());
+                    s3.get(j-1).setName_of_product(name);
+                }
             }
-            else
-            {
-                s3[l] = s2[j];
-                price[l] = b[j];
-                j++;
-                l++;
-            }
-        }
-        while (i < k1) {
-            s3[l] = s1[i];
-            price[l] = a[i];
-            i++;
-            l++;
-        }
-        while (j < k2) {
-            s3[l] = s2[j];
-            price[l] = b[j];
-            j++;
-            l++;
-        }
-        switch(z) {
-            case "Novus_MegaMarket" :
-                for (int k = 0; k<l; k++)
-                    products_novus_megamarket[k] = s3[k];
-                count_novus_megamarket = l;
-                break;
-            case "MegaMarket_Fozzy" :
-                for (int k = 0; k<l; k++)
-                    products_megamarket_fozzy[k] = s3[k];
-                count_megamarket_fozzy = l;
-                break;
-            case "Novus_Fozzy" :
-                for (int k = 0; k<l; k++)
-                    products_novus_fozzy[k] = s3[k];
-                count_novus_fozzy = l;
-                break;
-            case "Novus_MegaMarket_Fozzy1" :
-                getInfoAboutTwoShops(s3, products_fozzy, l, count_fozzy, price, products_fozzy_price, "Novus_MegaMarket_Fozzy2");
-                break;
-            case "Novus_MegaMarket_Fozzy2" :
-                for (int k = 0; k<l; k++)
-                    products_novus_megamarket_fozzy[k] = s3[k];
-                count_novus_megamarket_fozzy = l;
-                break;
-        }
+
+        return s3;
     }
 
-    public void viv(String[] products, int count) {
+    // Метод, который "выводит" продукты
+    public void viv(ArrayList<Product> products, int count) {
         for (int i = 0; i<count; i++)
-            addButtonAndTextView(products[i], i+1);
+            addButtonAndTextView(products.get(i).getName_of_product(), i+1);
 
     }
 
-    // метод для удаления Buttons и TextViews, чтобы не было повтора ID при создание новых Butons и TextViews
+    // Метод для удаления Buttons и TextViews, чтобы не было повтора ID при создание новых Butons и TextViews
     public void deleteListOfProducts() {
         for (int i = x; i < y; i++)
         {
@@ -330,11 +309,11 @@ public class AboutProduct extends AppCompatActivity {
             b.setVisibility(View.GONE);
         }
 
-        // делаем типо "обнуление" количества Butons и TextViews
+        // Делаем типо "обнуление" количества Butons и TextViews
         x = y;
     }
 
-    // метод для создание Button и TextView для каждого продукта
+    // Метод для создание разных Button и TextView для каждого продукта
     public void addButtonAndTextView(final String product, int number) {
         TextView t = new TextView(getApplicationContext());
         t.setText('\n' + Integer.toString(number) + ") " + product + '\n');
@@ -349,25 +328,21 @@ public class AboutProduct extends AppCompatActivity {
         y++;
         linearLayout.addView(b);
         b.setBackgroundColor(getColor(R.color.colorOrange));
+        //b.setBackground(getDrawable(R.drawable.rounded_button));
 
         b.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                count_of_products_in_list++;
-                if (count_of_products_in_list > 99)
-                    count_of_products.setText("99+");
-                else
-                    count_of_products.setText(Integer.toString(count_of_products_in_list));
                 write(product);
+                countProduct();
             }
         });
 
     }
 
+    // Метод для записи определенного продукта в файл списка продуктов
     public void write(String shop) {
 
         try {
-            // -> часть из метода read для write
             StringBuffer strBuffer = new StringBuffer();
             String stroka;
             try {
@@ -386,7 +361,8 @@ public class AboutProduct extends AppCompatActivity {
             {
                 stroka = shop + '\n';
             }
-            // класс, который помогает помещать данные в файл
+
+            // Класс, который помогает помещать данные в файл
             FileOutputStream fileOutput = openFileOutput("list_of_products.txt", MODE_PRIVATE);
             fileOutput.write(stroka.getBytes());
             fileOutput.close();

@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/button_of_purchase"
+        android:id="@+id/button_of_list_of_products"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/list_of_products"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/button_of_question"
         android:layout_width="49dp"
         android:layout_height="49dp"
         android:layout_margin="16dp"
