@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#93B4EC"
-    tools:context=".AboutProduct">
+    tools:context=".AboutProductsActivity">
 
     <TextView
-        android:id="@+id/textview_name_of_product"
+        android:id="@+id/textview_type_of_product"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/action_milk"
+        android:text="@string/text_milk"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +27,7 @@
         android:text="Novus"
         app:layout_constraintEnd_toStartOf="@+id/button_of_megamarket"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_name_of_product" />
+        app:layout_constraintTop_toBottomOf="@+id/textview_type_of_product" />
 
     <Button
         android:id="@+id/button_of_megamarket"
@@ -39,7 +39,7 @@
         app:layout_constraintEnd_toStartOf="@+id/button_of_fozzy"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/button_of_novus"
-        app:layout_constraintTop_toBottomOf="@+id/textview_name_of_product" />
+        app:layout_constraintTop_toBottomOf="@+id/textview_type_of_product" />
 
     <Button
         android:id="@+id/button_of_fozzy"
@@ -50,23 +50,24 @@
         android:text="Fozzy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button_of_megamarket"
-        app:layout_constraintTop_toBottomOf="@+id/textview_name_of_product" />
+        app:layout_constraintTop_toBottomOf="@+id/textview_type_of_product" />
 
     <Button
         android:id="@+id/button_of_continue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="16dp"
         android:onClick="onClickButtonShop"
-        android:text="@string/continue_work"
-        app:layout_constraintTop_toBottomOf="@+id/button_of_fozzy"
-        tools:layout_editor_absoluteX="302dp" />
+        android:text="@string/button_continue"
+        app:layout_constraintTop_toBottomOf="@+id/plaintext_search_line"
+        tools:layout_editor_absoluteX="16dp" />
 
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/ScrollView"
         android:layout_width="match_parent"
         android:layout_height="280dp"
         android:padding="16dp"
+        android:isScrollContainer="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -74,21 +75,14 @@
         app:layout_constraintTop_toBottomOf="@+id/button_of_continue">
 
         <LinearLayout
-            android:id="@+id/linearlayout1"
+            android:id="@+id/LinearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/list_of_products_of_shop"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="" />
-        </LinearLayout>
+            android:orientation="vertical"/>
     </ScrollView>
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/picture_basket"
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_margin="16dp"
@@ -97,16 +91,28 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textview_count_of_products"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:textColor="#FFFFFF"
         android:textSize="18dp"
         android:textStyle=""
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton2"
-        app:layout_constraintEnd_toEndOf="@+id/imageButton2"
-        app:layout_constraintStart_toStartOf="@+id/imageButton2"
-        app:layout_constraintTop_toTopOf="@+id/imageButton2" />
+        app:layout_constraintBottom_toBottomOf="@+id/picture_basket"
+        app:layout_constraintEnd_toEndOf="@+id/picture_basket"
+        app:layout_constraintStart_toStartOf="@+id/picture_basket"
+        app:layout_constraintTop_toTopOf="@+id/picture_basket" />
+
+    <EditText
+        android:id="@+id/plaintext_search_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:ems="10"
+        android:hint="Знайти продукт"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_of_megamarket" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

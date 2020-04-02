@@ -17,88 +17,87 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-// Начальная Activity
-public class MainActivity extends AppCompatActivity {
+// Начальная MainActivity
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button button_of_purchase;
-
+    private Button button_of_list_of_products;
     private ImageButton button_of_question;
+    private TextView button_close_dialog;
 
-    private TextView button_close;
+    private Dialog dialog;
 
     private SharedPreferences prefs = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
-
-        button_of_purchase = findViewById(R.id.button_of_list_of_products);
-
-        button_of_purchase.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Переход в ListOfProducts при нажатии на кнопку
-                Intent intent = new Intent(MainActivity.this, ListOfProducts.class);
-                startActivity(intent);
-            }
-        });
 
         checkFirstRun();
 
+        // Создание диалогового окна с ссылкой на автора
+        dialog = new Dialog(MainActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_window);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
+
+        button_of_list_of_products = findViewById(R.id.button_of_list_of_products);
         button_of_question = findViewById(R.id.button_of_question);
+        button_close_dialog = dialog.findViewById(R.id.button_close_dialog);
 
-        button_of_question.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Показ диалогового окна с ссылкой на сайт при нажатии на знак вопроса ( + Инструкция )
-                final Dialog dialog;
-                dialog = new Dialog(MainActivity.this);
+        button_of_list_of_products.setOnClickListener(this);
+        button_of_question.setOnClickListener(this);
+        button_close_dialog.setOnClickListener(this);
+    }
 
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.activity_dialog);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.setCancelable(false);
+    // Метод для нажатия на кнопку
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_close_dialog :
+                // Закрытие диалогового окна
+                dialog.dismiss();
+                break;
 
-                button_close = dialog.findViewById(R.id.button_close);
+            case R.id.button_of_list_of_products :
+                // Переход в ListOfProductsActivity
+                Intent intent = new Intent(MainActivity.this, ListOfProductsActivity.class);
+                startActivity(intent);
+                break;
 
-                button_close.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
+            case R.id.button_of_question :
+                // Показ диалогового окна
                 dialog.show();
-            }
-        });
+                break;
+        }
     }
 
     // Метод для формулировки меню
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Преобразование данных из ресурсов меню в пункты меню на экране
-        getMenuInflater().inflate(R.menu.menu_main,menu);
-        return true;
+        getMenuInflater().inflate(R.menu.main_menu,menu);
 
+        return true;
     }
 
-    // Метод при выборе одно из типа продуктов в меню
+    // Метод для выбора одно из типа продуктов в меню
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        // Получаем идентификатор выбранного пункта меню
+        // Идентификатор выбранного пункта меню
         int id = item.getItemId();
 
         Intent mainIntent;
 
-        // Операции для выбранного пункта меню
+        // Операции для выбранного пункта меню (Переход к Activity AboutMilk)
         switch (id) {
             case R.id.action_milk:
                 mainIntent = new Intent(MainActivity.this, SplashScreenActivity.class);
                 mainIntent.putExtra("TypeOfProduct", "Milk");
                 startActivity(mainIntent);
                 return true;
-            // переход к Activity AboutMilk
             case R.id.action_eggs:
                 mainIntent = new Intent(MainActivity.this, SplashScreenActivity.class);
                 mainIntent.putExtra("TypeOfProduct", "Eggs");
@@ -114,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Метод проверки первого запуска приложения и перехода в ApIntroActivity
+    // Метод для проверки первого запуска приложения
     public void checkFirstRun() {
         prefs = getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
 
@@ -122,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
         {
             Intent intent = new Intent(MainActivity.this, AppIntroActivity.class);
             startActivity(intent);
+
             prefs.edit().putBoolean("firstrun", false).commit();
         }
     }

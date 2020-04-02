@@ -7,15 +7,6 @@ public class Product implements Serializable {
 
     public String name_of_product;
     public int price_of_product;
-    public String super_market_of_product;
-
-    public String getSuper_market_of_product() {
-        return super_market_of_product;
-    }
-
-    public void setSuper_market_of_product(String super_market_of_product) {
-        this.super_market_of_product = super_market_of_product;
-    }
 
     public String getName_of_product() {
         return name_of_product;

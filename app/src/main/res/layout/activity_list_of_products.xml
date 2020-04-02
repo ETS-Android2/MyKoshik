@@ -5,20 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#93B4EC"
-    tools:context=".ListOfProducts">
+    tools:context=".ListOfProductsActivity">
 
     <ScrollView
-        android:id="@+id/scrollView3"
+        android:id="@+id/ScrollView"
         android:layout_width="match_parent"
         android:layout_height="280dp"
         android:padding="16dp"
+        android:isScrollContainer="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
-            android:id="@+id/linearlayout2"
+            android:id="@+id/LinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -31,23 +32,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView3"
+        android:isScrollContainer="false"
+        app:layout_constraintBottom_toTopOf="@+id/ScrollView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_of_clear" />
+        app:layout_constraintTop_toBottomOf="@+id/textview_sum_of_product_prices" />
 
     <TextView
-        android:id="@+id/tsum_of_product_prices"
+        android:id="@+id/textview_sum_of_product_prices"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tnumber_of_products" />
+        app:layout_constraintTop_toBottomOf="@+id/textview_count_of_products" />
 
     <TextView
-        android:id="@+id/tnumber_of_products"
+        android:id="@+id/textview_count_of_products"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -56,7 +58,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/button_of_clear"
+        android:id="@+id/picture_rubbish_bin"
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_margin="16dp"

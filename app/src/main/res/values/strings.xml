@@ -1,38 +1,36 @@
 <resources>
     <string name="app_name">МійКошик</string>
-    <string name="action_welcome">Ласкаво просимо!</string>
 
-    <string name="welcome_intro">ЛАСКАВО ПРОСИМО В \"МІЙ КОШИК\"!</string>
-    <string name="list_intro">ФОРМУЙ СПИСОК З НАЙВАЖЛИВІШИХ ПРОДУКТІВ!</string>
-    <string name="supermarket1_intro">3 МЕРЕЖІ СУПЕРМАРКЕТІВ НА ВИБІР!</string>
-    <string name="supermarket2_intro">NOVUS, MEGAMARKET ТА FOZZY</string>
-    <string name="spare_intro">ЗАОЩАДЖУЙ ПРАВИЛЬНО З \n НАШИМ ДОДАТКОМ</string>
+    <string name="text_welcome_intro">ЛАСКАВО ПРОСИМО В \"МІЙ КОШИК\"!</string>
+    <string name="text_list_intro">ФОРМУЙ СПИСОК З НАЙВАЖЛИВІШИХ ПРОДУКТІВ!</string>
+    <string name="text_supermarket1_intro">3 МЕРЕЖІ СУПЕРМАРКЕТІВ НА ВИБІР!</string>
+    <string name="text_supermarket2_intro">NOVUS, MEGAMARKET ТА FOZZY</string>
+    <string name="text_spare_intro">ЗАОЩАДЖУЙ ПРАВИЛЬНО З \n НАШИМ ДОДАТКОМ</string>
 
-    <string name="products">Продукти :</string>
-    <string name="action_milk">Молоко</string>
-    <string name="action_eggs">Яйця</string>
-    <string name="action_bread">Хліб</string>
+    <string name="text_milk">Молоко</string>
+    <string name="text_eggs">Яйця</string>
+    <string name="text_bread">Хліб</string>
 
-    <string-array name="types_of_sort">
+    <string-array name="spinner_types_of_sort">
         <item>За чергою продуктів</item>
         <item>За цінами продуктів ↓</item>
         <item>За цінами продуктів ↑</item>
         <item>За супермаркетами</item>
     </string-array>
 
+    <string name="button_buy_product">Купити продукт №</string>
+    <string name="button_delete_product">Видалити продукт №</string>
+    <string name="button_continue">Далі</string>
+    <string name="button_clear">Очистити</string>
+    <string name="button_list_of_products">Список продуктів</string>
 
-    <string name="buy_product_with_number">Купити продукт №</string>
-    <string name="delete_product">Видалити продукт</string>
+    <string name="text_problem_with_internet_connection">Перевірте з`єднання з інтернетом</string>
+    <string name="text_not_avaible_product">На жаль данний продукт не доступний</string>
+    <string name="text_downloading">Завантаження продуктів. Зачекайте трошки</string>
+    <string name="text_empty_list">Список продуктів пустий</string>
+    <string name="text_products">Продукти :</string>
 
-    <string name="problem_with_internet_connection">Перевірте з`єднання з інтернетом</string>
-    <string name="not_avaible_product">На жаль данний продукт не доступний</string>
-
-    <string name="list_of_products">Список продуктів</string>
-    <string name="downloading">Завантаження продуктів. Зачекайте трошки</string>
-    <string name="continue_work">Далі</string>
-
-    <string name="clear">Очистити</string>
-    <string name="empty_list">Список продуктів пустий</string>
-    <string name="cleared_list">Список продуктів був видален</string>
-    <string name="deleted_product">Продукт був видаленим зі списка</string>
+    <string name="toast_cleared_list">Список продуктів був видален</string>
+    <string name="toast_deleted_product">Продукт був видаленим зі списка</string>
+    <string name="toast_added_product">Продукт був доданий до списку покупок</string>
 </resources>

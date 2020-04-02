@@ -8,32 +8,32 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/typeOfProduct"
+        android:id="@+id/texview_typeOfProduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/action_bread"
+        android:text="@string/text_bread"
         android:textSize="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/splash_screen"
+        android:id="@+id/picture_splash_screen"
         android:layout_width="250dp"
         android:layout_height="400dp"
         android:src="@drawable/bread"
         app:layout_constraintBottom_toTopOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/typeOfProduct" />
+        app:layout_constraintTop_toBottomOf="@+id/texview_typeOfProduct" />
 
     <TextView
-        android:id="@+id/loading"
+        android:id="@+id/textview_loading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/downloading"
+        android:text="@string/text_downloading"
         android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/loading"
+        app:layout_constraintBottom_toTopOf="@+id/textview_loading"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
