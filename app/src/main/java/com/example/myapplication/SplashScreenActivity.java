@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.StrictMode;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -67,7 +66,7 @@ public class SplashScreenActivity extends Activity {
         textview_name_of_product = findViewById(R.id.texview_typeOfProduct);
         picture_image_of_product = findViewById(R.id.picture_splash_screen);
 
-        // Меняються картинка и текст взависимости от типа продукта
+        // Меняються картинки и текста в зависимости от типа продукта
         switch (typeOfProduct) {
             case "Milk" :
                 textview_name_of_product.setText(getString(R.string.text_milk));
@@ -83,6 +82,7 @@ public class SplashScreenActivity extends Activity {
                 break;
         }
 
+        // Размеры картинки с продуктом
         picture_image_of_product.getLayoutParams().height = 760;
         picture_image_of_product.getLayoutParams().width = 800;
         picture_image_of_product.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -104,6 +104,7 @@ public class SplashScreenActivity extends Activity {
 
                 if (tryInternetConnection() == true)
                 {
+                    // + Интернет
                     getInfoAboutNovus();
                     if (typeOfProduct.equals("Bread") == false)
                         getInfoAboutMegaMarket();
@@ -111,11 +112,13 @@ public class SplashScreenActivity extends Activity {
                 }
                 else
                 {
+                    // - Интернет
                    readFromFile("filenovus" + typeOfProduct.toLowerCase() + ".txt");
                    readFromFile("filemegamarket" + typeOfProduct.toLowerCase() + ".txt");
                    readFromFile("filefozzy" + typeOfProduct.toLowerCase() + ".txt");
                 }
 
+                // Передача данных о продуктах в AboutProductsActivity
                 Intent intent = new Intent(SplashScreenActivity.this, AboutProductsActivity.class);
                 Bundle args = new Bundle();
 
@@ -136,36 +139,37 @@ public class SplashScreenActivity extends Activity {
 
     // Метод для парсинга супермаркета Novus
     public void getInfoAboutNovus () {
+        String html_sign;
 
-        StringBuffer str = new StringBuffer();
-        String a;
         switch (typeOfProduct) {
             case "Milk" :
-                a = "milk";
+                html_sign = "milk";
                 break;
             case "Bread" :
-                a = "bread";
+                html_sign = "bread";
                 break;
             case "Eggs" :
-                a = "eggs";
+                html_sign = "eggs";
                 break;
             default:
-                a = "";
+                html_sign = "";
                 break;
         }
-        String html1, html2, html3, html4;
 
+        String html1, html2;
         // html для названия продукта
-        html1 = "span.jsx-3279194381.product-tile__title";
+        html1 = "span.jsx-3273641156.product-tile__title";
         // html для цены продукта
-        html2 = "span.jsx-3279194381.product-tile__active-price-value";
+        html2 = "span.jsx-3273641156.product-tile__active-price-value";
 
         try {
-            // количество продуктов
+            // Количество продуктов
             int n = 2;
-            // формулирование url с продуктами
+
+            // Формулирование url с продуктами
             String url[] = new String [n];
-            url[0] = "https://novus.zakaz.ua/uk/categories/" + a + "/?sort=price_asc";
+
+            url[0] = "https://novus.zakaz.ua/uk/categories/" + html_sign + "/?sort=price_asc";
             for (int i = 1; i < n; i++)
             {
                 url[i] = url[0] + "&page=" + (i+1);
@@ -175,7 +179,7 @@ public class SplashScreenActivity extends Activity {
             Elements formElements1[] = new Elements[1000];
             Elements formElements2[] = new Elements[1000];
 
-            // получение информации о продуктах
+            // Получение информации о продуктах
             for (int i = 0; i < n; i++)
             {
                 doc[i] = Jsoup.connect(url[i]).get();
@@ -183,6 +187,7 @@ public class SplashScreenActivity extends Activity {
                 formElements2[i] = doc[i].select(html2);
 
                 for (int j = 0; j < formElements1[i].size(); j++) {
+                    // Формулировка цены продукта
                     String s = formElements2[i].get(j).text();
                     String s1 = s.substring(0, s.lastIndexOf('.'));
                     String s2 = s.substring(s.lastIndexOf('.') + 1, s.length());
@@ -201,16 +206,17 @@ public class SplashScreenActivity extends Activity {
 
     // Метод для парсинга супермаркета MegaMarket
     public void getInfoAboutMegaMarket () {
-        String a;
+        String html_sign;
+
         switch (typeOfProduct) {
             case "Milk" :
-                a = "moloko";
+                html_sign = "moloko";
                 break;
             case "Eggs" :
-                a = "yajtsya";
+                html_sign = "yajtsya";
                 break;
             default:
-                a = "";
+                html_sign = "";
                 break;
         }
 
@@ -226,8 +232,8 @@ public class SplashScreenActivity extends Activity {
                 n = 1;
 
             String url[] = new String[n];
-            if (a != "") {
-                url[0] = "https://megamarket.ua/catalog/" + a + "?sort=price";
+            if (html_sign != "") {
+                url[0] = "https://megamarket.ua/catalog/" + html_sign + "?sort=price";
                 for (int i = 1; i < n; i++) {
                     url[i] = url[0] + "&page=" + (i + 1);
                 }
@@ -292,12 +298,11 @@ public class SplashScreenActivity extends Activity {
                 formElements1[i] = doc[i].select(html1);
                 formElements2[i] = doc[i].select(html2);
 
-                // получение массива продуктов с помощью парсинга сайта
                 for (int j = 0; j < formElements2[i].size(); j++) {
                     products_fozzy.add(new Product());
                     products_fozzy.get(count_fozzy).setName_of_product(formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (Fozzy)");
                     products_fozzy.get(count_fozzy).formPrice_of_product(products_fozzy.get(count_fozzy).getName_of_product());
-                    Log.d("Fozzy", formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (Fozzy)");
+
                     count_fozzy++;
                 }
             }

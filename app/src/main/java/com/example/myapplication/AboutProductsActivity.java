@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,13 +24,13 @@ import java.util.ArrayList;
 // Activity для выбора продуктов
 public class AboutProductsActivity extends AppCompatActivity {
     private LinearLayout linearLayout;
-    // Надпись с типом продукта и надпись о количестве продуктов в корзине
+    // Textviewes с типом продукта и надпись о количестве продуктов в корзине
     private TextView textview_type_of_product, textview_count_of_products;
     // Поисковая стока
     private EditText plaintext_search_line;
-    // Кнопки супермаркетов и кнопка "Далее"
+    // Buttons супермаркетов и "Далее"
     private Button button_of_novus, button_of_megamarket, button_of_fozzy, button_of_continue;
-    // Кнопка корзины
+    // Button корзины
     private ImageButton button_of_bag;
 
     // Границы ID
@@ -69,7 +70,7 @@ public class AboutProductsActivity extends AppCompatActivity {
 
         textview_count_of_products = findViewById(R.id.textview_count_of_products);
 
-        linearLayout = findViewById(R.id.LinearLayout);
+        linearLayout = findViewById(R.id.linearlayout);
 
         x = 1;
         y = 1;
@@ -148,7 +149,9 @@ public class AboutProductsActivity extends AppCompatActivity {
             String mLine;
 
             while ((mLine = buffer.readLine()) != null) {
-                count++;
+                Product z = new Product();
+                z.formCount_of_product(mLine);
+                count = count + z.getCount_of_product();
             }
         }
         catch (IOException e) {
@@ -164,7 +167,7 @@ public class AboutProductsActivity extends AppCompatActivity {
 
     // Метод обработки нажатия кнопок с супермаркетами
     public void onClickButtonShop(View view) {
-
+        // Изменение цвета Buttons при нажатии
         if (view.getId() == button_of_novus.getId()) {
             if (f1 == false) {
                 button_of_novus.setBackgroundColor(getColor(R.color.colorPurple));
@@ -196,6 +199,7 @@ public class AboutProductsActivity extends AppCompatActivity {
             f3 = !f3;
         }
 
+        // Вывод информации в зависимости от выбраной Button
         if (view.getId() == button_of_continue.getId())
         {
             deleteListOfProducts();
@@ -272,7 +276,7 @@ public class AboutProductsActivity extends AppCompatActivity {
             }
             else {
                 TextView t = new TextView(getApplicationContext());
-                t.setText('\n' + "Оберіть одну кнопку аби продовжити");
+                t.setText(getString(R.string.text_choose_button));
                 t.setTextSize(18);
                 t.setId(y);
                 y++;
@@ -325,9 +329,10 @@ public class AboutProductsActivity extends AppCompatActivity {
         return s3;
     }
 
-    // Метод, который "выводит" продукты
+    // Метод, который регулирует вывод продуктов
     public void viv(ArrayList<Product> products, int count) {
         flag = false;
+
         for (int i = 0; i<count; i++)
             addButtonAndTextView(products.get(i).getName_of_product(), i+1);
 
@@ -343,7 +348,7 @@ public class AboutProductsActivity extends AppCompatActivity {
 
     }
 
-    // Метод для удаления Buttons и TextViews, чтобы не было повтора ID при создание новых Butons и TextViews
+    // Метод для удаления Buttons и TextViews, чтобы не было повтора ID при создание новых
     public void deleteListOfProducts() {
         for (int i = x; i < y; i++)
         {
@@ -373,9 +378,8 @@ public class AboutProductsActivity extends AppCompatActivity {
             b.setText(getString(R.string.button_buy_product) + Integer.toString((y - 1 - x) / 2 + 1));
             b.setId(y);
             y++;
-            linearLayout.addView(b);
             b.setBackgroundColor(getColor(R.color.colorOrange));
-            //b.setBackground(getDrawable(R.drawable.rounded_button));
+            linearLayout.addView(b);
 
             b.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -388,7 +392,7 @@ public class AboutProductsActivity extends AppCompatActivity {
     }
 
     // Метод для записи определенного продукта в файл списка продуктов
-    public void write(String shop) {
+    public void write(String product) {
 
         try {
             StringBuffer strBuffer = new StringBuffer();
@@ -399,23 +403,44 @@ public class AboutProductsActivity extends AppCompatActivity {
                 BufferedReader buffer = new BufferedReader(reader);
                 String lines;
 
+                boolean f = false;
+
                 while ((lines = buffer.readLine()) != null) {
-                    strBuffer.append(lines + '\n');
+                   if (lines.lastIndexOf(product) != -1)
+                   {
+                       f = true;
+
+                       if (lines.lastIndexOf("X") > lines.lastIndexOf(")"))
+                       {
+                           String s = lines.substring(lines.lastIndexOf("X") + 1, lines.length());
+                           int count = Integer.parseInt(s) + 1;
+
+                           strBuffer.append(product + " X" + Integer.toString(count) + '\n');
+                       }
+                       else
+                           strBuffer.append(lines + " X2" + '\n');
+
+
+                   }
+                    else
+                        strBuffer.append(lines + '\n');
                 }
 
-                stroka = shop + '\n' + strBuffer.toString();
+                if (f == false)
+                    stroka = product + '\n' + strBuffer.toString();
+                else
+                    stroka = strBuffer.toString();
             }
             catch (IOException e)
             {
-                stroka = shop + '\n';
+                stroka = product + '\n';
             }
-
             // Класс, который помогает помещать данные в файл
             FileOutputStream fileOutput = openFileOutput("list_of_products.txt", MODE_PRIVATE);
             fileOutput.write(stroka.getBytes());
             fileOutput.close();
 
-            Toast.makeText(AboutProductsActivity.this, "Продукт был добавлен в список покупок", Toast.LENGTH_LONG).show();
+            Toast.makeText(AboutProductsActivity.this, getString(R.string.toast_added_product), Toast.LENGTH_LONG).show();
         }
         catch (FileNotFoundException e )
         {

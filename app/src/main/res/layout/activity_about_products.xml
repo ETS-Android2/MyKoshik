@@ -63,7 +63,7 @@
         tools:layout_editor_absoluteX="16dp" />
 
     <ScrollView
-        android:id="@+id/ScrollView"
+        android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="280dp"
         android:padding="16dp"
@@ -75,7 +75,7 @@
         app:layout_constraintTop_toBottomOf="@+id/button_of_continue">
 
         <LinearLayout
-            android:id="@+id/LinearLayout"
+            android:id="@+id/linearlayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"/>

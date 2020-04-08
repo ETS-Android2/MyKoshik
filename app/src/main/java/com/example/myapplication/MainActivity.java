@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button_close_dialog.setOnClickListener(this);
     }
 
-    // Метод для нажатия на кнопку
+    // Метод для нажатия на Button
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

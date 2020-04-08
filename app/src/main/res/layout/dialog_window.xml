@@ -5,7 +5,7 @@
     android:layout_height="500dp"
     android:layout_gravity="center"
     android:layout_margin="10dp"
-    android:background="@drawable/fon"
+    android:background="@drawable/picture_background"
     android:orientation="vertical"
     android:scaleType="centerCrop">
 
@@ -21,7 +21,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="end"
-            android:background="@drawable/ic_radio_button_unchecked_black_24dp"
+            android:background="@drawable/black_circle"
             android:gravity="center"
             android:text="X"
             android:textColor="#FF000000"
@@ -34,7 +34,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
             android:layout_weight="50"
-            android:src="@drawable/p2" />
+            android:src="@drawable/picture_site" />
 
         <TextView
             android:id="@+id/textview_of_description"

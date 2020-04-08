@@ -7,6 +7,7 @@ public class Product implements Serializable {
 
     public String name_of_product;
     public int price_of_product;
+    public int count_of_product;
 
     public String getName_of_product() {
         return name_of_product;
@@ -29,6 +30,25 @@ public class Product implements Serializable {
         String s1 = s.substring(s.lastIndexOf(" - ") - 1 + 4, s.lastIndexOf(" грн"));
         String s2 = s1.substring(0, s1.lastIndexOf(",")) +  s1.substring(s1.lastIndexOf(",") + 1, s1.length());
         this.price_of_product = Integer.parseInt(s2);
+    }
+
+    public int getCount_of_product() {
+        return count_of_product;
+    }
+
+    public void setCount_of_product(int count_of_product) {
+        this.count_of_product = count_of_product;
+    }
+
+    public void formCount_of_product(String s) {
+        if (s.lastIndexOf("X") > s.lastIndexOf(")"))
+        {
+            String stroka = s.substring(s.lastIndexOf("X") + 1, s.length());
+
+            this.count_of_product = Integer.parseInt(stroka);
+        }
+        else
+            this.count_of_product = 1;
     }
 
 }

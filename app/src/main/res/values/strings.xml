@@ -28,9 +28,12 @@
     <string name="text_not_avaible_product">На жаль данний продукт не доступний</string>
     <string name="text_downloading">Завантаження продуктів. Зачекайте трошки</string>
     <string name="text_empty_list">Список продуктів пустий</string>
-    <string name="text_products">Продукти :</string>
+    <string name="text_choose_button">\n Оберіть одну кнопку аби продовжити</string>
 
     <string name="toast_cleared_list">Список продуктів був видален</string>
     <string name="toast_deleted_product">Продукт був видаленим зі списка</string>
     <string name="toast_added_product">Продукт був доданий до списку покупок</string>
+
+    <string name="price_of_list">Загальна ціна =\u0020</string>
+    <string name="count_of_products_list">Кількість продуктів =\u0020</string>
 </resources>
