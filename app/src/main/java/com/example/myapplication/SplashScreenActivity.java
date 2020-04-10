@@ -20,15 +20,13 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-// Activity для показа SplashScreen (Экран загрузки)
+// Activity для показа SplashScreen (Экран загрузки) и загрузки продуктов
 public class SplashScreenActivity extends Activity {
     // Картинка с продуктом
     private ImageView picture_image_of_product;
+
     // Надпись с типом продукта
     private TextView textview_name_of_product;
-
-    // Количество продуктов разных супермаркетов
-    private int count_novus, count_megamarket, count_fozzy;
 
     // Тип продукта
     String typeOfProduct;
@@ -38,7 +36,7 @@ public class SplashScreenActivity extends Activity {
     public ArrayList<Product> products_megamarket = new ArrayList<Product>();
     public ArrayList<Product> products_fozzy = new ArrayList<Product>();
 
-    // Время в милесекундах, в течение которого будет отображаться SplashScreen
+    // Время в милесекундах, в течение которого или больше будет отображаться SplashScreen
     private final int SPLASH_DISPLAY_LENGTH = 500;
 
     @Override
@@ -52,10 +50,6 @@ public class SplashScreenActivity extends Activity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        count_novus = 0;
-        count_megamarket = 0;
-        count_fozzy = 0;
-
         formProducts();
     }
 
@@ -66,7 +60,7 @@ public class SplashScreenActivity extends Activity {
         textview_name_of_product = findViewById(R.id.texview_typeOfProduct);
         picture_image_of_product = findViewById(R.id.picture_splash_screen);
 
-        // Меняються картинки и текста в зависимости от типа продукта
+        // Изменение картинки и текста в зависимости от типа продукта
         switch (typeOfProduct) {
             case "Milk" :
                 textview_name_of_product.setText(getString(R.string.text_milk));
@@ -105,6 +99,7 @@ public class SplashScreenActivity extends Activity {
                 if (tryInternetConnection() == true)
                 {
                     // + Интернет
+
                     getInfoAboutNovus();
                     if (typeOfProduct.equals("Bread") == false)
                         getInfoAboutMegaMarket();
@@ -113,28 +108,33 @@ public class SplashScreenActivity extends Activity {
                 else
                 {
                     // - Интернет
+
                    readFromFile("filenovus" + typeOfProduct.toLowerCase() + ".txt");
                    readFromFile("filemegamarket" + typeOfProduct.toLowerCase() + ".txt");
                    readFromFile("filefozzy" + typeOfProduct.toLowerCase() + ".txt");
                 }
 
                 // Передача данных о продуктах в AboutProductsActivity
-                Intent intent = new Intent(SplashScreenActivity.this, AboutProductsActivity.class);
-                Bundle args = new Bundle();
+                sendInfoToActivity();
 
-                args.putSerializable("Name1", (Serializable) products_novus);
-                if (typeOfProduct.equals("Bread") == false)
-                    args.putSerializable("Name2", (Serializable) products_megamarket);
-                args.putSerializable("Name3", (Serializable) products_fozzy);
-
-                args.putString("TypeOfProduct", typeOfProduct);
-
-                intent.putExtra("BUNDLE",args);
-
-                SplashScreenActivity.this.startActivity(intent);
-                SplashScreenActivity.this.finish();
             }
         }, SPLASH_DISPLAY_LENGTH);
+    }
+
+    // Метод для передачи данных о продуктах в другую активность
+    public void sendInfoToActivity() {
+        Intent intent = new Intent(SplashScreenActivity.this, AboutProductsActivity.class);
+        Bundle args = new Bundle();
+
+        args.putSerializable("Name1", (Serializable) products_novus);
+        args.putSerializable("Name2", (Serializable) products_megamarket);
+        args.putSerializable("Name3", (Serializable) products_fozzy);
+
+        args.putString("TypeOfProduct", typeOfProduct);
+
+        intent.putExtra("BUNDLE",args);
+
+        startActivity(intent);
     }
 
     // Метод для парсинга супермаркета Novus
@@ -157,18 +157,21 @@ public class SplashScreenActivity extends Activity {
         }
 
         String html1, html2;
+
         // html для названия продукта
-        html1 = "span.jsx-3273641156.product-tile__title";
+        html1 = "span.jsx-2334163243.product-tile__title";
+
         // html для цены продукта
-        html2 = "span.jsx-3273641156.product-tile__active-price-value";
+        html2 = "span.jsx-2334163243.product-tile__active-price-value";
 
         try {
-            // Количество продуктов
+            // Количество просматриваемых страниц сайта
             int n = 2;
 
-            // Формулирование url с продуктами
+            // url сайта
             String url[] = new String [n];
 
+            // Формулировка url с продуктами
             url[0] = "https://novus.zakaz.ua/uk/categories/" + html_sign + "/?sort=price_asc";
             for (int i = 1; i < n; i++)
             {
@@ -193,10 +196,8 @@ public class SplashScreenActivity extends Activity {
                     String s2 = s.substring(s.lastIndexOf('.') + 1, s.length());
 
                     products_novus.add(new Product());
-                    products_novus.get(count_novus).setName_of_product(formElements1[i].get(j).text() + " - " + s1 + "," + s2 + " грн " + "(Novus)");
-                    products_novus.get(count_novus).setPrice_of_product(Integer.parseInt(s1 + s2));
-
-                    count_novus++;
+                    products_novus.get(products_novus.size() - 1).setName_of_product(formElements1[i].get(j).text() + " - " + s1 + "," + s2 + " грн " + "(Novus)");
+                    products_novus.get(products_novus.size() - 1).setPrice_of_product(Integer.parseInt(s1 + s2));
                 }
             }
         }
@@ -226,12 +227,14 @@ public class SplashScreenActivity extends Activity {
         html2 = "div.price";
 
         try {
-            int n= 2;
+            int n = 2;
 
             if (typeOfProduct.equals("Eggs"))
                 n = 1;
 
             String url[] = new String[n];
+
+            // Проверка на тип продукта (Не хлеб)
             if (html_sign != "") {
                 url[0] = "https://megamarket.ua/catalog/" + html_sign + "?sort=price";
                 for (int i = 1; i < n; i++) {
@@ -241,6 +244,7 @@ public class SplashScreenActivity extends Activity {
                 Document doc[] = new Document[n];
                 Elements formElements1[] = new Elements[n];
                 Elements formElements2[] = new Elements[n];
+
                 for (int i = 0; i < n; i++) {
 
                     doc[i] = Jsoup.connect(url[i]).get();
@@ -249,10 +253,8 @@ public class SplashScreenActivity extends Activity {
 
                     for (int j = 0; j < formElements2[i].size(); j++) {
                         products_megamarket.add(new Product());
-                        products_megamarket.get(count_megamarket).setName_of_product(formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (MegaMarket)");
-                        products_megamarket.get(count_megamarket).formPrice_of_product(products_megamarket.get(count_megamarket).getName_of_product());
-
-                        count_megamarket++;
+                        products_megamarket.get(products_megamarket.size() - 1).setName_of_product(formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (MegaMarket)");
+                        products_megamarket.get(products_megamarket.size() - 1).formPrice_of_product(products_megamarket.get(products_megamarket.size() - 1).getName_of_product());
                     }
                 }
             }
@@ -300,10 +302,8 @@ public class SplashScreenActivity extends Activity {
 
                 for (int j = 0; j < formElements2[i].size(); j++) {
                     products_fozzy.add(new Product());
-                    products_fozzy.get(count_fozzy).setName_of_product(formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (Fozzy)");
-                    products_fozzy.get(count_fozzy).formPrice_of_product(products_fozzy.get(count_fozzy).getName_of_product());
-
-                    count_fozzy++;
+                    products_fozzy.get(products_fozzy.size() - 1).setName_of_product(formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (Fozzy)");
+                    products_fozzy.get(products_fozzy.size() - 1).formPrice_of_product(products_fozzy.get(products_fozzy.size() - 1).getName_of_product());
                 }
             }
         }
@@ -324,25 +324,22 @@ public class SplashScreenActivity extends Activity {
                 if (fileName.lastIndexOf("novus") != -1)
                 {
                     products_novus.add(new Product());
-                    products_novus.get(count_novus).setName_of_product(mLine);
-                    products_novus.get(count_novus).formPrice_of_product(mLine);
-                    count_novus++;
+                    products_novus.get(products_novus.size() - 1).setName_of_product(mLine);
+                    products_novus.get(products_novus.size() - 1).formPrice_of_product(mLine);
                 }
 
                 if (fileName.lastIndexOf("megamarket") != -1)
                 {
                     products_megamarket.add(new Product());
-                    products_megamarket.get(count_megamarket).setName_of_product(mLine);
-                    products_megamarket.get(count_megamarket).formPrice_of_product(mLine);
-                    count_megamarket++;
+                    products_megamarket.get(products_megamarket.size() - 1).setName_of_product(mLine);
+                    products_megamarket.get(products_megamarket.size() - 1).formPrice_of_product(mLine);
                 }
 
                 if (fileName.lastIndexOf("fozzy") != -1)
                 {
                     products_fozzy.add(new Product());
-                    products_fozzy.get(count_fozzy).setName_of_product(mLine);
-                    products_fozzy.get(count_fozzy).formPrice_of_product(mLine);
-                    count_fozzy++;
+                    products_fozzy.get(products_fozzy.size() - 1).setName_of_product(mLine);
+                    products_fozzy.get(products_fozzy.size() - 1).formPrice_of_product(mLine);
                 }
 
             }
@@ -350,7 +347,7 @@ public class SplashScreenActivity extends Activity {
         }
     }
 
-    // Метод, который проверяет соединение с интернетом
+    // Метод для проверки соединение с интернетом
     public boolean tryInternetConnection() {
         String cs = Context.CONNECTIVITY_SERVICE;
         ConnectivityManager cm = (ConnectivityManager)

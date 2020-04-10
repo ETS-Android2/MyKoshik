@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment;
 
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
-// Activity для Intro приложения (Вступительная презентация приложения)
+// Activity для показа Intro приложения (Вступительная презентация о приложении)
 public class AppIntroActivity extends com.github.paolorotolo.appintro.AppIntro {
 
     @Override

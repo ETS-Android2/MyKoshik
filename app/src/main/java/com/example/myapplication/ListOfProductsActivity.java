@@ -3,7 +3,6 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,9 +23,10 @@ import java.util.ArrayList;
 
 // Activity со списком продуктов
 public class ListOfProductsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener  {
-    // TextView количества продуктов и общая стоимости всех прокупок
+    // Надписи о количестве продуктов и надпись о общей стоимости всех прокупок
     private TextView textview_number_of_products, textview_sum_of_product_prices;
-    // Button "Корзина"
+
+    // Кнопка "Корзина"
     private ImageButton button_of_clear;
 
     private LinearLayout linearLayout;
@@ -34,10 +34,10 @@ public class ListOfProductsActivity extends AppCompatActivity implements Adapter
     // Файл для чтения продуктов
     private FileOutputStream fileOutput;
 
-    // Границы ID кнопок и надписей продуктов + Знак сортировки
+    // Границы ID кнопок и надписей продуктов + Тип сортировки
     private int x, y, sort_sign;
 
-    // ArrayList с информацией о продукте
+    // ArrayList с информацией о продуктах в списке
     public ArrayList<Product> products = new ArrayList<Product>();
 
     @Override
@@ -46,15 +46,15 @@ public class ListOfProductsActivity extends AppCompatActivity implements Adapter
 
         setContentView(R.layout.activity_list_of_products);
 
-        x = 1;
-        y = 1;
-
         textview_number_of_products = findViewById(R.id.textview_count_of_products);
         textview_sum_of_product_prices = findViewById(R.id.textview_sum_of_product_prices);
 
         linearLayout = findViewById(R.id.linearlayout);
 
         button_of_clear = findViewById(R.id.picture_rubbish_bin);
+
+        x = 1;
+        y = 1;
 
         Spinner spinner = findViewById(R.id.spinner);
 
@@ -63,20 +63,7 @@ public class ListOfProductsActivity extends AppCompatActivity implements Adapter
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
-        /*try {
-            // Обнуление txt файла со списком продуктов
-            fileOutput = openFileOutput("list_of_products.txt", MODE_PRIVATE);
-            fileOutput.write("".getBytes());
-            fileOutput.close();
-
-            deleteButtonsAndTextViews();
-        }
-        catch (FileNotFoundException e) {
-        }
-        catch (IOException e) {
-        }*/
-
-        // Обнуление списка
+        // Обнуление списка при нажатии на кнопку "Корзина"
         button_of_clear.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try {
@@ -101,6 +88,7 @@ public class ListOfProductsActivity extends AppCompatActivity implements Adapter
             }
         });
 
+        // Тип сортировки (1-4)
         sort_sign =  1;
 
         readInfoFromFile();
@@ -183,7 +171,7 @@ public class ListOfProductsActivity extends AppCompatActivity implements Adapter
         }
     }
 
-    // Метод для сортировки ArrayList с продуктов
+    // Метод для сортировки ArrayList с информацией о продуктах
     public void sortProducts(String typeOfSort) {
         ArrayList<Product> products_copy1 = new ArrayList<Product>();
 
@@ -219,44 +207,24 @@ public class ListOfProductsActivity extends AppCompatActivity implements Adapter
 
         ArrayList<Product> products_copy2 = new ArrayList<Product>();
 
-        // Дополнительная сортировка при выборе типа сортировки по супермаркетам
+        // Дополнительная сортировка при выборе сортировки по супермаркетам
         if (typeOfSort.equals("Supermarkets"))
         {
-            for (int i = 0; i < products_copy1.size(); i++)
-                {
-                    int price = products_copy1.get(i).getPrice_of_product();
-                    String name = products_copy1.get(i).getName_of_product();
+            String shops[] = {"Novus", "MegaMarket", "Fozzy"};
 
-                    if (name.lastIndexOf("Novus") != -1) {
+            // Novus -> MegaMarket -> Fozzy
+            for (int i = 0; i < shops.length; i++) {
+                for (int j = 0; i < products_copy1.size(); i++) {
+                    int price = products_copy1.get(j).getPrice_of_product();
+                    String name = products_copy1.get(j).getName_of_product();
+
+                    if (name.lastIndexOf(shops[i]) != -1) {
                         products_copy2.add(new Product());
                         products_copy2.get(products_copy2.size() - 1).setName_of_product(name);
                         products_copy2.get(products_copy2.size() - 1).setPrice_of_product(price);
                     }
                 }
-
-            for (int i = 0; i < products_copy1.size(); i++)
-                {
-                    int price = products_copy1.get(i).getPrice_of_product();
-                    String name = products_copy1.get(i).getName_of_product();
-
-                    if (name.lastIndexOf("MegaMarket") != -1) {
-                        products_copy2.add(new Product());
-                        products_copy2.get(products_copy2.size() - 1).setName_of_product(name);
-                        products_copy2.get(products_copy2.size() - 1).setPrice_of_product(price);
-                    }
-                }
-
-            for (int i = 0; i < products_copy1.size(); i++)
-                {
-                    int price = products_copy1.get(i).getPrice_of_product();
-                    String name = products_copy1.get(i).getName_of_product();
-
-                    if (name.lastIndexOf("Fozzy") != -1) {
-                        products_copy2.add(new Product());
-                        products_copy2.get(products_copy2.size() - 1).setName_of_product(name);
-                        products_copy2.get(products_copy2.size() - 1).setPrice_of_product(price);
-                    }
-                }
+            }
 
             writeProductsToList(products_copy2);
         }
@@ -283,31 +251,25 @@ public class ListOfProductsActivity extends AppCompatActivity implements Adapter
             String mLine;
 
             boolean f = false;
+
             while ((mLine = buffer.readLine()) != null) {
                 if ((mLine.lastIndexOf(product) != -1) && (f == false)) {
-                    f= true;
-                    Log.d("###", "Yes1");
+                    f = true;
+
                     if (mLine.lastIndexOf("X") > mLine.lastIndexOf(")"))
                     {
-                        Log.d("###", "Yes2");
                         String s1 = mLine.substring(mLine.lastIndexOf("X") + 1, mLine.length());
-                        Log.d("###", "Count  = ." + s1 + ".");
                         int count = Integer.parseInt(s1);
-                        Log.d("###", "Count - 1 = " + Integer.toString(count-1));
 
                         if (count != 2)
                         {
-                            Log.d("###", "Ne 2");
                             String s2 = mLine.substring(0, mLine.lastIndexOf("X") + 1);
 
                             strBuffer.append(s2 + Integer.toString(count - 1) + '\n');
                         }
                         else
                         {
-                            Log.d("###", "Da 2");
                             String s2 = mLine.substring(0, mLine.lastIndexOf(")") + 1);
-
-                            Log.d("###", "Ready = ." + s2 + ".");
 
                             strBuffer.append(s2 + '\n');
                         }
@@ -316,8 +278,6 @@ public class ListOfProductsActivity extends AppCompatActivity implements Adapter
                 else
                     strBuffer.append(mLine + '\n');
             }
-
-            Log.d("ListProducts", strBuffer.toString() + '\n');
 
             // Запись нового файла без удаленного продукта
             fileOutput = openFileOutput("list_of_products.txt", MODE_PRIVATE);
@@ -330,7 +290,7 @@ public class ListOfProductsActivity extends AppCompatActivity implements Adapter
         }
     }
 
-    // Метод для удаления всех Buttons и Textviews в LinearLayout
+    // Метод для удаления всех кнопок и надписей в LinearLayout
     public void deleteButtonsAndTextViews() {
         for (int i = x; i < y; i++)
         {
@@ -342,25 +302,25 @@ public class ListOfProductsActivity extends AppCompatActivity implements Adapter
         x = y;
     }
 
-    // Метод для добавления Button и Textviews в LinearLayout
+    // Метод для добавления кнопок и надписей в LinearLayout
    public void addButtonAndTextView(final String product) {
-        final int number = (y - x) / 2 + 1;
+        int number = (y - x) / 2 + 1;
 
-        final TextView t = new TextView(getApplicationContext());
+        TextView t = new TextView(getApplicationContext());
         t.setText('\n' + Integer.toString(number) + ") " + product + '\n');
         t.setTextSize(18);
         t.setId(y);
         y++;
         linearLayout.addView(t);
 
-        final Button b = new Button(getApplicationContext());
+        Button b = new Button(getApplicationContext());
         b.setText(getString(R.string.button_delete_product) + Integer.toString(number));
         b.setId(y);
         b.setBackgroundColor(getColor(R.color.colorOrange));
         y++;
         linearLayout.addView(b);
 
-        // Удаление конкретного продукта при нажатии на Button
+        // Удаление конкретного продукта при нажатии на кнопку
         b.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 deleteButtonsAndTextViews();
@@ -390,6 +350,7 @@ public class ListOfProductsActivity extends AppCompatActivity implements Adapter
         return sum;
     }
 
+    // Метод, который узнает обшее количество продуктов
     public int getCountOfProducts() {
         int count  = 0;
 

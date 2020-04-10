@@ -1,13 +1,20 @@
+
 package com.example.myapplication;
 
 import java.io.Serializable;
 
-// Класс с информацией о каждом продукте
+// Класс с информацией о продукте
 public class Product implements Serializable {
 
+    // Название продукта
     public String name_of_product;
+
+    // Цена продукта
     public int price_of_product;
+
+    // Количество повторений продукта (Только для списка)
     public int count_of_product;
+
 
     public String getName_of_product() {
         return name_of_product;
@@ -40,6 +47,7 @@ public class Product implements Serializable {
         this.count_of_product = count_of_product;
     }
 
+    // Метод для формулировки количества повторений продукта по имени продукта
     public void formCount_of_product(String s) {
         if (s.lastIndexOf("X") > s.lastIndexOf(")"))
         {

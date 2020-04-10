@@ -4,7 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,31 +22,33 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-// Activity для выбора продуктов
+// Activity для выбора продуктов из различных супермаркетов
 public class AboutProductsActivity extends AppCompatActivity {
     private LinearLayout linearLayout;
-    // Textviewes с типом продукта и надпись о количестве продуктов в корзине
+
+    // Надпись о типе продукта и надпись о количестве продуктов в корзине
     private TextView textview_type_of_product, textview_count_of_products;
+
     // Поисковая стока
     private EditText plaintext_search_line;
-    // Buttons супермаркетов и "Далее"
+
+    // Кнопки супермаркетов и кнопка "Далее"
     private Button button_of_novus, button_of_megamarket, button_of_fozzy, button_of_continue;
-    // Button корзины
+
+    // Кнопка корзины с продуктами из списка
     private ImageButton button_of_bag;
 
-    // Границы ID
+    // Границы ID надписей и кнопок продуктов
     private int x, y;
-    // Количество продуктов в различных комбинациях выводов
-    private int count_novus, count_megamarket, count_fozzy, count_novus_megamarket, count_megamarket_fozzy, count_novus_fozzy, count_novus_megamarket_fozzy;
 
     // Тип продукта
     String type_of_product;
 
-    // Флаги цвета кнопок и флаг проверки вывода
+    // Флаги цвета кнопок при нажатии и флаг проверки наличия вывода продуктов
     private boolean f1, f2, f3, flag;
 
-    // ArrayList продуктов из различных супермаркетов
-    public ArrayList<Product> products_novus, products_megamarket, products_fozzy, products_novus_megamarket, products_megamarket_fozzy, products_novus_fozzy, products_novus_megamarket_fozzy = new ArrayList<Product>();
+    // ArrayList продуктов из различных супермаркетов и ArrayList продуктов которые изменяються в ходе поиска в поисковой строке
+    public ArrayList<Product> products_novus, products_megamarket, products_fozzy, products_novus_megamarket, products_megamarket_fozzy, products_novus_fozzy, products_novus_megamarket_fozzy, products_for_searchbar = new ArrayList<Product>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,12 +64,12 @@ public class AboutProductsActivity extends AppCompatActivity {
         button_of_megamarket = findViewById(R.id.button_of_megamarket);
         button_of_fozzy = findViewById(R.id.button_of_fozzy);
         button_of_continue = findViewById(R.id.button_of_continue);
+        button_of_bag = findViewById(R.id.picture_basket);
 
         button_of_novus.setBackgroundColor(getColor(R.color.colorBlue));
         button_of_megamarket.setBackgroundColor(getColor(R.color.colorBlue));
         button_of_fozzy.setBackgroundColor(getColor(R.color.colorBlue));
         button_of_continue.setBackgroundColor(getColor(R.color.colorGreen));
-        button_of_bag = findViewById(R.id.picture_basket);
 
         textview_count_of_products = findViewById(R.id.textview_count_of_products);
 
@@ -75,15 +78,10 @@ public class AboutProductsActivity extends AppCompatActivity {
         x = 1;
         y = 1;
 
-        count_novus = 0;
-        count_megamarket = 0;
-        count_fozzy = 0;
-
-        count_novus_megamarket = 0;
-        count_megamarket_fozzy = 0;
-        count_novus_fozzy = 0;
-
-        count_novus_megamarket_fozzy = 0;
+        products_novus_fozzy = new ArrayList<Product>();
+        products_novus_megamarket = new ArrayList<Product>();
+        products_megamarket_fozzy = new ArrayList<Product>();
+        products_novus_megamarket_fozzy = new ArrayList<Product>();
 
         f1 = false;
         f2 = false;
@@ -103,16 +101,41 @@ public class AboutProductsActivity extends AppCompatActivity {
                 break;
         }
 
+        // Переход в ListOfProductsActivity при нажатии на кнопку корзины продуктов
         button_of_bag.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Переход в ListOfProductsActivity
                 Intent mainIntent = new Intent(AboutProductsActivity.this, ListOfProductsActivity.class);
                 startActivity(mainIntent);
             }
         });
+
+        products_for_searchbar = new ArrayList<Product>();
+
+        // Добавление обьекта TextWatcher для реагирование на изменения поисковой строки
+        plaintext_search_line.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            // Если текст в поисковой строке изменился
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+               if (products_for_searchbar.size() != 0) {
+                    deleteListOfProducts();
+
+                    viv(products_for_searchbar, plaintext_search_line.getText().toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
-    // Жизненный цикл для того, чтобы при переходе из ListOfProductsActivity обратно в AboutProductsActivity не сбивались значения количества продуктов
+    // Жизненный цикл для того, чтобы при переходе из ListOfProductsActivity обратно в AboutProductsActivity не сбивались значение количества продуктов
     @Override
     protected void onResume() {
         super.onResume();
@@ -128,18 +151,13 @@ public class AboutProductsActivity extends AppCompatActivity {
         type_of_product = args.getString("TypeOfProduct");
 
         products_novus = (ArrayList<Product>) args.getSerializable("Name1");
-        if (type_of_product.equals("Bread") == false)
-            products_megamarket = (ArrayList<Product>) args.getSerializable("Name2");
+        products_megamarket = (ArrayList<Product>) args.getSerializable("Name2");
         products_fozzy = (ArrayList<Product>) args.getSerializable("Name3");
-
-        count_novus = products_novus.size();
-        if (type_of_product.equals("Bread") == false)
-            count_megamarket = products_megamarket.size();
-        count_fozzy = products_fozzy.size();
     }
 
-    // Метод для подсчитывания количества продуктов в файле
+    // Метод для подсчета количества продуктов в файле
     public void formCountOfProductsInList() {
+        // Количество продуктов в списке
         int count = 0;
 
         try {
@@ -148,10 +166,12 @@ public class AboutProductsActivity extends AppCompatActivity {
             BufferedReader buffer = new BufferedReader(reader);
             String mLine;
 
+            // Считывание продуктов из файла со списком и подсчет количества повторений кажлого продукта
             while ((mLine = buffer.readLine()) != null) {
-                Product z = new Product();
-                z.formCount_of_product(mLine);
-                count = count + z.getCount_of_product();
+                Product product_example = new Product();
+
+                product_example.formCount_of_product(mLine);
+                count = count + product_example.getCount_of_product();
             }
         }
         catch (IOException e) {
@@ -167,7 +187,7 @@ public class AboutProductsActivity extends AppCompatActivity {
 
     // Метод обработки нажатия кнопок с супермаркетами
     public void onClickButtonShop(View view) {
-        // Изменение цвета Buttons при нажатии
+        // Изменение цвета кнопок при нажатии на них
         if (view.getId() == button_of_novus.getId()) {
             if (f1 == false) {
                 button_of_novus.setBackgroundColor(getColor(R.color.colorPurple));
@@ -178,6 +198,7 @@ public class AboutProductsActivity extends AppCompatActivity {
             }
             f1 = !f1;
         }
+
         if (view.getId() == button_of_megamarket.getId()) {
             if (f2 == false) {
                 button_of_megamarket.setBackgroundColor(getColor(R.color.colorPurple));
@@ -188,6 +209,7 @@ public class AboutProductsActivity extends AppCompatActivity {
             }
             f2 = !f2;
         }
+
         if (view.getId() == button_of_fozzy.getId()) {
             if (f3 == false) {
                 button_of_fozzy.setBackgroundColor(getColor(R.color.colorPurple));
@@ -199,84 +221,103 @@ public class AboutProductsActivity extends AppCompatActivity {
             f3 = !f3;
         }
 
-        // Вывод информации в зависимости от выбраной Button
+
+        // Вывод информации в зависимости от выбраных кнопок
         if (view.getId() == button_of_continue.getId())
         {
             deleteListOfProducts();
 
             if ((f1 == true) && (f2 == false) && (f3 == false))
             {
-                viv(products_novus, count_novus);
+                // Novus
+
+                viv(products_novus, plaintext_search_line.getText().toString());
             }
+
             else
             if ((f2 == true) && (f1 == false) && (f3 == false))
             {
+                // MegaMarket
+
+                // Проверка на существование продукта данного типа
                 if (type_of_product.equals("Bread"))
                 {
                     TextView t = new TextView(getApplicationContext());
-                    t.setText('\n' + getString(R.string.text_not_avaible_product));
+                    t.setText('\n' + getString(R.string.problem_not_avaible_product));
                     t.setTextSize(18);
                     t.setId(y);
                     y++;
                     linearLayout.addView(t);
                 }
                 else
-                    viv(products_megamarket, count_megamarket);
+                    viv(products_megamarket, plaintext_search_line.getText().toString());
             }
+
             else
             if ((f3 == true) && (f1 == false) && (f2 == false))
             {
-                viv(products_fozzy, count_fozzy);
+                // Fozzy
+
+                viv(products_fozzy, plaintext_search_line.getText().toString());
             }
+
             else
             if ((f1 == true) && (f2 == true) && (f3 == false))
             {
-                if (count_novus_megamarket == 0) {
-                    products_novus_megamarket = getInfoAboutTwoShops(products_novus, products_megamarket, count_novus, count_megamarket);
-                    count_novus_megamarket = count_novus + count_megamarket;
+                // Novus + MegaMarket
+
+                if (products_novus_megamarket.size() == 0) {
+                    products_novus_megamarket = getInfoAboutTwoShops(products_novus, products_megamarket);
                 }
 
-                viv(products_novus_megamarket, count_novus_megamarket);
+                viv(products_novus_megamarket, plaintext_search_line.getText().toString());
             }
+
             else
             if ((f1 == true) && (f3 == true) && (f2 == false))
             {
-                if (count_novus_fozzy == 0) {
-                    products_novus_fozzy = getInfoAboutTwoShops(products_novus, products_fozzy, count_novus, count_fozzy);
-                    count_novus_fozzy = count_novus + count_fozzy;
+                // Novus + Fozzy
+
+                if (products_novus_fozzy.size() == 0) {
+                    products_novus_fozzy = getInfoAboutTwoShops(products_novus, products_fozzy);
                 }
 
-                viv(products_novus_fozzy, count_novus_fozzy);
+                viv(products_novus_fozzy, plaintext_search_line.getText().toString());
             }
+
             else
             if ((f2 == true) && (f3 == true) && (f1 == false))
             {
-                if (count_megamarket_fozzy == 0) {
-                    products_megamarket_fozzy = getInfoAboutTwoShops(products_megamarket, products_fozzy, count_megamarket, count_fozzy);
-                    count_megamarket_fozzy = count_megamarket + count_fozzy;
+                // MegaMarket + Fozzy
+
+                if (products_megamarket_fozzy.size() == 0) {
+                    products_megamarket_fozzy = getInfoAboutTwoShops(products_megamarket, products_fozzy);
                 }
 
-                viv(products_megamarket_fozzy, count_megamarket_fozzy);
+                viv(products_megamarket_fozzy, plaintext_search_line.getText().toString());
             }
+
             else
             if ((f1 == true) && (f2 == true) && (f3 == true))
             {
-                if (count_novus_megamarket_fozzy == 0) {
-                    if (count_megamarket_fozzy == 0) {
-                        products_megamarket_fozzy = getInfoAboutTwoShops(products_megamarket, products_fozzy, count_megamarket, count_fozzy);
-                        count_megamarket_fozzy = count_megamarket + count_fozzy;
-                    }
+                // Novus + MegaMarket + Fozzy
 
-                    products_novus_megamarket_fozzy = getInfoAboutTwoShops(products_megamarket_fozzy, products_novus, count_megamarket_fozzy, count_novus);
-                    count_novus_megamarket_fozzy = count_megamarket_fozzy + count_novus;
+                if (products_novus_megamarket_fozzy.size() == 0) {
+                        if (products_megamarket_fozzy.size() == 0) {
+                            products_megamarket_fozzy = getInfoAboutTwoShops(products_megamarket, products_fozzy);
+                        }
+
+                        products_novus_megamarket_fozzy = getInfoAboutTwoShops(products_megamarket_fozzy, products_novus);
+
+                        viv(products_novus_megamarket_fozzy, plaintext_search_line.getText().toString());
                 }
-
-                viv(products_novus_megamarket_fozzy, count_novus_megamarket_fozzy);
-
             }
+
             else {
+                // Если не нажато ни одну кнопку
+
                 TextView t = new TextView(getApplicationContext());
-                t.setText(getString(R.string.text_choose_button));
+                t.setText(getString(R.string.problem_choose_button));
                 t.setTextSize(18);
                 t.setId(y);
                 y++;
@@ -291,11 +332,13 @@ public class AboutProductsActivity extends AppCompatActivity {
             button_of_megamarket.setBackgroundColor(getColor(R.color.colorBlue));
             button_of_fozzy.setBackgroundColor(getColor(R.color.colorBlue));
         }
-
     }
 
-    // Метод формулирования массива ArrayList<Product> с информацией о 2 магазинах
-    public ArrayList<Product> getInfoAboutTwoShops(ArrayList<Product> s1, ArrayList<Product> s2, int k1, int k2) {
+    // Метод формулирования АrrayList<Product> с информацией о 2 магазинах, который возвращает тоже ArrayList с информацией о продуктах из 2 магазинов
+    public ArrayList<Product> getInfoAboutTwoShops(ArrayList<Product> s1, ArrayList<Product> s2) {
+        int k1 = s1.size();
+        int k2 = s2.size();
+
         ArrayList<Product> s3 = new ArrayList<Product>();
 
         for (int i = 0; i < k1; i++) {
@@ -310,6 +353,7 @@ public class AboutProductsActivity extends AppCompatActivity {
             s3.get(i+k1).setPrice_of_product(s2.get(i).getPrice_of_product());
         }
 
+        // Сортировка "Бульбашкой"
         for (int i = 1; i < k1 + k2; i++)
             for (int j = i; j >= 1; j--) {
                 if (s3.get(j).getPrice_of_product() < s3.get(j-1).getPrice_of_product()) {
@@ -330,25 +374,31 @@ public class AboutProductsActivity extends AppCompatActivity {
     }
 
     // Метод, который регулирует вывод продуктов
-    public void viv(ArrayList<Product> products, int count) {
+    public void viv(ArrayList<Product> products, String string_from_searchbar) {
         flag = false;
 
-        for (int i = 0; i<count; i++)
-            addButtonAndTextView(products.get(i).getName_of_product(), i+1);
+        for (int i = 0; i < products.size(); i++)
+            addButtonAndTextView(products.get(i).getName_of_product(), string_from_searchbar);
 
-        // Если не было совпадений со строкой поиска
+        products_for_searchbar = new ArrayList<Product>();
+
+        for (int i = 0; i < products.size(); i++) {
+            products_for_searchbar.add(new Product());
+            products_for_searchbar.get(i).setName_of_product(products.get(i).getName_of_product());
+        }
+
+        // Если не нашлось совпадений со строкой поиска
         if (flag == false) {
             TextView t = new TextView(getApplicationContext());
-            t.setText('\n' + "Даний продукт не знайдено");
+            t.setText('\n' + getString(R.string.problem_searchbar_not_found)+ '\n');
             t.setTextSize(18);
             t.setId(y);
             y++;
             linearLayout.addView(t);
         }
-
     }
 
-    // Метод для удаления Buttons и TextViews, чтобы не было повтора ID при создание новых
+    // Метод для удаления кнопок и надписей, чтобы не было повтора ID при создание новых
     public void deleteListOfProducts() {
         for (int i = x; i < y; i++)
         {
@@ -356,39 +406,48 @@ public class AboutProductsActivity extends AppCompatActivity {
             b.setVisibility(View.GONE);
         }
 
-        // Делаем типо "обнуление" количества Butons и TextViews
+        // "Jбнуление" границ ID
         x = y;
     }
 
-    // Метод для создание разных Button и TextView для каждого продукта
-    public void addButtonAndTextView(final String product, int number) {
+    // Метод для создание разных кнопок и надписей для каждого продукта
+    public void addButtonAndTextView(final String product, String string_from_searchbar) {
+        // Продукт, который нужно добавить
         String s1 = product.toLowerCase();
-        String s2 = plaintext_search_line.getText().toString().toLowerCase();
+
+        // Строка из строки поиска
+        String s2 = string_from_searchbar.toLowerCase();
 
         if (s1.lastIndexOf(s2) != -1) {
             flag = true;
+
+            int number = (y - x) / 2 + 1;
+
             TextView t = new TextView(getApplicationContext());
-            t.setText('\n' + Integer.toString((y - x) / 2 + 1) + ") " + product + '\n');
+            t.setText('\n' + Integer.toString(number) + ") " + product + '\n');
             t.setTextSize(18);
             t.setId(y);
             y++;
             linearLayout.addView(t);
 
             Button b = new Button(getApplicationContext());
-            b.setText(getString(R.string.button_buy_product) + Integer.toString((y - 1 - x) / 2 + 1));
+            b.setText(getString(R.string.button_buy_product) + Integer.toString(number));
             b.setId(y);
             y++;
             b.setBackgroundColor(getColor(R.color.colorOrange));
             linearLayout.addView(b);
 
+            // При нажатии на кнопку "Купить продукт"
             b.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+                    // Добавление продукта в файл со списком продутов
                     write(product);
+
+                    // Изменение количества продуктов, который будет выводиться над корзиной с продуктами
                     formCountOfProductsInList();
                 }
             });
         }
-
     }
 
     // Метод для записи определенного продукта в файл списка продуктов
@@ -410,6 +469,7 @@ public class AboutProductsActivity extends AppCompatActivity {
                    {
                        f = true;
 
+                       // Если продукт имеет повторения в списке
                        if (lines.lastIndexOf("X") > lines.lastIndexOf(")"))
                        {
                            String s = lines.substring(lines.lastIndexOf("X") + 1, lines.length());
@@ -419,13 +479,12 @@ public class AboutProductsActivity extends AppCompatActivity {
                        }
                        else
                            strBuffer.append(lines + " X2" + '\n');
-
-
                    }
                     else
                         strBuffer.append(lines + '\n');
                 }
 
+                // Если совпадений с продуктом добавления не было
                 if (f == false)
                     stroka = product + '\n' + strBuffer.toString();
                 else
@@ -433,14 +492,14 @@ public class AboutProductsActivity extends AppCompatActivity {
             }
             catch (IOException e)
             {
+                // Если файл до этого не был создан
                 stroka = product + '\n';
             }
-            // Класс, который помогает помещать данные в файл
+
+            // Помещать данных в файл
             FileOutputStream fileOutput = openFileOutput("list_of_products.txt", MODE_PRIVATE);
             fileOutput.write(stroka.getBytes());
             fileOutput.close();
-
-            Toast.makeText(AboutProductsActivity.this, getString(R.string.toast_added_product), Toast.LENGTH_LONG).show();
         }
         catch (FileNotFoundException e )
         {
@@ -449,5 +508,7 @@ public class AboutProductsActivity extends AppCompatActivity {
         {
         }
 
+        Toast.makeText(AboutProductsActivity.this, getString(R.string.toast_added_product), Toast.LENGTH_LONG).show();
     }
+
 }

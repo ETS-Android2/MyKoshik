@@ -24,14 +24,15 @@
     <string name="button_clear">Очистити</string>
     <string name="button_list_of_products">Список продуктів</string>
 
-    <string name="text_problem_with_internet_connection">Перевірте з`єднання з інтернетом</string>
-    <string name="text_not_avaible_product">На жаль данний продукт не доступний</string>
     <string name="text_downloading">Завантаження продуктів. Зачекайте трошки</string>
-    <string name="text_empty_list">Список продуктів пустий</string>
-    <string name="text_choose_button">\n Оберіть одну кнопку аби продовжити</string>
 
-    <string name="toast_cleared_list">Список продуктів був видален</string>
-    <string name="toast_deleted_product">Продукт був видаленим зі списка</string>
+    <string name="problem_not_avaible_product">На жаль данний продукт не доступний</string>
+    <string name="problem_empty_list">Список продуктів пустий</string>
+    <string name="problem_choose_button">\n Оберіть одну кнопку аби продовжити</string>
+    <string name="problem_searchbar_not_found">Продукт не було знайдено</string>
+
+    <string name="toast_cleared_list">Список покупок був видален</string>
+    <string name="toast_deleted_product">Продукт був видаленим зі списку покупок</string>
     <string name="toast_added_product">Продукт був доданий до списку покупок</string>
 
     <string name="price_of_list">Загальна ціна =\u0020</string>

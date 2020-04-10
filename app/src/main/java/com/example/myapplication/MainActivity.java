@@ -20,10 +20,16 @@ import android.widget.TextView;
 // Начальная MainActivity
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    // Кнопка списка продуктов
     private Button button_of_list_of_products;
+
+    // Кнопка с информацией и ссылкой на сайт автора
     private ImageButton button_of_question;
+
+    // Кнопка закрытия диалогового окна
     private TextView button_close_dialog;
 
+    // Диалоговое окно
     private Dialog dialog;
 
     private SharedPreferences prefs = null;
@@ -52,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button_close_dialog.setOnClickListener(this);
     }
 
-    // Метод для нажатия на Button
+    // Метод для нажатия на кнопки
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
