@@ -151,9 +151,9 @@ public class SplashScreenActivity extends Activity {
 
     // Метод получения типа продукта
     public String getTypeOfProduct() {
-        Bundle arguments1 = getIntent().getExtras();
+        Bundle arguments = getIntent().getExtras();
 
-        return arguments1.getString("TypeOfProduct");
+        return arguments.getString("TypeOfProduct");
     }
 
     // Метод формулирования продуктов и отправки их в AboutProductsActivity
@@ -162,7 +162,10 @@ public class SplashScreenActivity extends Activity {
        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-
+                /*
+                    TRUE - Переход к парсингу сайтов
+                    FALSE - Считывание информации с файов
+                 */
                 if (flag == true)
                 {
                     getInfoAboutNovus();
@@ -401,6 +404,7 @@ public class SplashScreenActivity extends Activity {
         }
     }
 
+    // Метод для получение настоящей даты (День и месяц)
     public String getCurrentDate() {
         // Текущее время
         Date currentDate = new Date();
@@ -411,6 +415,7 @@ public class SplashScreenActivity extends Activity {
         return  dateText;
     }
 
+    // Метод получение даты из файла
     public String getCurrentDateFromFile() {
         String dateText = null;
 
@@ -439,6 +444,7 @@ public class SplashScreenActivity extends Activity {
         return dateText;
     }
 
+    // Метод записи
     public void writeToFile(String fileName, StringBuilder result) {
         FileOutputStream fileOutput;
         try {

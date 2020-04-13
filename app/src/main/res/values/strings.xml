@@ -14,6 +14,10 @@
     <string name="dialog_text_no">Ні</string>
     <string name="dialog_inline_version">10.03</string>
 
+    <string name="instruction_text1">Продукти з супермаркетів</string>
+    <string name="instruction_text2">Ваш кошик</string>
+    <string name="instruction_text3">Сайт з зображеннями</string>
+
     <string name="text_milk">Молоко</string>
     <string name="text_eggs">Яйця</string>
     <string name="text_bread">Хліб</string>
@@ -38,6 +42,7 @@
     <string name="button_continue">Далі</string>
     <string name="button_clear">Очистити</string>
     <string name="button_list_of_products">Список продуктів</string>
+    <string name="button_choose_product">Обрати продукт</string>
 
     <string name="text_downloading">Завантаження продуктів. Зачекайте трошки</string>
 
