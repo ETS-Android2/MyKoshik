@@ -37,14 +37,14 @@
             android:src="@drawable/picture_site" />
 
         <TextView
-            android:id="@+id/textview_of_description"
+            android:id="@+id/textview_version"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
             android:layout_weight="50"
             android:autoLink="web"
             android:gravity="center"
-            android:text="Зображення взяті з сайту \n www.freepik.com"
+            android:text="@string/dialog_text_site"
             android:textSize="24sp" />
 
     </LinearLayout>

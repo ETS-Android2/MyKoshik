@@ -1,24 +1,41 @@
 package com.example.myapplication;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 // Activity для показа SplashScreen (Экран загрузки) и загрузки продуктов
 public class SplashScreenActivity extends Activity {
@@ -26,7 +43,11 @@ public class SplashScreenActivity extends Activity {
     private ImageView picture_image_of_product;
 
     // Надпись с типом продукта
-    private TextView textview_name_of_product;
+    private TextView textview_name_of_product, textview_update;
+
+    private Button button_yes, button_no;
+
+    private ProgressBar progressBar;
 
     // Тип продукта
     String typeOfProduct;
@@ -50,12 +71,58 @@ public class SplashScreenActivity extends Activity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        formProducts();
+        final Dialog dialog = new Dialog(SplashScreenActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_window_splashscreen);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
+
+        textview_update = dialog.findViewById(R.id.textview_version);
+        button_yes = dialog.findViewById(R.id.button_yes);
+        button_no = dialog.findViewById(R.id.button_no);
+
+        textview_update.setText(getString(R.string.dialog_text1_splashscreen) + getString(R.string.dialog_text2_splashscreen) + getCurrentDateFromFile());
+
+        button_yes.setBackgroundColor(getColor(R.color.colorGreen));
+        button_no.setBackgroundColor(getColor(R.color.colorRed));
+
+        dialog.show();
+
+        button_yes.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                dialog.dismiss();
+
+                progressBar.setVisibility(View.VISIBLE);
+
+                // Проверка на подключение к интернету
+                if (tryInternetConnection() == true)
+                    formProducts(true);
+                else {
+                    Toast.makeText(SplashScreenActivity.this, getString(R.string.problem_internet_connection), Toast.LENGTH_LONG).show();
+
+                    formProducts(false);
+                }
+            }
+        });
+
+        button_no.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                dialog.dismiss();
+
+                progressBar.setVisibility(View.VISIBLE);
+
+                formProducts(false);
+            }
+        });
     }
 
     // Метод, котрый формирует SplashScreen в зависимости от типа продукта
     public void formSplashScreen() {
         setContentView(R.layout.activity_splash_screen);
+
+        progressBar = findViewById(R.id.progressBar);
+
+        progressBar.setVisibility(View.INVISIBLE);
 
         textview_name_of_product = findViewById(R.id.texview_typeOfProduct);
         picture_image_of_product = findViewById(R.id.picture_splash_screen);
@@ -85,33 +152,35 @@ public class SplashScreenActivity extends Activity {
     // Метод получения типа продукта
     public String getTypeOfProduct() {
         Bundle arguments1 = getIntent().getExtras();
-        return arguments1.getString("TypeOfProduct");
 
+        return arguments1.getString("TypeOfProduct");
     }
 
     // Метод формулирования продуктов и отправки их в AboutProductsActivity
-    public void formProducts() {
+    public void formProducts(final boolean flag) {
         // По истечении времени, запускаем AboutProductsActivity, а SplashScreenActivity закрываем
-        new Handler().postDelayed(new Runnable() {
+       new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
 
-                if (tryInternetConnection() == true)
+                if (flag == true)
                 {
-                    // + Интернет
-
                     getInfoAboutNovus();
                     if (typeOfProduct.equals("Bread") == false)
                         getInfoAboutMegaMarket();
                     getInfoAboutFozzy();
                 }
-                else
-                {
-                    // - Интернет
+                else {
+                    readFromFile("filenovus" + typeOfProduct.toLowerCase() + ".txt", false);
+                    readFromFile("filemegamarket" + typeOfProduct.toLowerCase() + ".txt", false);
+                    readFromFile("filefozzy" + typeOfProduct.toLowerCase() + ".txt", false);
 
-                   readFromFile("filenovus" + typeOfProduct.toLowerCase() + ".txt");
-                   readFromFile("filemegamarket" + typeOfProduct.toLowerCase() + ".txt");
-                   readFromFile("filefozzy" + typeOfProduct.toLowerCase() + ".txt");
+                    if (products_novus.size() == 0)
+                        readFromFile("filenovus" + typeOfProduct.toLowerCase() + ".txt", true);
+                    if ((products_megamarket.size() == 0) && (typeOfProduct.equals("Bread") == false))
+                        readFromFile("filemegamarket" + typeOfProduct.toLowerCase() + ".txt", true);
+                    if (products_fozzy.size() == 0)
+                        readFromFile("filefozzy" + typeOfProduct.toLowerCase() + ".txt", true);
                 }
 
                 // Передача данных о продуктах в AboutProductsActivity
@@ -182,6 +251,9 @@ public class SplashScreenActivity extends Activity {
             Elements formElements1[] = new Elements[1000];
             Elements formElements2[] = new Elements[1000];
 
+            StringBuilder strBuffer = new StringBuilder();
+            strBuffer.append(getCurrentDate() + '\n');
+
             // Получение информации о продуктах
             for (int i = 0; i < n; i++)
             {
@@ -198,8 +270,12 @@ public class SplashScreenActivity extends Activity {
                     products_novus.add(new Product());
                     products_novus.get(products_novus.size() - 1).setName_of_product(formElements1[i].get(j).text() + " - " + s1 + "," + s2 + " грн " + "(Novus)");
                     products_novus.get(products_novus.size() - 1).setPrice_of_product(Integer.parseInt(s1 + s2));
+
+                    strBuffer.append(products_novus.get(products_novus.size() - 1).getName_of_product() + '\n');
                 }
             }
+
+            writeToFile("filenovus" + typeOfProduct.toLowerCase() + ".txt", strBuffer);
         }
         catch (IOException e) {
         }
@@ -234,6 +310,9 @@ public class SplashScreenActivity extends Activity {
 
             String url[] = new String[n];
 
+            StringBuilder strBuffer = new StringBuilder();
+            strBuffer.append(getCurrentDate() + '\n');
+
             // Проверка на тип продукта (Не хлеб)
             if (html_sign != "") {
                 url[0] = "https://megamarket.ua/catalog/" + html_sign + "?sort=price";
@@ -255,9 +334,13 @@ public class SplashScreenActivity extends Activity {
                         products_megamarket.add(new Product());
                         products_megamarket.get(products_megamarket.size() - 1).setName_of_product(formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (MegaMarket)");
                         products_megamarket.get(products_megamarket.size() - 1).formPrice_of_product(products_megamarket.get(products_megamarket.size() - 1).getName_of_product());
-                    }
+
+                        strBuffer.append(products_megamarket.get(products_megamarket.size() - 1).getName_of_product() + '\n');
+                }
                 }
             }
+            if (typeOfProduct.equals("Bread") == false)
+                writeToFile("filemegamarket" + typeOfProduct.toLowerCase() + ".txt", strBuffer);
         }
         catch (IOException e) {
         }
@@ -294,6 +377,9 @@ public class SplashScreenActivity extends Activity {
             Elements formElements1[] = new Elements[1000];
             Elements formElements2[] = new Elements[1000];
 
+            StringBuilder strBuffer = new StringBuilder();
+            strBuffer.append(getCurrentDate() + '\n');
+
             for (int i = 0; i < n; i++) {
 
                 doc[i] = Jsoup.connect(url[i]).get();
@@ -304,46 +390,136 @@ public class SplashScreenActivity extends Activity {
                     products_fozzy.add(new Product());
                     products_fozzy.get(products_fozzy.size() - 1).setName_of_product(formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (Fozzy)");
                     products_fozzy.get(products_fozzy.size() - 1).formPrice_of_product(products_fozzy.get(products_fozzy.size() - 1).getName_of_product());
+
+                    strBuffer.append(products_fozzy.get(products_fozzy.size() - 1).getName_of_product() + '\n');
                 }
             }
+
+            writeToFile("filefozzy" + typeOfProduct.toLowerCase() + ".txt", strBuffer);
         }
         catch (IOException e) {
         }
     }
 
-    // Метод для чтения информации о продуктах из файла при отсутсвие интернета
-   public void readFromFile(String fileName) {
-        try{
-            BufferedReader reader = null;
-            reader = new BufferedReader(
-                    new InputStreamReader(getAssets().open(fileName)));
+    public String getCurrentDate() {
+        // Текущее время
+        Date currentDate = new Date();
+        // Форматирование времени как "день.месяц"
+        DateFormat dateFormat = new SimpleDateFormat("dd.MM", Locale.getDefault());
+        String dateText = dateFormat.format(currentDate);
+
+        return  dateText;
+    }
+
+    public String getCurrentDateFromFile() {
+        String dateText = null;
+
+        try {
+            BufferedReader buffer = null;
+            buffer = new BufferedReader(new InputStreamReader(openFileInput("filenovus" + typeOfProduct.toLowerCase() + ".txt")));
 
             String mLine;
-            while ((mLine = reader.readLine()) != null) {
-                // Выбор к какой сети супермаркетов относить прочитаный продукт из файла
-                if (fileName.lastIndexOf("novus") != -1)
-                {
-                    products_novus.add(new Product());
-                    products_novus.get(products_novus.size() - 1).setName_of_product(mLine);
-                    products_novus.get(products_novus.size() - 1).formPrice_of_product(mLine);
-                }
 
-                if (fileName.lastIndexOf("megamarket") != -1)
-                {
-                    products_megamarket.add(new Product());
-                    products_megamarket.get(products_megamarket.size() - 1).setName_of_product(mLine);
-                    products_megamarket.get(products_megamarket.size() - 1).formPrice_of_product(mLine);
-                }
+            boolean firstTime = false;
 
-                if (fileName.lastIndexOf("fozzy") != -1)
-                {
-                    products_fozzy.add(new Product());
-                    products_fozzy.get(products_fozzy.size() - 1).setName_of_product(mLine);
-                    products_fozzy.get(products_fozzy.size() - 1).formPrice_of_product(mLine);
-                }
+            while (((mLine = buffer.readLine()) != null) && (firstTime == false)) {
+                dateText = mLine;
 
+                firstTime = true;
             }
-        } catch (IOException e) {
+        }
+        catch (FileNotFoundException e) {
+            dateText = getString(R.string.dialog_inline_version);
+        }
+        catch (IOException e) {
+        }
+
+        Log.d("###", dateText);
+
+        return dateText;
+    }
+
+    public void writeToFile(String fileName, StringBuilder result) {
+        FileOutputStream fileOutput;
+        try {
+            fileOutput = openFileOutput(fileName, MODE_PRIVATE);
+            fileOutput.write(result.toString().getBytes());
+            fileOutput.close();
+        }
+        catch (IOException e) {
+        }
+    }
+
+
+    // Метод для чтения информации о продуктах из файла при отсутсвие интернета
+   public void readFromFile(String fileName, boolean isFileFromAssets) {
+        Log.d("###", fileName + " " + Boolean.toString(isFileFromAssets));
+
+        StringBuilder strBufferNovus, strBufferMegaMarket, strBufferFozzy;
+
+        strBufferNovus = new StringBuilder();
+        strBufferMegaMarket = new StringBuilder();
+        strBufferFozzy = new StringBuilder();
+
+        if (isFileFromAssets == true) {
+            strBufferNovus.append(getCurrentDateFromFile() + '\n');
+            strBufferMegaMarket.append(getCurrentDateFromFile() + '\n');
+            strBufferFozzy.append(getCurrentDateFromFile() + '\n');
+        }
+
+        try{
+            BufferedReader buffer = null;
+            if (isFileFromAssets == true) {
+                buffer = new BufferedReader(new InputStreamReader(getAssets().open(fileName)));
+            }
+            else
+                buffer = new BufferedReader(new InputStreamReader(openFileInput(fileName)));
+
+            String mLine;
+
+            boolean firstTime = false;
+
+            while ((mLine = buffer.readLine()) != null) {
+                if (firstTime == true) {
+                    // Выбор к какой сети супермаркетов относить прочитаный продукт из файла
+                    if (fileName.lastIndexOf("novus") != -1) {
+                        products_novus.add(new Product());
+                        products_novus.get(products_novus.size() - 1).setName_of_product(mLine);
+                        products_novus.get(products_novus.size() - 1).formPrice_of_product(mLine);
+
+                        strBufferNovus.append(mLine + '\n');
+                    }
+
+                    if (fileName.lastIndexOf("megamarket") != -1) {
+                        products_megamarket.add(new Product());
+                        products_megamarket.get(products_megamarket.size() - 1).setName_of_product(mLine);
+                        products_megamarket.get(products_megamarket.size() - 1).formPrice_of_product(mLine);
+
+                        strBufferMegaMarket.append(mLine + '\n');
+                    }
+
+                    if (fileName.lastIndexOf("fozzy") != -1) {
+                        products_fozzy.add(new Product());
+                        products_fozzy.get(products_fozzy.size() - 1).setName_of_product(mLine);
+                        products_fozzy.get(products_fozzy.size() - 1).formPrice_of_product(mLine);
+
+                        strBufferFozzy.append(mLine + '\n');
+                    }
+                }
+
+                firstTime = true;
+            }
+
+            if (isFileFromAssets == true) {
+                if (fileName.lastIndexOf("novus") != -1)
+                    writeToFile("filenovus" + typeOfProduct.toLowerCase() + ".txt", strBufferNovus);
+                if ((typeOfProduct.equals("Bread") == false) && (fileName.lastIndexOf("megamarket") != -1))
+                    writeToFile("filemegamarket" + typeOfProduct.toLowerCase() + ".txt", strBufferMegaMarket);
+                if (fileName.lastIndexOf("fozzy") != -1)
+                    writeToFile("filefozzy" + typeOfProduct.toLowerCase() + ".txt", strBufferFozzy);
+            }
+        }
+        catch (IOException e) {
         }
     }
 
