@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -55,8 +54,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Log.d("###", "Create");
 
         setContentView(R.layout.activity_main);
 
@@ -221,12 +218,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // Инструкция о пользовании с помощью FancyShowCaseView
     public void makeInstruction() {
-        Log.d("###", "Zasclo");
         final FancyShowCaseView fancyShowCaseView1 = new FancyShowCaseView.Builder(MainActivity.this)
                 .title(getString(R.string.instruction_text1))
                 .enableAutoTextPosition()
                 .focusOn(requireViewById(R.id.button_choose_product))
                 .focusShape(FocusShape.ROUNDED_RECTANGLE)
+                .roundRectRadius(90)
                 .build();
 
         final FancyShowCaseView fancyShowCaseView2 = new FancyShowCaseView.Builder(MainActivity.this)

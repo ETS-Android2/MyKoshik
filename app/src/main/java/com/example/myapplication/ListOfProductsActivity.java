@@ -214,7 +214,7 @@ public class ListOfProductsActivity extends AppCompatActivity implements Adapter
 
             // Novus -> MegaMarket -> Fozzy
             for (int i = 0; i < shops.length; i++) {
-                for (int j = 0; i < products_copy1.size(); i++) {
+                for (int j = 0; j < products_copy1.size(); j++) {
                     int price = products_copy1.get(j).getPrice_of_product();
                     String name = products_copy1.get(j).getName_of_product();
 
@@ -223,6 +223,7 @@ public class ListOfProductsActivity extends AppCompatActivity implements Adapter
                         products_copy2.get(products_copy2.size() - 1).setName_of_product(name);
                         products_copy2.get(products_copy2.size() - 1).setPrice_of_product(price);
                     }
+
                 }
             }
 

@@ -10,8 +10,6 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.StrictMode;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -25,7 +23,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -42,10 +39,13 @@ public class SplashScreenActivity extends Activity {
     // Картинка с продуктом
     private ImageView picture_image_of_product;
 
-    // Надпись с типом продукта
+    // Надпись с типом продукта и надпись о обновлении данных
     private TextView textview_name_of_product, textview_update;
 
+    // Кнопка "Да" и "Нет" для диалогового окна
     private Button button_yes, button_no;
+
+    private Dialog dialog;
 
     private ProgressBar progressBar;
 
@@ -71,7 +71,7 @@ public class SplashScreenActivity extends Activity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        final Dialog dialog = new Dialog(SplashScreenActivity.this);
+        dialog = new Dialog(SplashScreenActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_window_splashscreen);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -178,6 +178,7 @@ public class SplashScreenActivity extends Activity {
                     readFromFile("filemegamarket" + typeOfProduct.toLowerCase() + ".txt", false);
                     readFromFile("filefozzy" + typeOfProduct.toLowerCase() + ".txt", false);
 
+                    // Если еще данные не обновлялись
                     if (products_novus.size() == 0)
                         readFromFile("filenovus" + typeOfProduct.toLowerCase() + ".txt", true);
                     if ((products_megamarket.size() == 0) && (typeOfProduct.equals("Bread") == false))
@@ -198,13 +199,13 @@ public class SplashScreenActivity extends Activity {
         Intent intent = new Intent(SplashScreenActivity.this, AboutProductsActivity.class);
         Bundle args = new Bundle();
 
-        args.putSerializable("Name1", (Serializable) products_novus);
-        args.putSerializable("Name2", (Serializable) products_megamarket);
-        args.putSerializable("Name3", (Serializable) products_fozzy);
+        args.putSerializable("ArrayListNovus", (Serializable) products_novus);
+        args.putSerializable("ArrayListMegaMarket", (Serializable) products_megamarket);
+        args.putSerializable("ArrayListFozzy", (Serializable) products_fozzy);
 
         args.putString("TypeOfProduct", typeOfProduct);
 
-        intent.putExtra("BUNDLE",args);
+        intent.putExtra("Bundle",args);
 
         startActivity(intent);
     }
@@ -281,6 +282,11 @@ public class SplashScreenActivity extends Activity {
             writeToFile("filenovus" + typeOfProduct.toLowerCase() + ".txt", strBuffer);
         }
         catch (IOException e) {
+            // Если не удалось распарсить сайт
+            readFromFile("filenovus" + typeOfProduct.toLowerCase() + ".txt", false);
+
+            if (products_novus.size() == 0)
+                readFromFile("filenovus" + typeOfProduct.toLowerCase() + ".txt", true);
         }
     }
 
@@ -346,6 +352,10 @@ public class SplashScreenActivity extends Activity {
                 writeToFile("filemegamarket" + typeOfProduct.toLowerCase() + ".txt", strBuffer);
         }
         catch (IOException e) {
+            readFromFile("filemegamarket" + typeOfProduct.toLowerCase() + ".txt", false);
+
+            if ((products_megamarket.size() == 0) && (typeOfProduct.equals("Bread") == false))
+                readFromFile("filemegamarket" + typeOfProduct.toLowerCase() + ".txt", true);
         }
     }
 
@@ -401,6 +411,10 @@ public class SplashScreenActivity extends Activity {
             writeToFile("filefozzy" + typeOfProduct.toLowerCase() + ".txt", strBuffer);
         }
         catch (IOException e) {
+            readFromFile("filefozzy" + typeOfProduct.toLowerCase() + ".txt", false);
+
+            if (products_fozzy.size() == 0)
+                readFromFile("filefozzy" + typeOfProduct.toLowerCase() + ".txt", true);
         }
     }
 
@@ -439,8 +453,6 @@ public class SplashScreenActivity extends Activity {
         catch (IOException e) {
         }
 
-        Log.d("###", dateText);
-
         return dateText;
     }
 
@@ -459,7 +471,6 @@ public class SplashScreenActivity extends Activity {
 
     // Метод для чтения информации о продуктах из файла при отсутсвие интернета
    public void readFromFile(String fileName, boolean isFileFromAssets) {
-        Log.d("###", fileName + " " + Boolean.toString(isFileFromAssets));
 
         StringBuilder strBufferNovus, strBufferMegaMarket, strBufferFozzy;
 
@@ -516,6 +527,7 @@ public class SplashScreenActivity extends Activity {
                 firstTime = true;
             }
 
+            // Если файл из Assets
             if (isFileFromAssets == true) {
                 if (fileName.lastIndexOf("novus") != -1)
                     writeToFile("filenovus" + typeOfProduct.toLowerCase() + ".txt", strBufferNovus);
@@ -534,6 +546,7 @@ public class SplashScreenActivity extends Activity {
         String cs = Context.CONNECTIVITY_SERVICE;
         ConnectivityManager cm = (ConnectivityManager)
                 getSystemService(cs);
+
         if (cm.getActiveNetworkInfo() == null)
             return false;
         else

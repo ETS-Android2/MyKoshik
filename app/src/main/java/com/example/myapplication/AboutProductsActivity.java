@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-// Activity для выбора продуктов из различных супермаркетов
+// Activity для выбора продуктов из различных супермаркетов и выбора продуктов
 public class AboutProductsActivity extends AppCompatActivity {
     private LinearLayout linearLayout;
 
@@ -122,6 +122,7 @@ public class AboutProductsActivity extends AppCompatActivity {
             // Если текст в поисковой строке изменился
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Если текст есть
                if (products_for_searchbar.size() != 0) {
                     deleteListOfProducts();
 
@@ -136,7 +137,7 @@ public class AboutProductsActivity extends AppCompatActivity {
         });
     }
 
-    // Жизненный цикл для того, чтобы при переходе из ListOfProductsActivity обратно в AboutProductsActivity не сбивались значение количества продуктов
+    // Жизненный цикл Activity для того, чтобы при переходе из ListOfProductsActivity обратно в AboutProductsActivity не сбивались значение количества продуктов
     @Override
     protected void onResume() {
         super.onResume();
@@ -144,9 +145,11 @@ public class AboutProductsActivity extends AppCompatActivity {
         formCountOfProductsInList();
     }
 
+    // Переопределенный метод нажатия на кнопку назад
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            // Переход в AboutProductsActivity
             Intent intent = new Intent(AboutProductsActivity.this, MainActivity.class);
             startActivity(intent);
 
@@ -159,13 +162,13 @@ public class AboutProductsActivity extends AppCompatActivity {
     // Метод для получения информации из SplashScreenActivity
     public void getInfoFromIntent() {
         Intent intent = getIntent();
-        Bundle args = intent.getBundleExtra("BUNDLE");
+        Bundle args = intent.getBundleExtra("Bundle");
 
         type_of_product = args.getString("TypeOfProduct");
 
-        products_novus = (ArrayList<Product>) args.getSerializable("Name1");
-        products_megamarket = (ArrayList<Product>) args.getSerializable("Name2");
-        products_fozzy = (ArrayList<Product>) args.getSerializable("Name3");
+        products_novus = (ArrayList<Product>) args.getSerializable("ArrayListNovus");
+        products_megamarket = (ArrayList<Product>) args.getSerializable("ArrayListMegaMarket");
+        products_fozzy = (ArrayList<Product>) args.getSerializable("ArrayListFozzy");
     }
 
     // Метод для подсчета количества продуктов в файле
@@ -202,6 +205,8 @@ public class AboutProductsActivity extends AppCompatActivity {
     public void onClickButtonShop(View view) {
         // Изменение цвета кнопок при нажатии на них
         if (view.getId() == button_of_novus.getId()) {
+            // Novus
+
             if (f1 == false) {
                 button_of_novus.setBackgroundColor(getColor(R.color.colorPurple));
             }
@@ -213,6 +218,8 @@ public class AboutProductsActivity extends AppCompatActivity {
         }
 
         if (view.getId() == button_of_megamarket.getId()) {
+            // MegaMarket
+
             if (f2 == false) {
                 button_of_megamarket.setBackgroundColor(getColor(R.color.colorPurple));
             }
@@ -224,11 +231,11 @@ public class AboutProductsActivity extends AppCompatActivity {
         }
 
         if (view.getId() == button_of_fozzy.getId()) {
+            // Fozzy
+
             if (f3 == false) {
                 button_of_fozzy.setBackgroundColor(getColor(R.color.colorPurple));
-            }
-            else
-            {
+            } else {
                 button_of_fozzy.setBackgroundColor(getColor(R.color.colorBlue));
             }
             f3 = !f3;
@@ -390,11 +397,13 @@ public class AboutProductsActivity extends AppCompatActivity {
     public void viv(ArrayList<Product> products, String string_from_searchbar) {
         flag = false;
 
+        // Добавление продуктов в ScrollView
         for (int i = 0; i < products.size(); i++)
             addButtonAndTextView(products.get(i).getName_of_product(), string_from_searchbar);
 
         products_for_searchbar = new ArrayList<Product>();
 
+        // Формулировка запасного ArrayList<Product> для поисковой строки
         for (int i = 0; i < products.size(); i++) {
             products_for_searchbar.add(new Product());
             products_for_searchbar.get(i).setName_of_product(products.get(i).getName_of_product());
@@ -419,21 +428,22 @@ public class AboutProductsActivity extends AppCompatActivity {
             b.setVisibility(View.GONE);
         }
 
-        // "Jбнуление" границ ID
+        // "Обнуление" границ ID
         x = y;
     }
 
-    // Метод для создание разных кнопок и надписей для каждого продукта
+    // Метод для создания кнопок и надписей для каждого продукта
     public void addButtonAndTextView(final String product, String string_from_searchbar) {
-        // Продукт, который нужно добавить
+        // Название продукта, который нужно добавить
         String s1 = product.toLowerCase();
 
-        // Строка из строки поиска
+        // Строка поиска
         String s2 = string_from_searchbar.toLowerCase();
 
         if (s1.lastIndexOf(s2) != -1) {
             flag = true;
 
+            // Номер надписи по ID
             int number = (y - x) / 2 + 1;
 
             TextView t = new TextView(getApplicationContext());
@@ -521,7 +531,7 @@ public class AboutProductsActivity extends AppCompatActivity {
         {
         }
 
-        Toast.makeText(AboutProductsActivity.this, getString(R.string.toast_added_product), Toast.LENGTH_LONG).show();
+        Toast.makeText(AboutProductsActivity.this, getString(R.string.toast_added_product), Toast.LENGTH_SHORT).show();
     }
 
 }
