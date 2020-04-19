@@ -16,29 +16,4 @@ This project is implemented in __Android Studio 3.5.2__. This app works correct 
 
 #### [Maksym Kravchenko](https://github.com/masssimeliano) - __Developer__
 
-<p align="left">
-  Intro of application
-</p>
-
-<p align="left">
-  <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/raw/intro_github.jpg" height="600">
-</p>
-
-<p align="right">
-  Simply instruction
-</p>
-
-<p align="right">
-  <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/raw/instruction_github.jpg" height="600">
-</p>
-
-<p align="left">
-  Intuitive intreface
-</p>
-
-<p align="left">
-  <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/raw/mainactivity_github.jpg" height="600">
-</p>
-
-
-
+<img src="https://media.giphy.com/media/VIyzBLYmo5O3eB4NC0/giphy.gif" width="400" height="800" /> <img src="https://media.giphy.com/media/VIyzBLYmo5O3eB4NC0/giphy.gif" width="400" height="800" />
