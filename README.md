@@ -10,11 +10,30 @@ This application was being made during the course __"Samsung IT School Ukraine"_
 # Version and devices
 This project is implemented in __Android Studio 3.5.2__. This app works correct at __API 23__ : Android 6.0 (Marshmallow) and higher. Tested on Xiaomi Mi A1, Samsung Galaxy A50, Samsung Galaxy A6 and Pixel 2XL API 29 (Virtual Device), Pixel API 28 (Virtual Device) and Nexus 5 API 28 (Virtual Device).
 
-# Features 
+# Features :
 
-* __Simplу and clearly interface__
+* __Simplу and clearly interface (Intro with instruction)__
 
-<img src="https://media.giphy.com/media/VIyzBLYmo5O3eB4NC0/giphy.gif" width="400" height="800" /> <img src="https://media.giphy.com/media/WUJD78IfauQaRgo9qm/giphy.gif" width="400" height="800" />
+<img src="https://media.giphy.com/media/VIyzBLYmo5O3eB4NC0/giphy.gif" width="420" height="800" /> <img src="https://media.giphy.com/media/WUJD78IfauQaRgo9qm/giphy.gif" width="420" height="800" />
+
+* __Choose your daily products from 3 supermarket chains__
+
+<img src="https://media.giphy.com/media/YRbMnPpoiUmb76Cz0S/giphy.gif" width="420" height="800" />
+
+* __Organise and sort your list of products__
+
+<img src="https://media.giphy.com/media/jUF1gKEziMz4vNaWNB/giphy.gif" width="420" height="800" />
+
+* __Site with pictures of app__
+
+<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/raw/screenshot.png" width="420" height="800" />
+
+# Used libraries :
+
+* __Jsoup (Site HTML Parser)__
+* __FancyShowCaseView (Instruction)__
+* __AppIntroDemo (Intro)__
+* __SearchableSpinner (Spinner with serach line)__
 
 # Who made this?
 
