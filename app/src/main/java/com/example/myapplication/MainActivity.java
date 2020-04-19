@@ -221,23 +221,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         final FancyShowCaseView fancyShowCaseView1 = new FancyShowCaseView.Builder(MainActivity.this)
                 .title(getString(R.string.instruction_text1))
                 .enableAutoTextPosition()
-                .focusOn(requireViewById(R.id.button_choose_product))
+                .focusOn(button_choose_product)
                 .focusShape(FocusShape.ROUNDED_RECTANGLE)
-                .roundRectRadius(90)
                 .build();
 
         final FancyShowCaseView fancyShowCaseView2 = new FancyShowCaseView.Builder(MainActivity.this)
                 .title(getString(R.string.instruction_text2))
                 .enableAutoTextPosition()
-                .focusOn(requireViewById(R.id.button_of_list_of_products))
+                .focusOn(button_of_list_of_products)
                 .focusShape(FocusShape.ROUNDED_RECTANGLE)
-                .roundRectRadius(90)
                 .build();
 
         final FancyShowCaseView fancyShowCaseView3 = new FancyShowCaseView.Builder(MainActivity.this)
                 .title(getString(R.string.instruction_text3))
                 .enableAutoTextPosition()
-                .focusOn(requireViewById(R.id.button_open_dialog))
+                .focusOn(button_open_dialog)
                 .build();
 
         FancyShowCaseQueue mQueue = new FancyShowCaseQueue()
