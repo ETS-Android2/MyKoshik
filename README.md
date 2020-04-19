@@ -16,4 +16,6 @@ This project is implemented in __Android Studio 3.5.2__. This app works correct 
 
 #### [Maksym Kravchenko](https://github.com/masssimeliano) - __Developer__
 
+# Features
+
 <img src="https://media.giphy.com/media/VIyzBLYmo5O3eB4NC0/giphy.gif" width="400" height="800" /> <img src="https://media.giphy.com/media/VIyzBLYmo5O3eB4NC0/giphy.gif" width="400" height="800" />
