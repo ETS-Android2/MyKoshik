@@ -52,6 +52,8 @@ public class SplashScreenActivity extends Activity {
     // Тип продукта
     String typeOfProduct;
 
+    private boolean internetConection = true;
+
     // ArrayList продуктов из разных супермаркетов
     public ArrayList<Product> products_novus = new ArrayList<Product>();
     public ArrayList<Product> products_megamarket = new ArrayList<Product>();
@@ -172,6 +174,10 @@ public class SplashScreenActivity extends Activity {
                     if (typeOfProduct.equals("Bread") == false)
                         getInfoAboutMegaMarket();
                     getInfoAboutFozzy();
+
+                    if (internetConection == false)
+                        Toast.makeText(SplashScreenActivity.this, getString(R.string.problem_internet_connection), Toast.LENGTH_LONG).show();
+
                 }
                 else {
                     readFromFile("filenovus" + typeOfProduct.toLowerCase() + ".txt", false);
@@ -282,6 +288,8 @@ public class SplashScreenActivity extends Activity {
             writeToFile("filenovus" + typeOfProduct.toLowerCase() + ".txt", strBuffer);
         }
         catch (IOException e) {
+            products_novus = new ArrayList<Product>();
+
             // Если не удалось распарсить сайт
             readFromFile("filenovus" + typeOfProduct.toLowerCase() + ".txt", false);
 
@@ -352,6 +360,8 @@ public class SplashScreenActivity extends Activity {
                 writeToFile("filemegamarket" + typeOfProduct.toLowerCase() + ".txt", strBuffer);
         }
         catch (IOException e) {
+            products_megamarket = new ArrayList<Product>();
+
             readFromFile("filemegamarket" + typeOfProduct.toLowerCase() + ".txt", false);
 
             if ((products_megamarket.size() == 0) && (typeOfProduct.equals("Bread") == false))
@@ -411,6 +421,9 @@ public class SplashScreenActivity extends Activity {
             writeToFile("filefozzy" + typeOfProduct.toLowerCase() + ".txt", strBuffer);
         }
         catch (IOException e) {
+            internetConection = false;
+            products_fozzy = new ArrayList<Product>();
+
             readFromFile("filefozzy" + typeOfProduct.toLowerCase() + ".txt", false);
 
             if (products_fozzy.size() == 0)
@@ -467,7 +480,6 @@ public class SplashScreenActivity extends Activity {
         catch (IOException e) {
         }
     }
-
 
     // Метод для чтения информации о продуктах из файла при отсутсвие интернета
    public void readFromFile(String fileName, boolean isFileFromAssets) {
@@ -544,8 +556,7 @@ public class SplashScreenActivity extends Activity {
     // Метод для проверки соединение с интернетом
     public boolean tryInternetConnection() {
         String cs = Context.CONNECTIVITY_SERVICE;
-        ConnectivityManager cm = (ConnectivityManager)
-                getSystemService(cs);
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(cs);
 
         if (cm.getActiveNetworkInfo() == null)
             return false;

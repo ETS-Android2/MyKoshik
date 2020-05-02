@@ -25,6 +25,8 @@ public class AppIntroActivity extends com.github.paolorotolo.appintro.AppIntro {
                 R.drawable.store_intro, ContextCompat.getColor(getApplicationContext(), R.color.colorAccent)));
         addSlide(AppIntroFragment.newInstance(getString(R.string.text_spare_intro), "",
                 R.drawable.money_box_intro, ContextCompat.getColor(getApplicationContext(), R.color.colorPurple)));
+
+        setSkipText(getString(R.string.text_skip_intro));
     }
 
     // Метод при нажатии кнопки "Done" на последнем слайде

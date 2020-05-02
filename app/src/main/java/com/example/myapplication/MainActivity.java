@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         initItems();
 
-        spinnerDialog = new SpinnerDialog(this, items, "Оберіть одн продукт :");
+        spinnerDialog = new SpinnerDialog(this, items, "Оберіть один продукт :", "Закрити");
 
         // Создание Spinner из библиотеки с выбором продуктов
         spinnerDialog.bindOnSpinerListener(new OnSpinerItemClick() {
@@ -109,8 +109,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             В зависимости от номера вхождения в MainActivity:
              1 - Переход в AppIntroAcitvity
              2 - Показ инструкции
-
          */
+
         switch (checkFirstRun()) {
             case 1 :
                 Intent intent = new Intent(MainActivity.this, AppIntroActivity.class);
