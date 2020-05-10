@@ -25,8 +25,8 @@
 
     <string-array name="spinner_types_of_sort">
         <item>За чергою продуктів</item>
-        <item>За цінами продуктів ↓</item>
-        <item>За цінами продуктів ↑</item>
+        <item>За цінами продуктів ↓ </item>
+        <item>За цінами продуктів ↑ </item>
         <item>За супермаркетами</item>
     </string-array>
 
