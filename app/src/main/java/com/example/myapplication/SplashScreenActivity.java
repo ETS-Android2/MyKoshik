@@ -238,10 +238,10 @@ public class SplashScreenActivity extends Activity {
         String html1, html2;
 
         // html для названия продукта
-        html1 = "span.jsx-2334163243.product-tile__title";
+        html1 = "span.jsx-3360872049.product-tile__title";
 
         // html для цены продукта
-        html2 = "span.jsx-2334163243.product-tile__active-price-value";
+        html2 = "span.jsx-3360872049.product-tile__active-price-value";
 
         try {
             // Количество просматриваемых страниц сайта

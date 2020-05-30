@@ -59,4 +59,6 @@
 
     <string name="price_of_list">Загальна ціна =\u0020</string>
     <string name="count_of_products_list">Кількість продуктів =\u0020</string>
+
+    <string name="sites_links">Зображення взяті з сайтів \nFreepik та IconFinder : \n\nhttps://www.freepik.com \nhttps://www.iconfinder.com</string>
 </resources>
