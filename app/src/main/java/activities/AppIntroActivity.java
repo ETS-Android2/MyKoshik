@@ -10,51 +10,46 @@ import androidx.fragment.app.Fragment;
 import com.example.myapplication.R;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
-// Activity для показа Intro приложения (Вступительная презентация о приложении)
 public class AppIntroActivity extends com.github.paolorotolo.appintro.AppIntro {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Добавление новых слайдов с презентацией приложения
-        addSlide(AppIntroFragment.newInstance(getString(R.string.text_welcome_intro), "",
+        addSlide(AppIntroFragment.newInstance(getString(R.string.appintroactivity_welcome), "",
                 R.drawable.basket_intro, ContextCompat.getColor(getApplicationContext(), R.color.colorAccent)));
-        addSlide(AppIntroFragment.newInstance(getString(R.string.text_list_intro), "",
+        addSlide(AppIntroFragment.newInstance(getString(R.string.appintroactivity_product_list), "",
                 R.drawable.checklist_intro, ContextCompat.getColor(getApplicationContext(), R.color.colorPurple)));
-        addSlide(AppIntroFragment.newInstance(getString(R.string.text_supermarket1_intro), getString(R.string.text_supermarket2_intro),
+        addSlide(AppIntroFragment.newInstance(getString(R.string.appintroactivity_supermarket1), getString(R.string.appintroactivity_supermarket2),
                 R.drawable.store_intro, ContextCompat.getColor(getApplicationContext(), R.color.colorAccent)));
-        addSlide(AppIntroFragment.newInstance(getString(R.string.text_spare_intro), "",
+        addSlide(AppIntroFragment.newInstance(getString(R.string.appintroactivity_spare), "",
                 R.drawable.money_box_intro, ContextCompat.getColor(getApplicationContext(), R.color.colorPurple)));
 
-        setSkipText(getString(R.string.text_skip_intro));
+        setSkipText(getString(R.string.appintroactivity_skip));
+        setDoneText(getString(R.string.appintroactivity_next));
     }
 
-    // Метод при нажатии кнопки "Done" на последнем слайде
     @Override
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
 
-        // Переход в MainActivity
         Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+
         startActivity(intent);
     }
 
-    // Метод при нажатии кнопки "Skip"
     @Override
     public void onSkipPressed(Fragment currentFragment) {
         super.onSkipPressed(currentFragment);
 
-        // Переход в MainActivity
         Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+
         startActivity(intent);
     }
 
-    // Переопределенный метод нажатия на кнопку назад
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            // Блокировка кнопки назад
 
             return true;
         }

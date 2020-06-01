@@ -31,11 +31,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private CardView mCVBuy, mCVKoshik, mCVNotes, mCVStatistics, mCVResources;
 
-    private Dialog mDialogWindowResources;
+    private Dialog mDWResources;
+    private ImageView mIVCloseDialog;
 
     private SpinnerDialog mSpinnerDialog;
-
-    private ImageView mIVCloseDialog;
 
     private ArrayList<String> spinnerItems = new ArrayList<String>();
 
@@ -64,40 +63,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         initSpinnerItems();
 
-        mSpinnerDialog = new SpinnerDialog(this, spinnerItems, "Оберіть один продукт :", "Закрити");
+        mSpinnerDialog = new SpinnerDialog(this, spinnerItems, getString(R.string.mainactivity_choose_one_product), getString(R.string.mainactivity_close_dialog));
 
         mSpinnerDialog.bindOnSpinerListener(new OnSpinerItemClick() {
             @Override
             public void onClick(String item, int position) {
-                Intent mainIntent;
+                Intent mainIntent = null;
 
                 switch (spinnerItems.get(position)) {
                     case "Молоко" :
                         mainIntent = new Intent(MainActivity.this, SplashScreenActivity.class);
                         mainIntent.putExtra("TypeOfProduct", "Milk");
-                        startActivity(mainIntent);
+
+                        Log.d("MainActivity", "Milk");
                         break;
                     case "Яйця" :
                         mainIntent = new Intent(MainActivity.this, SplashScreenActivity.class);
                         mainIntent.putExtra("TypeOfProduct", "Eggs");
-                        startActivity(mainIntent);
+
+                        Log.d("MainActivity", "Eggs");
                         break;
                     case "Хліб" :
                         mainIntent = new Intent(MainActivity.this, SplashScreenActivity.class);
                         mainIntent.putExtra("TypeOfProduct", "Bread");
-                        startActivity(mainIntent);
+
+                        Log.d("MainActivity", "Bread");
                         break;
                 }
+
+                startActivity(mainIntent);
             }
         });
 
-        mDialogWindowResources = new Dialog(MainActivity.this);
-        mDialogWindowResources.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        mDialogWindowResources.setContentView(R.layout.dialog_box);
-        mDialogWindowResources.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        mDialogWindowResources.setCancelable(false);
+        mDWResources = new Dialog(MainActivity.this);
+        mDWResources.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mDWResources.setContentView(R.layout.dialog_window_resources);
+        mDWResources.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mDWResources.setCancelable(false);
 
-        mIVCloseDialog = (ImageView) mDialogWindowResources.findViewById(R.id.mIVCloseDialog);
+        mIVCloseDialog = (ImageView) mDWResources.findViewById(R.id.mIVCloseDialog);
 
         mIVCloseDialog.setOnClickListener(this);
     }
@@ -115,14 +119,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.mCVResources :
-                mDialogWindowResources.show();
+                mDWResources.show();
                 break;
             case R.id.mCVNotes :
                 intent = new Intent(this, NotesActivity.class);
                 startActivity(intent);
                 break;
             case R.id.mIVCloseDialog :
-                mDialogWindowResources.dismiss();
+                mDWResources.dismiss();
                 break;
             default :
                 Toast.makeText(this, getString(R.string.mainactivity_unavailable_task), Toast.LENGTH_LONG).show();
@@ -148,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             entrance = true;
 
-            Log.d("MainActivity", "First Entery");
+            Log.d("MainActivity", "First Entry");
         }
 
         return entrance;

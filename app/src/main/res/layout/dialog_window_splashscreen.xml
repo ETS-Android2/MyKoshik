@@ -2,12 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/picture_of_background"
     android:layout_width="match_parent"
     android:layout_height="300dp"
     android:layout_gravity="center"
     android:layout_margin="10dp"
-    android:background="@drawable/picture_background"
     android:orientation="vertical"
     android:scaleType="centerCrop">
 

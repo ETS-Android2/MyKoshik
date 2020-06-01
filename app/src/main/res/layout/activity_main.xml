@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="MyKoshik"
+                android:text="@string/app_name"
                 android:textColor="#FFFFFF"
                 android:textSize="46dp"
                 android:textStyle="bold" />
@@ -74,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
-                        android:text="Купівля"
+                        android:text="@string/mainactivity_buy"
                         android:textSize="20dp"
                         android:textStyle="bold" />
 
@@ -109,13 +109,12 @@
                         app:srcCompat="@drawable/basket_icon_mainactivity" />
 
                     <TextView
-                        android:id="@+id/textView2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
                         android:gravity="center"
-                        android:text="Кошик"
+                        android:text="@string/mainactivity_product_basket"
                         android:textSize="20dp"
                         android:textStyle="bold" />
 
@@ -153,7 +152,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
-                        android:text="Нотатки"
+                        android:text="@string/mainactivity_notes"
                         android:textSize="20dp"
                         android:textStyle="bold" />
 
@@ -191,7 +190,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
-                        android:text="Статистика"
+                        android:text="@string/mainactivity_statistics"
                         android:textSize="20dp"
                         android:textStyle="bold" />
 
@@ -235,7 +234,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
-                        android:text="Ресурси"
+                        android:text="@string/mainactivity_resources"
                         android:textSize="20dp"
                         android:textStyle="bold" />
 

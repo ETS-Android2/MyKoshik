@@ -1,23 +1,11 @@
 <resources>
     <string name="app_name">MyKoshik</string>
 
-    <string name="text_welcome_intro">ЛАСКАВО ПРОСИМО В \"МІЙ КОШИК\"!</string>
-    <string name="text_list_intro">ФОРМУЙ СПИСОК З НАЙВАЖЛИВІШИХ ПРОДУКТІВ!</string>
-    <string name="text_supermarket1_intro">3 МЕРЕЖІ СУПЕРМАРКЕТІВ НА ВИБІР!</string>
-    <string name="text_supermarket2_intro">NOVUS, MEGAMARKET ТА FOZZY</string>
-    <string name="text_spare_intro">ЗАОЩАДЖУЙ ПРАВИЛЬНО З \n НАШИМ ДОДАТКОМ</string>
-    <string name="text_skip_intro">Пропустити</string>
-
-    <string name="dialog_text_site">Зображення взяті з сайту \nwww.freepik.com</string>
     <string name="dialog_text1_splashscreen">Чи бажаєте Ви оновити \nверсію продуктів?</string>
     <string name="dialog_text2_splashscreen">\nВаша версія :\u0020</string>
     <string name="dialog_text_yes">Так</string>
     <string name="dialog_text_no">Ні</string>
     <string name="dialog_inline_version">10.03</string>
-
-    <string name="instruction_text1">Продукти з супермаркетів</string>
-    <string name="instruction_text2">Ваш кошик</string>
-    <string name="instruction_text3">Сайт з зображеннями</string>
 
     <string name="text_milk">Молоко</string>
     <string name="text_eggs">Яйця</string>
@@ -54,17 +42,49 @@
     <string name="price_of_list">Загальна ціна =\u0020</string>
     <string name="count_of_products_list">Кількість продуктів =\u0020</string>
 
-    <string name="sites_links">Зображення взяті з сайтів \nFreepik та IconFinder : \n\nhttps://www.freepik.com \nhttps://www.iconfinder.com</string>
-
     <!-- * MainActivity Comments -->
-    
-        <string name="mainactivity_unavailable_task">Дана частина ще розробляється :)</string>
+        <!-- Unrealized Tasks -->
+            <string name="mainactivity_unavailable_task">Дана частина ще розробляється :)</string>
 
-        <string-array name="mainactivity_types_of_product">
-            <item>Молоко</item>
-            <item>Яйця</item>
-            <item>Хліб</item>
-        </string-array>
+        <!-- Spinner Items -->
+            <string-array name="mainactivity_types_of_product">
+                <item>Молоко</item>
+                <item>Яйця</item>
+                <item>Хліб</item>
+            </string-array>
 
+        <!-- Spinner Textes -->
+            <string name="mainactivity_choose_one_product">Оберіть один продукт :</string>
+            <string name="mainactivity_close_dialog">Закрити</string>
+
+        <!-- Products -->
+            <string name="mainactivity_milk">Молоко</string>
+            <string name="mainactivity_eggs">Яйця</string>
+            <string name="mainactivity_bread">Хліб</string>
+
+        <!-- CardView Names -->
+            <string name="mainactivity_buy">Купівля</string>
+            <string name="mainactivity_product_basket">Кошик</string>
+            <string name="mainactivity_notes">Нотатки</string>
+            <string name="mainactivity_statistics">Статистика</string>
+            <string name="mainactivity_resources">Ресурси</string>
+
+        <!-- Site Links (Logos) -->
+            <string name="mainactivity_site_links">Зображення взяті з сайтів \nFreepik та IconFinder : \n\nhttps://www.freepik.com \nhttps://www.iconfinder.com</string>
     <!-- MainActivity Comments * -->
+
+
+    <!-- * AppIntroActivity Comments -->
+        <!-- Intro Slides -->
+            <string name="appintroactivity_welcome">ЛАСКАВО ПРОСИМО В \"МІЙ КОШИК\"!</string>
+            <string name="appintroactivity_product_list">ФОРМУЙ СПИСОК З НАЙВАЖЛИВІШИХ ПРОДУКТІВ!</string>
+            <string name="appintroactivity_supermarket1">3 МЕРЕЖІ СУПЕРМАРКЕТІВ НА ВИБІР!</string>
+            <string name="appintroactivity_supermarket2">NOVUS, MEGAMARKET ТА FOZZY</string>
+            <string name="appintroactivity_spare">ЗАОЩАДЖУЙ ПРАВИЛЬНО З \n НАШИМ ДОДАТКОМ</string>'
+
+        <!-- Intro Text -->
+            <string name="appintroactivity_skip">Пропустити</string>
+            <string name="appintroactivity_next">ДАЛІ</string>
+
+    <!-- * AppIntroActivity Comments -->
 </resources>

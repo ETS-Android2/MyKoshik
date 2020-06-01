@@ -58,7 +58,7 @@ public class NotesActivity extends AppCompatActivity {
 
         mDialogNote = new Dialog(NotesActivity.this);
         mDialogNote.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        mDialogNote.setContentView(R.layout.dialog_window_note_notesactivity);
+        mDialogNote.setContentView(R.layout.dialog_window_note);
         mDialogNote.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mDialogNote.setCancelable(false);
 
@@ -69,7 +69,7 @@ public class NotesActivity extends AppCompatActivity {
 
         mDialogDelete = new Dialog(NotesActivity.this);
         mDialogDelete.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        mDialogDelete.setContentView(R.layout.dialog_window_delete_note_notesactivity);
+        mDialogDelete.setContentView(R.layout.dialog_window_delete_note);
         mDialogDelete.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mDialogDelete.setCancelable(false);
 
