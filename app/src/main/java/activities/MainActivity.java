@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -11,9 +11,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.example.myapplication.R;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private CardView mCVBuy, mCVKoshik, mCVNotes, mCVStatistics, mCVResources;
 
-    private Dialog mDialogBox;
+    private Dialog mDialogWindowResources;
 
     private SpinnerDialog mSpinnerDialog;
 
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initSpinnerItems();
 
         mSpinnerDialog = new SpinnerDialog(this, spinnerItems, "Оберіть один продукт :", "Закрити");
+
         mSpinnerDialog.bindOnSpinerListener(new OnSpinerItemClick() {
             @Override
             public void onClick(String item, int position) {
@@ -89,13 +91,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        mDialogBox = new Dialog(MainActivity.this);
-        mDialogBox.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        mDialogBox.setContentView(R.layout.dialog_box);
-        mDialogBox.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        mDialogBox.setCancelable(false);
+        mDialogWindowResources = new Dialog(MainActivity.this);
+        mDialogWindowResources.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mDialogWindowResources.setContentView(R.layout.dialog_box);
+        mDialogWindowResources.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mDialogWindowResources.setCancelable(false);
 
-        mIVCloseDialog = (ImageView) mDialogBox.findViewById(R.id.mIVCloseDialog);
+        mIVCloseDialog = (ImageView) mDialogWindowResources.findViewById(R.id.mIVCloseDialog);
 
         mIVCloseDialog.setOnClickListener(this);
     }
@@ -113,44 +115,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.mCVResources :
-                mDialogBox.show();
+                mDialogWindowResources.show();
+                break;
+            case R.id.mCVNotes :
+                intent = new Intent(this, NotesActivity.class);
+                startActivity(intent);
                 break;
             case R.id.mIVCloseDialog :
-                mDialogBox.dismiss();
+                mDialogWindowResources.dismiss();
                 break;
-          /* case R.id.mCVStatistics :
-                intent = new Intent(this, StatisticsActivity.class);
-                startActivity(intent);
-                break;*/
             default :
-                Toast.makeText(this, "В розробці :)", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.mainactivity_unavailable_task), Toast.LENGTH_LONG).show();
                 break;
         }
     }
 
     public void initSpinnerItems() {
-        for (int i = 0; i < getResources().getStringArray(R.array.spinner_types_of_product).length; i++)
-            spinnerItems.add(getResources().getStringArray(R.array.spinner_types_of_product)[i]);
+        for (int i = 0; i < getResources().getStringArray(R.array.mainactivity_types_of_product).length; i++)
+            spinnerItems.add(getResources().getStringArray(R.array.mainactivity_types_of_product)[i]);
     }
 
     public boolean checkFirstRun() {
         boolean entrance;
 
-        if (readDateFromFile().equals("Entered") == true)
+        if (readDateFromFile().equals("Entered") == true) {
             entrance = false;
+
+            Log.d("MainActivity", "Not First Entry");
+        }
         else {
             writeDateToFile("Entered");
 
             entrance = true;
+
+            Log.d("MainActivity", "First Entery");
         }
 
         return entrance;
     }
 
-    public void writeDateToFile(String entry) {
+    public void writeDateToFile(String date) {
         try {
             FileOutputStream fileOutput = openFileOutput("file_entrance.txt", MODE_PRIVATE);
-            fileOutput.write(entry.getBytes());
+            fileOutput.write(date.getBytes());
             fileOutput.close();
         }
         catch (FileNotFoundException e) {
@@ -160,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public String readDateFromFile() {
-        StringBuffer entry = new StringBuffer("");
+        StringBuffer entry = new StringBuffer();
 
         try {
             FileInputStream fileInput = openFileInput("file_entrance.txt");
@@ -177,8 +184,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         catch (IOException e) {
         }
         finally {
-            Log.d("###", '.' + entry.toString() + '.');
-
             return entry.toString();
         }
     }

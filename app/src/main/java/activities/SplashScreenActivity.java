@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package activities;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -18,6 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.R;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -33,6 +35,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+
+import classes.Product;
 
 // Activity для показа SplashScreen (Экран загрузки) и загрузки продуктов
 public class SplashScreenActivity extends Activity {

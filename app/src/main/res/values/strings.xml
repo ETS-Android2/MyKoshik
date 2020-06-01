@@ -30,12 +30,6 @@
         <item>За супермаркетами</item>
     </string-array>
 
-    <string-array name="spinner_types_of_product">
-        <item>Молоко</item>
-        <item>Яйця</item>
-        <item>Хліб</item>
-    </string-array>
-
     <string name="spinner_choose_type_of_product">Оберіть продукт :</string>
 
     <string name="button_buy_product">Купити продукт №</string>
@@ -61,4 +55,16 @@
     <string name="count_of_products_list">Кількість продуктів =\u0020</string>
 
     <string name="sites_links">Зображення взяті з сайтів \nFreepik та IconFinder : \n\nhttps://www.freepik.com \nhttps://www.iconfinder.com</string>
+
+    <!-- * MainActivity Comments -->
+    
+        <string name="mainactivity_unavailable_task">Дана частина ще розробляється :)</string>
+
+        <string-array name="mainactivity_types_of_product">
+            <item>Молоко</item>
+            <item>Яйця</item>
+            <item>Хліб</item>
+        </string-array>
+
+    <!-- MainActivity Comments * -->
 </resources>

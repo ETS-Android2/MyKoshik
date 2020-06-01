@@ -1,8 +1,10 @@
-package com.example.myapplication;
+package activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,6 +15,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,6 +25,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+
+import classes.Product;
 
 // Activity со списком продуктов
 public class ListOfProductsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener  {
@@ -30,6 +37,8 @@ public class ListOfProductsActivity extends AppCompatActivity implements Adapter
     private ImageButton button_of_clear;
 
     private LinearLayout linearLayout;
+
+    private FloatingActionButton mFABShareList;
 
     // Файл для чтения продуктов
     private FileOutputStream fileOutput;
@@ -50,7 +59,7 @@ public class ListOfProductsActivity extends AppCompatActivity implements Adapter
         textview_sum_of_product_prices = findViewById(R.id.textview_sum_of_product_prices);
 
         linearLayout = findViewById(R.id.linearlayout);
-
+        mFABShareList = findViewById(R.id.mFABShareList);
         button_of_clear = findViewById(R.id.picture_rubbish_bin);
 
         x = 1;
@@ -97,6 +106,21 @@ public class ListOfProductsActivity extends AppCompatActivity implements Adapter
 
         chooseTypeOfSort();
 
+        final Toast toastik = Toast.makeText(this, "Список пустий", Toast.LENGTH_SHORT);
+
+        mFABShareList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (products.size() != 0) {
+                    StringBuffer listOfProducts = new StringBuffer(formListOfProducts());
+
+                    shareListOfProducts(listOfProducts);
+                }
+                else
+                    toastik.show();
+
+            }
+        });
     }
 
     // Метод Spinner для нажатия на виды сортировки
@@ -384,5 +408,30 @@ public class ListOfProductsActivity extends AppCompatActivity implements Adapter
             }
         }
         textview_sum_of_product_prices.setText(getString(R.string.price_of_list) + sum_str + " грн.");
+    }
+
+    private StringBuffer formListOfProducts() {
+        StringBuffer listOfProducts = new StringBuffer();
+
+        listOfProducts.append("Список продуктів (" + textview_sum_of_product_prices.getText() + ") :" + '\n');
+
+        for (int i = 0; i < products.size(); i++)
+            listOfProducts.append(Integer.toString(i + 1) + ") " + products.get(i).getName_of_product() + '\n');
+
+        listOfProducts.append('\n' + "---" + '\n' + "Створено за допомогою додатка \"MyKoshik\"");
+
+        Log.d("###", listOfProducts.toString());
+
+        return listOfProducts;
+    }
+
+    private void shareListOfProducts(StringBuffer listOfProducts) {
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Список Продуктів");
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, listOfProducts.toString());
+
+        startActivity(Intent.createChooser(sharingIntent, "Поділитися за допомогою"));
     }
 }

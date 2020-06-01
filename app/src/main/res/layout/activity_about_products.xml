@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#93B4EC"
-    tools:context=".AboutProductsActivity">
+    tools:context="activities.AboutProductsActivity">
 
     <TextView
         android:id="@+id/textview_type_of_product"

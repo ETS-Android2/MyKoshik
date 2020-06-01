@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +14,7 @@ import com.anychart.chart.common.listener.ListenersInterface;
 import com.anychart.charts.Pie;
 import com.anychart.enums.Align;
 import com.anychart.enums.LegendLayout;
+import com.example.myapplication.R;
 
 import java.util.ArrayList;
 import java.util.List;
