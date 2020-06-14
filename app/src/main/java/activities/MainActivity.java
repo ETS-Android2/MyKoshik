@@ -29,7 +29,7 @@ import in.galaxyofandroid.spinerdialog.SpinnerDialog;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private CardView mCVBuy, mCVKoshik, mCVNotes, mCVStatistics, mCVResources;
+    private CardView mCVBuy, mCVKoshik, mCVNotes, mCVAlarm, mCVResources;
 
     private Dialog mDWResources;
     private ImageView mIVCloseDialog;
@@ -52,13 +52,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mCVBuy = (CardView) findViewById(R.id.mCVBuy);
         mCVKoshik = (CardView) findViewById(R.id.mCVKoshik);
         mCVNotes = (CardView) findViewById(R.id.mCVNotes);
-        mCVStatistics = (CardView) findViewById(R.id.mCVStatistics);
+        mCVAlarm = (CardView) findViewById(R.id.mCVAlarm);
         mCVResources = (CardView) findViewById(R.id.mCVResources);
 
         mCVBuy.setOnClickListener(this);
         mCVKoshik.setOnClickListener(this);
         mCVNotes.setOnClickListener(this);
-        mCVStatistics.setOnClickListener(this);
+        mCVAlarm.setOnClickListener(this);
         mCVResources.setOnClickListener(this);
 
         initSpinnerItems();
@@ -123,6 +123,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.mCVNotes :
                 intent = new Intent(this, NotesActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.mCVAlarm :
+                intent = new Intent(this, AlarmActivity.class);
                 startActivity(intent);
                 break;
             case R.id.mIVCloseDialog :

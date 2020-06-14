@@ -44,47 +44,65 @@
 
     <!-- * MainActivity Comments -->
         <!-- Unrealized Tasks -->
-            <string name="mainactivity_unavailable_task">Дана частина ще розробляється :)</string>
+        <string name="mainactivity_unavailable_task">Дана частина ще розробляється :)</string>
 
         <!-- Spinner Items -->
-            <string-array name="mainactivity_types_of_product">
-                <item>Молоко</item>
-                <item>Яйця</item>
-                <item>Хліб</item>
-            </string-array>
+        <string-array name="mainactivity_types_of_product">
+            <item>Молоко</item>
+            <item>Яйця</item>
+            <item>Хліб</item>
+        </string-array>
 
         <!-- Spinner Textes -->
-            <string name="mainactivity_choose_one_product">Оберіть один продукт :</string>
-            <string name="mainactivity_close_dialog">Закрити</string>
+        <string name="mainactivity_choose_one_product">Оберіть один продукт :</string>
+        <string name="mainactivity_close_dialog">Закрити</string>
 
         <!-- Products -->
-            <string name="mainactivity_milk">Молоко</string>
-            <string name="mainactivity_eggs">Яйця</string>
-            <string name="mainactivity_bread">Хліб</string>
+        <string name="mainactivity_milk">Молоко</string>
+        <string name="mainactivity_eggs">Яйця</string>
+        <string name="mainactivity_bread">Хліб</string>
 
         <!-- CardView Names -->
-            <string name="mainactivity_buy">Купівля</string>
-            <string name="mainactivity_product_basket">Кошик</string>
-            <string name="mainactivity_notes">Нотатки</string>
-            <string name="mainactivity_statistics">Статистика</string>
-            <string name="mainactivity_resources">Ресурси</string>
+        <string name="mainactivity_buy">Купити</string>
+        <string name="mainactivity_product_basket">Кошик</string>
+        <string name="mainactivity_notes">Нотатки</string>
+        <string name="mainactivity_alarm">Нагадати</string>
+        <string name="mainactivity_resources">Ресурси</string>
 
         <!-- Site Links (Logos) -->
-            <string name="mainactivity_site_links">Зображення взяті з сайтів \nFreepik та IconFinder : \n\nhttps://www.freepik.com \nhttps://www.iconfinder.com</string>
+        <string name="mainactivity_site_links">Зображення взяті з сайтів \nFreepik та IconFinder : \n\nhttps://www.freepik.com \nhttps://www.iconfinder.com</string>
     <!-- MainActivity Comments * -->
 
 
     <!-- * AppIntroActivity Comments -->
         <!-- Intro Slides -->
-            <string name="appintroactivity_welcome">ЛАСКАВО ПРОСИМО В \"МІЙ КОШИК\"!</string>
-            <string name="appintroactivity_product_list">ФОРМУЙ СПИСОК З НАЙВАЖЛИВІШИХ ПРОДУКТІВ!</string>
-            <string name="appintroactivity_supermarket1">3 МЕРЕЖІ СУПЕРМАРКЕТІВ НА ВИБІР!</string>
-            <string name="appintroactivity_supermarket2">NOVUS, MEGAMARKET ТА FOZZY</string>
-            <string name="appintroactivity_spare">ЗАОЩАДЖУЙ ПРАВИЛЬНО З \n НАШИМ ДОДАТКОМ</string>'
+        <string name="appintroactivity_welcome">ЛАСКАВО ПРОСИМО В \"МІЙ КОШИК\"!</string>
+        <string name="appintroactivity_product_list">ФОРМУЙ СПИСОК З НАЙВАЖЛИВІШИХ ПРОДУКТІВ!</string>
+        <string name="appintroactivity_supermarket1">3 МЕРЕЖІ СУПЕРМАРКЕТІВ НА ВИБІР!</string>
+        <string name="appintroactivity_supermarket2">NOVUS, MEGAMARKET ТА FOZZY</string>
+        <string name="appintroactivity_spare">ЗАОЩАДЖУЙ ПРАВИЛЬНО З \n НАШИМ ДОДАТКОМ</string>'
 
         <!-- Intro Text -->
-            <string name="appintroactivity_skip">Пропустити</string>
-            <string name="appintroactivity_next">ДАЛІ</string>
+        <string name="appintroactivity_skip">Пропустити</string>
+        <string name="appintroactivity_next">ДАЛІ</string>
 
     <!-- * AppIntroActivity Comments -->
+
+
+    <!-- * AlarmActivity Comments -->
+        <!-- Added Alarm Toast  -->
+        <string name="alarmactivity_added_alarm_toast">Нове навагадування успішно було додано</string>
+
+        <!-- EditText Hint  -->
+        <string name="alarmactivity_edittext_hint">Опис</string>
+
+        <!-- Week Days  -->
+        <string name="alarmactivity_monday">ПН</string>
+        <string name="alarmactivity_tuesday">ВТ</string>
+        <string name="alarmactivity_wednesday">СР</string>
+        <string name="alarmactivity_thursday">ЧТ</string>
+        <string name="alarmactivity_friday">ПТ</string>
+        <string name="alarmactivity_saturday">СБ</string>
+        <string name="alarmactivity_sunday">НД</string>
+    <!-- AlarmActivity Comments * -->
 </resources>

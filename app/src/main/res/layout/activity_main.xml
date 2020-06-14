@@ -160,7 +160,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/mCVStatistics"
+                android:id="@+id/mCVAlarm"
                 android:layout_width="145dp"
                 android:layout_height="130dp"
                 android:layout_margin="12dp"
@@ -183,14 +183,14 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_gravity="center"
-                        app:srcCompat="@drawable/statistics_icon_mainactivity" />
+                        app:srcCompat="@drawable/alarm_icon" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
-                        android:text="@string/mainactivity_statistics"
+                        android:text="@string/mainactivity_alarm"
                         android:textSize="20dp"
                         android:textStyle="bold" />
 
