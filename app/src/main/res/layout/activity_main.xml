@@ -204,6 +204,44 @@
             android:layout_height="match_parent">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/mCVHelp"
+                android:layout_width="145dp"
+                android:layout_height="130dp"
+                android:layout_margin="12dp"
+                android:elevation="6dp"
+                app:cardCornerRadius="12dp"
+                app:layout_columnWeight="1"
+                app:layout_gravity="center"
+                app:layout_rowWeight="1"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/settings_icon_mainactivity" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/mainactivity_settings"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:id="@+id/mCVResources"
                 android:layout_width="145dp"
                 android:layout_height="130dp"

@@ -49,6 +49,8 @@ public class ListOfProductsActivity extends AppCompatActivity implements Adapter
     // ArrayList с информацией о продуктах в списке
     public ArrayList<Product> products = new ArrayList<Product>();
 
+    private Spinner spinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
@@ -65,7 +67,7 @@ public class ListOfProductsActivity extends AppCompatActivity implements Adapter
         x = 1;
         y = 1;
 
-        Spinner spinner = findViewById(R.id.spinner);
+        spinner = findViewById(R.id.spinner);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.spinner_types_of_sort, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

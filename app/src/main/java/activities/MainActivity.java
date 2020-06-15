@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,14 +30,17 @@ import in.galaxyofandroid.spinerdialog.SpinnerDialog;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private CardView mCVBuy, mCVKoshik, mCVNotes, mCVAlarm, mCVResources;
+    private CardView mCVBuy, mCVKoshik, mCVNotes, mCVAlarm, mCVResources, mCVHelp, mCVLetter, mCVInstruction;
 
-    private Dialog mDWResources;
-    private ImageView mIVCloseDialog;
+    private Dialog mDWResources, mDWHelp;
+    private ImageView mIVCloseDialog, mIVCloseDialogHelp;
 
     private SpinnerDialog mSpinnerDialog;
 
     private ArrayList<String> spinnerItems = new ArrayList<String>();
+
+
+    private final String SUPPORT_SERVICE_EMAIL_ADDRESS = "mykoshik_support@ukr.net";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +58,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mCVNotes = (CardView) findViewById(R.id.mCVNotes);
         mCVAlarm = (CardView) findViewById(R.id.mCVAlarm);
         mCVResources = (CardView) findViewById(R.id.mCVResources);
+        mCVHelp = (CardView) findViewById(R.id.mCVHelp);
 
         mCVBuy.setOnClickListener(this);
         mCVKoshik.setOnClickListener(this);
         mCVNotes.setOnClickListener(this);
         mCVAlarm.setOnClickListener(this);
         mCVResources.setOnClickListener(this);
+        mCVHelp.setOnClickListener(this);
 
         initSpinnerItems();
 
@@ -101,9 +107,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDWResources.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mDWResources.setCancelable(false);
 
-        mIVCloseDialog = (ImageView) mDWResources.findViewById(R.id.mIVCloseDialog);
+        mIVCloseDialog = (ImageView) mDWResources.findViewById(R.id.mIVCloseDialogRes);
+
+        mDWHelp = new Dialog(MainActivity.this);
+        mDWHelp.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mDWHelp.setContentView(R.layout.dialog_window_help);
+        mDWHelp.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mDWHelp.setCancelable(false);
 
         mIVCloseDialog.setOnClickListener(this);
+
+        mIVCloseDialogHelp = (ImageView) mDWHelp.findViewById(R.id.mIVCloseDialogHelp);
+        mCVInstruction = (CardView) mDWHelp.findViewById(R.id.mCVInstruction);
+        mCVLetter = (CardView) mDWHelp.findViewById(R.id.mCVLetter);
+
+        mCVLetter.setOnClickListener(this);
+        mCVInstruction.setOnClickListener(this);
+        mIVCloseDialogHelp.setOnClickListener(this);
     }
 
     @Override
@@ -129,8 +149,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 intent = new Intent(this, AlarmActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.mIVCloseDialog :
+            case R.id.mIVCloseDialogRes :
                 mDWResources.dismiss();
+                break;
+            case R.id.mCVHelp :
+                mDWHelp.show();
+                break;
+            case R.id.mIVCloseDialogHelp :
+                mDWHelp.dismiss();
+                break;
+            case R.id.mCVLetter :
+                writeLetter();
+                break;
+            case R.id.mCVInstruction :
+                intent = new Intent(this, InstructionActivity.class);
+                startActivity(intent);
                 break;
             default :
                 Toast.makeText(this, getString(R.string.mainactivity_unavailable_task), Toast.LENGTH_LONG).show();
@@ -194,5 +227,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         finally {
             return entry.toString();
         }
+    }
+
+    private void writeLetter() {
+        String emailAddresses[] = new String[]{SUPPORT_SERVICE_EMAIL_ADDRESS};
+
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_EMAIL, emailAddresses);
+
+        startActivity(intent);
     }
 }

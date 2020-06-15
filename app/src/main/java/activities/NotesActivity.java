@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,8 @@ public class NotesActivity extends AppCompatActivity {
     private ImageView mIVCloseDialog, mIVSaveNote;
 
     private Button mBYes, mBNo;
+
+    private ScrollView mSV;
 
     // Объект для создания и управления версиями БД
     private DBHelper dbHelper;
@@ -66,6 +69,8 @@ public class NotesActivity extends AppCompatActivity {
         mETText = (EditText) mDialogNote.findViewById(R.id.mETText);
         mIVCloseDialog = (ImageView) mDialogNote.findViewById(R.id.mIVCloseDialog);
         mIVSaveNote = (ImageView) mDialogNote.findViewById(R.id.mIVSaveNote);
+
+        mSV = findViewById(R.id.mSV);
 
         mDialogDelete = new Dialog(NotesActivity.this);
         mDialogDelete.requestWindowFeature(Window.FEATURE_NO_TITLE);

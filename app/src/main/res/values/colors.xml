@@ -6,6 +6,7 @@
 
     <color name ="colorRed">#FF0026</color>
     <color name ="colorOrange">#FF7700</color>
+    <color name="colorYellow">#FFEB3B</color>
     <color name ="colorGreen">#00FF90</color>
     <color name ="colorBlue">#00CCFF</color>
     <color name ="colorDarkBlue">#11A4C9</color>

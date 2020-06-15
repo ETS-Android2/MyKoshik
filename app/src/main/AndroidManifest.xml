@@ -13,14 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name="activities.InstructionActivity"></activity>
         <activity android:name="activities.AlarmActivity" />
         <activity android:name="activities.NotesActivity" />
         <activity android:name="activities.AppIntroActivity" />
         <activity android:name="activities.ListOfProductsActivity" />
         <activity android:name="activities.AboutProductsActivity" />
         <activity android:name="activities.SplashScreenActivity" />
-
         <activity
             android:name="activities.MainActivity"
             android:label="@string/app_name">
@@ -30,7 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

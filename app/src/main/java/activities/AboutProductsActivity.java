@@ -474,6 +474,7 @@ public class AboutProductsActivity extends AppCompatActivity {
                     formCountOfProductsInList();
                 }
             });
+
         }
     }
 
@@ -537,5 +538,4 @@ public class AboutProductsActivity extends AppCompatActivity {
 
         Toast.makeText(AboutProductsActivity.this, getString(R.string.toast_added_product), Toast.LENGTH_SHORT).show();
     }
-
 }
