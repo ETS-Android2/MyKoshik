@@ -58,7 +58,7 @@ This project is implemented in __Android Studio 3.5.2__. This app works correctl
 
 * __Freepik & IconFinder__
 
-<img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_freepik.jpg" width="853" height="445" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_iconfinder.png" width="853" height="445" /> 
+<img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_freepik.jpg" width="453" height="245" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_iconfinder.png" width="453" height="245" /> 
 
 
 
