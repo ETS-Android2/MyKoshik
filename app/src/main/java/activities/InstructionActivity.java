@@ -22,9 +22,9 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
     private ImageView mIVBack, mIVForward;
 
     private final int[] IMAGES = new int[]{R.drawable.instruction_buy_icon, R.drawable.aboutproductactivity_basket, R.drawable.aboutproductactivity_novus, R.drawable.aboutproductsactivity_search_line, R.drawable.aboutproductactivity_button_continue, R.drawable.aboutproductactivity_list,
-                                            R.drawable.instruction_list_icon,R.drawable.lisofproductsactivity_delete_list, R.drawable.listofproductsactivity_spinner, R.drawable.listofproductsactivity_list, R.drawable.listofproductsactivity_list, R.drawable.listofproductsactivity_share,
+                                            R.drawable.instruction_basket_icon,R.drawable.lisofproductsactivity_delete_list, R.drawable.listofproductsactivity_spinner, R.drawable.listofproductsactivity_list, R.drawable.listofproductsactivity_list, R.drawable.listofproductsactivity_share,
                                             R.drawable.instruction_alarm_icon,R.drawable.alarmactivity_notification, R.drawable.alarmactivity_days_in_week, R.drawable.alarmactivity_add_alarm,
-                                            R.drawable.instruction_notifications_icon,R.drawable.notificationsactivity_note, R.drawable.notificationsactivity_delete_note, R.drawable.notificationsactivity_refactor_note, R.drawable.notficationsactivity_share_list};
+                                            R.drawable.instruction_notification_icon,R.drawable.notificationsactivity_note, R.drawable.notificationsactivity_delete_note, R.drawable.notificationsactivity_refactor_note, R.drawable.notficationsactivity_share_list};
     private int index = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

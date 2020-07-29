@@ -18,6 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.myapplication.R;
 
 import org.jsoup.Jsoup;
@@ -39,7 +41,7 @@ import java.util.Locale;
 import classes.Product;
 
 // Activity для показа SplashScreen (Экран загрузки) и загрузки продуктов
-public class SplashScreenActivity extends Activity {
+public class SplashScreenActivity extends AppCompatActivity {
     // Картинка с продуктом
     private ImageView picture_image_of_product;
 
