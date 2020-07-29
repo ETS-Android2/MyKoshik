@@ -5,7 +5,7 @@
 </p>
 
 # Info about app
-This application was created during the course __"Samsung IT School Ukraine"__. It's a basket for products that helps to __save money on daily products__ (milk, eggs and bread). A user can choose products from __3 supermarket chains__ (Novus, MegaMarket and Fozzy) and then __add them to his basket__. In the store user can easily __navigate his purchases and plans__. 
+This application was created during the course __"Samsung IT School Ukraine"__. It's a basket for products that helps to __save money on daily products__ (milk, eggs and bread). A user can choose products from __3 supermarkets__ (Novus, MegaMarket and Fozzy) and then __add them to his basket__. In the store user can easily __navigate his purchases and plans__. 
 
 # Version and devices
 This project is implemented in __Android Studio 3.5.2__. This app works correctly at __API 23__ : Android 6.0 (Marshmallow) and higher. Tested on Xiaomi Mi A1, Samsung Galaxy A50, Samsung Galaxy A6 and Pixel 2XL API 29 (Virtual Device), Pixel API 28 (Virtual Device) and Nexus 5 API 28 (Virtual Device).
@@ -14,7 +14,7 @@ This project is implemented in __Android Studio 3.5.2__. This app works correctl
 
 * __Simple and clearle interface (Intro with instructions)__
 
-<img src="https://media.giphy.com/media/VIyzBLYmo5O3eB4NC0/giphy.gif" width="420" height="800" /> <img src="https://media.giphy.com/media/WUJD78IfauQaRgo9qm/giphy.gif" width="420" height="800" />
+<img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_AppIntro.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_MA.jpg" width="280" height="533" />
 
 * __Choose your daily products from 3 supermarket chains__
 
@@ -34,6 +34,7 @@ This project is implemented in __Android Studio 3.5.2__. This app works correctl
 * __FancyShowCaseView (Instruction)__
 * __AppIntroDemo (Intro)__
 * __SearchableSpinner (Spinner with serach line)__
+* __Material design__ 
 
 # Who made this?
 
