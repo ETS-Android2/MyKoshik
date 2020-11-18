@@ -187,7 +187,7 @@ public class ListOfProductsActivity extends AppCompatActivity implements Adapter
             while ((mLine = buffer.readLine()) != null) {
                 products.add(new Product());
                 products.get(products.size() - 1).setName_of_product(mLine);
-                products.get(products.size() - 1).formPrice_of_product(mLine);
+                products.get(products.size() - 1).formPrice_of_product2(mLine);
                 products.get(products.size() - 1).formCount_of_product(mLine);
             }
         }

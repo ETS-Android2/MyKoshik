@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -244,10 +245,10 @@ public class SplashScreenActivity extends AppCompatActivity {
         String html1, html2;
 
         // html для названия продукта
-        html1 = "span.jsx-3360872049.product-tile__title";
+        html1 = "span.jsx-2300924169.product-tile__title";
 
         // html для цены продукта
-        html2 = "span.jsx-3360872049.product-tile__active-price-value";
+        html2 = "span.jsx-2618301845.Price__value_caption";
 
         try {
             // Количество просматриваемых страниц сайта
@@ -278,22 +279,23 @@ public class SplashScreenActivity extends AppCompatActivity {
                 formElements2[i] = doc[i].select(html2);
 
                 for (int j = 0; j < formElements1[i].size(); j++) {
-                    // Формулировка цены продукта
-                    String s = formElements2[i].get(j).text();
-                    String s1 = s.substring(0, s.lastIndexOf('.'));
-                    String s2 = s.substring(s.lastIndexOf('.') + 1, s.length());
-
                     products_novus.add(new Product());
-                    products_novus.get(products_novus.size() - 1).setName_of_product(formElements1[i].get(j).text() + " - " + s1 + "," + s2 + " грн " + "(Novus)");
-                    products_novus.get(products_novus.size() - 1).setPrice_of_product(Integer.parseInt(s1 + s2));
+                    products_novus.get(products_novus.size() - 1).formPrice_of_product(formElements2[i].get(j).text());
+
+                    int price = products_novus.get(products_novus.size() - 1).getPrice_of_product();
+
+                    products_novus.get(products_novus.size() - 1).setName_of_product(formElements1[i].get(j).text() + " - " + Integer.toString(price / 100) + "," + Integer.toString(price - (price / 100) * 100) + " грн " + "(Novus)");
 
                     strBuffer.append(products_novus.get(products_novus.size() - 1).getName_of_product() + '\n');
+
+                    Log.d("###", products_novus.get(products_novus.size() - 1).getName_of_product());
                 }
             }
 
             writeToFile("filenovus" + typeOfProduct.toLowerCase() + ".txt", strBuffer);
         }
-        catch (IOException e) {
+        catch (Exception e) {
+            Log.d("###", "Error (Parsing) : " + e.getMessage());
             products_novus = new ArrayList<Product>();
 
             // Если не удалось распарсить сайт
@@ -355,10 +357,15 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                     for (int j = 0; j < formElements2[i].size(); j++) {
                         products_megamarket.add(new Product());
-                        products_megamarket.get(products_megamarket.size() - 1).setName_of_product(formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (MegaMarket)");
-                        products_megamarket.get(products_megamarket.size() - 1).formPrice_of_product(products_megamarket.get(products_megamarket.size() - 1).getName_of_product());
+                        products_megamarket.get(products_megamarket.size() - 1).formPrice_of_product(formElements2[i].get(j).text());
+
+                        int price = products_megamarket.get(products_megamarket.size() - 1).getPrice_of_product();
+
+                        products_megamarket.get(products_megamarket.size() - 1).setName_of_product(formElements1[i].get(j).text() + " - " + Integer.toString(price / 100) + "," + Integer.toString(price - (price / 100) * 100) + " грн" +  " (MegaMarket)");
 
                         strBuffer.append(products_megamarket.get(products_megamarket.size() - 1).getName_of_product() + '\n');
+
+                        Log.d("###", products_megamarket.get(products_megamarket.size() - 1).getName_of_product());
                 }
                 }
             }
@@ -388,13 +395,13 @@ public class SplashScreenActivity extends AppCompatActivity {
                 case "Milk" :
                     n = 1;
 
-                    url[0] = "https://fozzyshop.com.ua/300200-moloko?order=product.price.asc";
+                    url[0] = "https://fozzyshop.ua/ru/300200-moloko?order=product.price.asc";
                     break;
                 case "Bread" :
-                    url[0] = "https://fozzyshop.com.ua/300505-khleb?order=product.price.asc";
+                    url[0] = "https://fozzyshop.ua/ru/300505-khleb?order=product.price.asc";
                     break;
                 case "Eggs" :
-                    url[0] = "https://fozzyshop.com.ua/300212-yajca-kurinye/s-15/kategoriya-yajca_kurinye?order=product.price.asc";
+                    url[0] = "https://fozzyshop.ua/ru/300212-yajca-kurinye/s-15/kategoriya-yajca_kurinye?order=product.price.asc";
                     break;
             }
 
@@ -417,10 +424,15 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                 for (int j = 0; j < formElements2[i].size(); j++) {
                     products_fozzy.add(new Product());
-                    products_fozzy.get(products_fozzy.size() - 1).setName_of_product(formElements1[i].get(j).text() + " - " + formElements2[i].get(j).text() + " (Fozzy)");
-                    products_fozzy.get(products_fozzy.size() - 1).formPrice_of_product(products_fozzy.get(products_fozzy.size() - 1).getName_of_product());
+                    products_fozzy.get(products_fozzy.size() - 1).formPrice_of_product(formElements2[i].get(j).text());
+
+                    int price = products_fozzy.get(products_fozzy.size() - 1).getPrice_of_product();
+
+                    products_fozzy.get(products_fozzy.size() - 1).setName_of_product(formElements1[i].get(j).text() + " - " + Integer.toString(price / 100) + "," + Integer.toString(price - (price / 100) * 100) + " грн" + " (Fozzy)");
 
                     strBuffer.append(products_fozzy.get(products_fozzy.size() - 1).getName_of_product() + '\n');
+
+                    Log.d("###", products_fozzy.get(products_fozzy.size() - 1).getName_of_product());
                 }
             }
 
@@ -548,11 +560,11 @@ public class SplashScreenActivity extends AppCompatActivity {
             // Если файл из Assets
             if (isFileFromAssets == true) {
                 if (fileName.lastIndexOf("novus") != -1)
-                    writeToFile("filenovus" + typeOfProduct.toLowerCase() + ".txt", strBufferNovus);
+                    writeToFile("filenovus" + typeOfProduct.toLowerCase() + ".txt", new StringBuilder(strBufferNovus.toString()));
                 if ((typeOfProduct.equals("Bread") == false) && (fileName.lastIndexOf("megamarket") != -1))
-                    writeToFile("filemegamarket" + typeOfProduct.toLowerCase() + ".txt", strBufferMegaMarket);
+                    writeToFile("filemegamarket" + typeOfProduct.toLowerCase() + ".txt", new StringBuilder(strBufferMegaMarket.toString()));
                 if (fileName.lastIndexOf("fozzy") != -1)
-                    writeToFile("filefozzy" + typeOfProduct.toLowerCase() + ".txt", strBufferFozzy);
+                    writeToFile("filefozzy" + typeOfProduct.toLowerCase() + ".txt", new StringBuilder(strBufferFozzy.toString()));
             }
         }
         catch (IOException e) {

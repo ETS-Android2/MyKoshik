@@ -33,6 +33,17 @@ public class Product implements Serializable {
 
     // Метод для формулировки цены продукта по имени продукта
     public void formPrice_of_product(String s) {
+        StringBuffer s1 = new StringBuffer("");
+
+        for (int i = 0; i < s.length(); i++) {
+            if (Character.isDigit(s.charAt(i)))
+                s1.append(s.charAt(i));
+        }
+
+        this.price_of_product = Integer.parseInt(s1.toString());
+    }
+
+    public void formPrice_of_product2(String s) {
         String s1 = s.substring(s.lastIndexOf(" - ") - 1 + 4, s.lastIndexOf(" грн"));
         String s2 = s1.substring(0, s1.lastIndexOf(",")) +  s1.substring(s1.lastIndexOf(",") + 1, s1.length());
         this.price_of_product = Integer.parseInt(s2);
