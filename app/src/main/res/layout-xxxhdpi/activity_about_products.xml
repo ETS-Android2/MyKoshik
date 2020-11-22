@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#93B4EC"
+    tools:context="activities.AboutProductsActivity">
+
+    <TextView
+        android:id="@+id/textview_type_of_product"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/text_milk"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_of_novus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:onClick="onClickButtonShop"
+        android:text="Novus"
+        app:layout_constraintEnd_toStartOf="@+id/button_of_megamarket"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_type_of_product" />
+
+    <Button
+        android:id="@+id/button_of_megamarket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:onClick="onClickButtonShop"
+        android:text="MegaMarket"
+        app:layout_constraintEnd_toStartOf="@+id/button_of_fozzy"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button_of_novus"
+        app:layout_constraintTop_toBottomOf="@+id/textview_type_of_product" />
+
+    <Button
+        android:id="@+id/button_of_fozzy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:onClick="onClickButtonShop"
+        android:text="Fozzy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button_of_megamarket"
+        app:layout_constraintTop_toBottomOf="@+id/textview_type_of_product" />
+
+    <Button
+        android:id="@+id/button_of_continue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:onClick="onClickButtonShop"
+        android:text="@string/button_continue"
+        app:layout_constraintTop_toBottomOf="@+id/plaintext_search_line"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:isScrollContainer="false"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_of_continue">
+
+        <LinearLayout
+            android:id="@+id/linearlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <ImageButton
+        android:id="@+id/picture_basket"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/shopping_basket_sign"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textview_count_of_products"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textColor="#FFFFFF"
+        android:textSize="18dp"
+        android:textStyle=""
+        app:layout_constraintBottom_toBottomOf="@+id/picture_basket"
+        app:layout_constraintEnd_toEndOf="@+id/picture_basket"
+        app:layout_constraintStart_toStartOf="@+id/picture_basket"
+        app:layout_constraintTop_toTopOf="@+id/picture_basket" />
+
+    <EditText
+        android:id="@+id/plaintext_search_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:ems="10"
+        android:hint="Знайти продукт"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_of_megamarket" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
