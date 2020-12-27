@@ -202,8 +202,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                 break;
         }
 
-        String html1 = "span.jsx-3203167493.product-tile__title";
-        String html2 = "span.jsx-2618301845.Price__value_caption";
+        String html1 = "span.jsx-725860710.product-tile__title";
+        String html2 = "span.jsx-3642073353.Price__value_caption";
 
         try {
             int n = 2;
