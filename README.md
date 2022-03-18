@@ -28,15 +28,15 @@ This project is implemented in __Android Studio 3.5.2__. This app works correctl
 
 * __Simple and clearle interface (Intro & Dashboard)__
 
-<img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_AppIntro.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_MA.jpg" width="280" height="533" />
+<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/start.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/intro_github.jpg" width="280" height="533" />
 
 * __Choose your daily products from 3 supermarket chains__
 
-<img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_SplashScreen.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_APA1.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_APA2.jpg" width="280" height="533" />
+<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/shopping.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/shopping2.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/shopping3.jpg" width="280" height="533" />
 
 * __Organise, sort and share your list of products__
 
-<img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_ListOfProducts.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_shareList.jpg" width="280" height="533" />  <img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_listTelegram.jpg" width="280" height="533" /> 
+<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/bag33.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/bag2.jpg" width="280" height="533" />  <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/bag3.jpg" width="280" height="533" /> 
 
 * __Create notifications for shopping__
 
@@ -44,11 +44,11 @@ This project is implemented in __Android Studio 3.5.2__. This app works correctl
 
 * __Create notes with products__
 
-<img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_NA.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_createNote.jpg" width="280" height="533" /> 
+<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/notes1.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/notes2.jpg" width="280" height="533" /> 
 
 * __App support help__
 
-<img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_MA (Help).jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_letter.jpg" width="280" height="533" /> 
+<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/help.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_letter.jpg" width="280" height="533" /> 
 
 
 
