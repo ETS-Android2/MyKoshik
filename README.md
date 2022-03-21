@@ -28,27 +28,27 @@ This project is implemented in __Android Studio 3.5.2__. This app works correctl
 
 * __Simple and clearle interface (Intro & Dashboard)__
 
-<img src="https://github.com/masssimeliano/MyKoshik/tree/blob/app/src/main/res/raw/picture_main.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/tree/blob/app/src/main/res/raw/picture_intro.jpg" width="280" height="533" />
+<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/raw/picture_main.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/raw/picture_intro.jpg" width="280" height="533" />
 
 * __Choose your daily products from 3 supermarket chains__
 
-<img src="https://github.com/masssimeliano/MyKoshik/tree/blob/app/src/main/res/raw/picture_shopping1.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/tree/blob/app/src/main/res/raw/picture_shopping2.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/tree/blob/app/src/main/res/raw/picture_shopping3.jpg" width="280" height="533" />
+<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/raw/picture_shopping1.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/raw/picture_shopping2.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/raw/picture_shopping3.jpg" width="280" height="533" />
 
 * __Organise, sort and share your list of products__
 
-<img src="https://github.com/masssimeliano/MyKoshik/tree/blob/app/src/main/res/raw/picture_bag1.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/tree/blob/app/src/main/res/raw/picture_bag2.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/tree/blob/app/src/main/res/raw/picture_bag3.jpg" width="280" height="533" />
+<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/raw/picture_bag1.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/raw/picture_bag2.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/raw/picture_bag3.jpg" width="280" height="533" />
 
 * __Create notifications for shopping__
 
-<img src="https://github.com/masssimeliano/MyKoshik/blob/blob/app/src/main/res/raw/picture_notification1.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/blob/app/src/main/res/raw/picture_notification2.jpg" width="280" height="533" /> 
+<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/raw/picture_notification1.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/raw/picture_notification2.jpg" width="280" height="533" /> 
 
 * __Create notes with products__
 
-<img src="https://github.com/masssimeliano/MyKoshik/blob/blob/app/src/main/res/raw/picture_notes1.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/blob/app/src/main/res/raw/picture_notes2.jpg" width="280" height="533" /> 
+<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/raw/picture_notes1.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/raw/picture_notes2.jpg" width="280" height="533" /> 
 
 * __App support help__
 
-<img src="https://github.com/masssimeliano/MyKoshik/blob/blob/app/src/main/res/raw/picture_letter.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/blob/app/src/main/res/raw/picture_letter.jpg" width="280" height="533" /> 
+<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/raw/picture_letter.jpg" width="280" height="533" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/raw/picture_hints.jpg" width="280" height="533" /> 
 
 
 
@@ -58,7 +58,7 @@ This project is implemented in __Android Studio 3.5.2__. This app works correctl
 
 * __Freepik & IconFinder__
 
-<img src="https://github.com/masssimeliano/MyKoshik/blob/blob/app/src/main/res/raw/picture_freepik.jpg" width="453" height="245" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/blob/app/src/main/res/raw/picture_iconfinder.png" width="453" height="245" /> 
+<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/raw/picture_freepik.jpg" width="453" height="245" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/raw/picture_iconfinder.png" width="453" height="245" /> 
 
 
 
