@@ -28,27 +28,27 @@ This project is implemented in __Android Studio 3.5.2__. This app works correctl
 
 * __Simple and clearle interface (Intro & Dashboard)__
 
-<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/start.jpg" width="270" height="523" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/intro_github.jpg" width="270" height="523" />
+<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/start.jpg" width="260" height="523" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/intro_github.jpg" width="260" height="523" />
 
 * __Choose your daily products from 3 supermarket chains__
 
-<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/shopping.jpg" width="270" height="523" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/shopping2.jpg" width="270" height="523" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/shopping3.jpg" width="270" height="523" />
+<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/shopping.jpg" width="260" height="523" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/shopping2.jpg" width="260" height="523" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/shopping3.jpg" width="260" height="523" />
 
 * __Organise, sort and share your list of products__
 
-<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/bag33.jpg" width="270" height="523" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/bag2.jpg" width="270" height="523" />  <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/bag3.jpg" width="270" height="523" /> 
+<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/bag33.jpg" width="260" height="523" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/bag2.jpg" width="260" height="523" />  <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/bag3.jpg" width="260" height="523" /> 
 
 * __Create notifications for shopping__
 
-<img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_notification1.jpg" width="270" height="523" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_notification2.jpg" width="270" height="523" /> 
+<img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_notification1.jpg" width="260" height="523" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_notification2.jpg" width="260" height="523" /> 
 
 * __Create notes with products__
 
-<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/notes1.jpg" width="270" height="523" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/notes2.jpg" width="270" height="523" /> 
+<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/notes1.jpg" width="260" height="523" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/notes2.jpg" width="260" height="523" /> 
 
 * __App support help__
 
-<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/help.jpg" width="270" height="523" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_letter.jpg" width="270" height="523" /> 
+<img src="https://github.com/masssimeliano/MyKoshik/blob/master/app/src/main/res/drawable/help.jpg" width="260" height="523" /> <img src="https://github.com/masssimeliano/MyKoshik/blob/pictures/app/src/main/res/raw/picture_letter.jpg" width="260" height="523" /> 
 
 
 
