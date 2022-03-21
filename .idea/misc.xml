@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Maksym/StudioProjects/MyKoshik/app/src/main/res/drawable/corner_radius_dialog_window_notesactivity.xml" value="0.1" />
+        <entry key="..\:/Users/Maksym/StudioProjects/MyKoshik/app/src/main/res/drawable/share_sign.xml" value="0.121" />
+        <entry key="..\:/Users/Maksym/StudioProjects/MyKoshik/app/src/main/res/drawable/update_sign.xml" value="0.121" />
         <entry key="..\:/Users/Maksym/StudioProjects/MyKoshik/app/src/main/res/layout/activity_main.xml" value="0.1381340579710145" />
         <entry key="..\:/Users/Maksym/StudioProjects/MyKoshik/app/src/main/res/layout/dialog_window_delete_note.xml" value="0.1" />
         <entry key="..\:/Users/Maksym/StudioProjects/MyKoshik/app/src/main/res/layout/dialog_window_help.xml" value="0.14666666666666667" />
