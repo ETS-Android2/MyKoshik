@@ -64,7 +64,7 @@ This project is implemented in __Android Studio 3.5.2__. This app works correctl
 
 
 
-# Used libraries/ :
+# Used libraries :
 
 * __Jsoup (Site HTML Parser)__
 * __FancyShowCaseView (Instruction)__
